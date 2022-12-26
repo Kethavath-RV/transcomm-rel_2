@@ -1,0 +1,129 @@
+{
+  "orderNumber": "ORD-T-5100152TDF",
+  "orderDate": "14/11/2020 12:10:19",
+  "actionDate": "14/11/2020 12:10:19",
+  "mode": "F",
+  "billTo": "ISMA NOOR",
+  "billToAddress": {
+    "addressLine1": "10th Floor, Plaza IBM",
+    "addressLine2": "No. 1005, First Avenue",
+    "POBox": "54000",
+    "city": "54000",
+    "country": "PK"
+  },
+  "consigneeAddress": {
+    "addressLine1": "10th Floor, Plaza IBM",
+    "addressLine2": "No. 1005, First Avenue",
+    "POBox": "54000",
+    "city": "54000",
+    "country": "PK",
+    "phone": "+944413344901",
+    "email": "isma.noor@avanzainnovations.com"
+  },
+  "consigneeName": "Nabeel",
+  "shipTo": "ISMA NOOR",
+  "shipToAddress": {
+    "addressLine1": "10th Floor, Plaza IBM",
+    "addressLine2": "No. 1005, First Avenue",
+    "POBox": "54000",
+    "city": "54000",
+    "country": "PK"
+  },
+  "otherShipToAddress": [],
+  "documents": [
+    {
+      "hash": "2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5",
+      "path": "/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf",
+      "name": "44.pdf"
+    }
+  ],
+  "invoices": [
+    {
+      "mode": "F",
+      "invoiceNumber": "INV-2-5100152TDF",
+      "cancellationReason": "",
+      "totalNoOfInvoicePages": 4,
+      "invoiceType": "1",
+      "paymentInstrumentType": "10",
+      "currency": "AED",
+      "totalValue": 202.2,
+      "incoTerm": "CIF",
+      "freightAmount": null,
+      "freightCurrency": null,
+      "insuranceAmount": null,
+      "insuranceCurrency": null,
+      "exporterCode": "LC",
+      "cargoOwnership": "1",
+      "associatedEcomCompany": "",
+      "brokerBusinessCode": "DHL",
+      "logisticsSPBusinessCode": "DHL",
+      "documents": [
+        {
+          "hash": "2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5",
+          "path": "/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf",
+          "name": "44.pdf"
+        }
+      ],
+      "lineItems": [
+        {
+          "mode": "F",
+          "hscode": "9004.10.00",
+          "lineNo": 1,
+          "goodsCondition": "N",
+          "description": "Tom Ford Black Faye Oval Sunglasses",
+          "quantity": 2,
+          "quantityUOM": "kg",
+          "netWeight": 2,
+          "netWeightUOM": "kg",
+          "returnDays": 7,
+          "supplementaryQuantity": null,
+          "supplementaryQuantityUOM": null,
+          "valueOfGoods": 196,
+          "countryOfOrigin": "AE",
+          "discount": {
+            "value": null,
+            "percentage": null
+          },
+          "originalValueOfItem": 200,
+          "isFreeOfCost": "N",
+          "documents": [
+            {
+              "hash": "2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5",
+              "path": "/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf",
+              "name": "44.pdf"
+            }
+          ]
+        },
+        {
+          "mode": "F",
+          "hscode": "9004.10.00",
+          "lineNo": 2,
+          "goodsCondition": "N",
+          "description": "ROYAL watch",
+          "quantity": 2,
+          "quantityUOM": "kg",
+          "netWeight": 2,
+          "netWeightUOM": "kg",
+          "returnDays": 7,
+          "supplementaryQuantity": null,
+          "supplementaryQuantityUOM": null,
+          "valueOfGoods": 196,
+          "countryOfOrigin": "AE",
+          "discount": {
+            "value": null,
+            "percentage": null
+          },
+          "originalValueOfItem": 200,
+          "isFreeOfCost": "N",
+          "documents": [
+            {
+              "hash": "2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5",
+              "path": "/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf",
+              "name": "44.pdf"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

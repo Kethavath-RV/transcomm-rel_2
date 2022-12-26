@@ -1,0 +1,25 @@
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+.pagination a {
+  width: 2rem;
+  height: 2rem;
+  margin: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
+
+.pagination a.active {
+  border-bottom: 2px var(--red) solid;
+}
+
+.deactivated {
+  /* TODO: get correct styling */
+  color: var(--grey-light);
+}

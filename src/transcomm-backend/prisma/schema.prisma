@@ -1,0 +1,549 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//Config
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+//mariadb
+generator client {
+  provider        = "prisma-client-js"
+  // output          = "../src/generated/prisma/client"
+  previewFeatures = ["selectRelationCount", "referentialActions"]
+}
+
+//Order Details
+model Order {
+  orderNumber       String
+  ecomBusinessCode  String
+  orderDate         DateTime?
+  actionDate        DateTime?
+  lastActionDate    DateTime?
+  eCommBusinessName String?
+  status            String
+  consigneeName     String?
+  addresses         Address[]
+  invoices          Invoice[]
+  eventChain        ChainEvent[]
+  houseBills        HouseBill[]
+  movements         Movement[]
+  declarations      Declaration[]
+  delivered         Delivered[]
+
+  Error Error[]
+  @@id([orderNumber, ecomBusinessCode])
+}
+
+model Invoice {
+  invoiceNumber         String
+  mode                  String
+  invoiceDate           DateTime?
+  cancellationReason    String?
+  totalNoOfInvoicePages Int
+  invoiceType           Int
+  paymentInstrumentType Int
+  currency              String
+  totalValue            Float           @db.Float
+  incoTerm              String
+  freightAmount         Float?          @db.Float
+  freightCurrency       String?
+  insuranceAmount       Float?          @db.Float
+  insuranceCurrency     String?
+  exporterCode          String?
+  fzCode                Int?
+  warehouseCode         String?
+  cargoOwnership        String?
+  order                 Order           @relation(fields: [orderNumber, ecomBusinessCode], references: [orderNumber, ecomBusinessCode], onDelete: Cascade)
+  orderNumber           String
+  ecomBusinessCode      String
+  lockedBy              String?
+  locked                Boolean
+  orderLine             OrderLine[]
+  returnReceipts        ReturnReceipt[]
+
+  @@id([invoiceNumber, orderNumber, ecomBusinessCode])
+}
+
+model OrderLine {
+  id                       String    @id @default(uuid())
+  lineNumber               String
+  actionDate               DateTime?
+  mode                     String
+  quantityReturned         Int?
+  quantity                 Float     @db.Float
+  quantityUOM              String
+  netWeight                Float     @db.Float
+  netWeightUOM             String
+  description              String
+  hsCode                   String
+  countryOfOrigin          String
+  discountValue            Float?    @db.Float //one or the other is set.
+  discountPercentage       Float?    @db.Float
+  unitPrice                String //valueOfGoods + Currency
+  originalValueOfItem      Float     @db.Float
+  isFreeOfCost             Boolean
+  goodsCondition           String
+  supplementaryQuantity    Float?    @db.Float
+  supplementaryQuantityUOM String
+  prevDeclarationReference String
+  Permits                  Permit[]
+  skuProductCode           String?
+  skuQuantityUOM           String?
+  itemLocation             String?
+  permit                   String?
+  skuUnitPrice             Float?    @db.Float
+  total                    Float?    @db.Float
+  returnRequestNumber      String?
+  invoice                  Invoice   @relation(fields: [invoiceNumber, orderNumber, ecomBusinessCode], references: [invoiceNumber, orderNumber, ecomBusinessCode], onDelete: Cascade)
+  invoiceNumber            String
+  orderNumber              String
+  ecomBusinessCode         String
+}
+
+model ReturnReceipt {
+  orderNumber              String
+  ecomBusinessCode         String
+  invoiceNumber            String
+  returnRequestNumber      String
+  transportDocNo           String
+  transportProviderCode    String
+  dateOfReceivingBackGoods String
+  gatePassNumber           String
+  actualMovingInDate       String
+  invoice                  Invoice                  @relation(fields: [invoiceNumber, orderNumber, ecomBusinessCode], references: [invoiceNumber, orderNumber, ecomBusinessCode], onDelete: Cascade)
+  lineItems                ReturnReceiptOrderLine[]
+
+  @@id([orderNumber, ecomBusinessCode, invoiceNumber, returnRequestNumber])
+}
+
+model ReturnReceiptOrderLine {
+  id                  String        @id @default(uuid())
+  lineNumber          Int
+  hsCode              String
+  skuProductCode      String
+  receviedQuantity    Int //Misspelled intentionally to be in line with Hyperledger/API docs
+  isExtra             String
+  quantityUOM         String
+  goodsCondition      String
+  returnReceipt       ReturnReceipt @relation(fields: [invoiceNumber, orderNumber, ecomBusinessCode, returnRequestNumber], references: [invoiceNumber, orderNumber, ecomBusinessCode, returnRequestNumber], onDelete: Cascade)
+  invoiceNumber       String
+  orderNumber         String
+  ecomBusinessCode    String
+  returnRequestNumber String
+}
+
+model ChainEvent {
+  id               String                @id @default(uuid())
+  eventType        String
+  eventTime        DateTime
+  order            Order                 @relation(fields: [orderId, ecomBusinessCode], references: [orderNumber, ecomBusinessCode], onDelete: Cascade)
+  orderId          String
+  ecomBusinessCode String
+  exceptions       ChainEventException[]
+}
+
+model ChainEventException {
+  id              String     @id @default(uuid())
+  exceptionCode   String
+  exceptionDetail String
+  chainEvent      ChainEvent @relation(fields: [chainEventId], references: [id], onDelete: Cascade)
+  chainEventId    String
+}
+
+model Error {
+  id               String   @id @default(uuid())
+  vcId             String?
+  errorType        String
+  errorMessage     String
+  errorTime        DateTime
+  order            Order    @relation(fields: [orderId, ecomBusinessCode], references: [orderNumber, ecomBusinessCode], onDelete: Cascade)
+  orderId          String
+  ecomBusinessCode String
+}
+
+model Address {
+  id               String  @id @default(uuid())
+  name             String //name of recipent
+  addressLine1     String
+  addressLine2     String?
+  POBox            String?
+  city             String
+  country          String
+  order            Order   @relation(fields: [orderId, ecomBusinessCode], references: [orderNumber, ecomBusinessCode], onDelete: Cascade)
+  orderId          String
+  ecomBusinessCode String
+  type             String
+}
+
+model HouseBill {
+  id                 String    @id @default(uuid())
+  airwayBillNumber   String?
+  numberOfPackages   Int?
+  weightAndQualifier String?
+  volumeAndQualifier String?
+  declaredValue      String? //number + currency
+  eventDate          DateTime?
+  order              Order     @relation(fields: [orderId, ecomBusinessCode], references: [orderNumber, ecomBusinessCode], onDelete: Cascade)
+  orderId            String
+  ecomBusinessCode   String
+}
+
+model Movement {
+  id                  String           @id @default(uuid())
+  type                String
+  mode                String
+  mawb                String //Master Air Way Bill
+  hawb                String //House Air Way bill
+  transport           String
+  flightNumber        String
+  shippingParameterId String
+  airwayBillNumber    String
+  portOfLoad          String
+  pointOfExit         String
+  departureDate       String
+  broker              String
+  agent               String //ExporterCode
+  cargoHandler        String
+  packageDetails      PackageDetails?
+  shippingDetails     ShippingDetails?
+  order               Order            @relation(fields: [orderId, ecomBusinessCode], references: [orderNumber, ecomBusinessCode], onDelete: Cascade)
+  orderId             String
+  ecomBusinessCode    String
+  referenceId         String?
+}
+
+model ShippingDetails {
+  id                 String   @id @default(uuid())
+  modeOfTransport    String
+  carrierNumber      String
+  dateOfArrival      String
+  dateOfDeparture    String
+  portOfLoad         String
+  portOfDischarge    String
+  originalLoadPort   String
+  destinationCountry String
+  pointOfExit        String
+  LDMBusinessCode    String
+  movement           Movement @relation(fields: [movementId], references: [id], onDelete: Cascade)
+  movementId         String   @unique
+}
+
+model PackageDetails {
+  id                      String   @id @default(uuid())
+  packageType             String
+  numberOfPackages        Int
+  containerNumber         String
+  cargoType               String
+  netWeightAndUnit        String
+  containerSize           String
+  containerType           String
+  containerSealNumber     String
+  grossWeightAndUnit      String
+  volumetricWeightAndUnit String
+  movement                Movement @relation(fields: [movementId], references: [id], onDelete: Cascade)
+  movementId              String   @unique
+}
+
+model Declaration {
+  declarationNumber       String
+  hyperledgerKey          String
+  batchId                 String?
+  clearanceStatus         String
+  version                 String?
+  invoiceNumber           String
+  shipmentMode            String?
+  regimeType              String?
+  declarationType         String?
+  exportCodeMirsalTwo     String? //ExporterCode
+  recipientIdentification String? //BrokerCode
+  senderIdentification    String?
+  numberOfPages           Int?
+  order                   Order              @relation(fields: [orderId, ecomBusinessCode], references: [orderNumber, ecomBusinessCode], onDelete: Cascade)
+  ecomBusinessCode        String
+  orderId                 String
+  errorType               String?
+  direction               String?
+  returnRequestNo         String?
+  createdAt               String?
+  bodId                   String?
+  chargeAmount            String?
+  chargeType              String?
+  claim                   Claim?
+  errors                  DeclarationError[]
+
+  @@id([orderId, ecomBusinessCode, hyperledgerKey])
+}
+
+model DeclarationError {
+  id               String      @id @default(uuid())
+  errorCode        String
+  errorDescription String
+  errorType        String
+  level            String
+  declaration      Declaration @relation(fields: [orderId, ecomBusinessCode, hyperledgerKey], references: [orderId, ecomBusinessCode, hyperledgerKey], onDelete: Cascade)
+  hyperledgerKey   String
+  orderId          String
+  ecomBusinessCode String
+}
+
+model Claim {
+  orderNumber             String
+  requestDate             DateTime
+  currentStage            String
+  claimStatus             String
+  claimNumber             String
+  claimType               String
+  declaration             Declaration @relation(fields: [orderId, ecomBusinessCode, hyperledgerKey], references: [orderId, ecomBusinessCode, hyperledgerKey], onDelete: Cascade)
+  orderId                 String
+  hyperledgerKey          String
+  declarationNumber       String
+  ecomBusinessCode        String
+  accountNumber           String
+  transportDocumentNumber String      @default("")
+  party                   Party[]
+
+
+  @@id([orderId, ecomBusinessCode, declarationNumber])
+}
+
+model Party {
+  id                String    @id @default(uuid())
+  authorizationId   String
+  componentId       String
+  confirmationCode  String
+  logicalId         String
+  referenceId       String
+  taskId            String
+  type              PartyType
+  claim             Claim     @relation(fields: [orderId, ecomBusinessCode, declarationNumber], references: [orderId, ecomBusinessCode, declarationNumber], onDelete: Cascade)
+  orderId           String
+  declarationNumber String
+  ecomBusinessCode  String
+}
+
+model Delivered {
+  id                      String    @id @default(uuid())
+  airwayBillNumber        String
+  transportDocumentNumber String //airwayBillNumber
+  type                    String
+  deliveryDate            DateTime?
+  deliveryStatus          String
+  signature               String
+  deliverTo               String
+  deliveryType            String
+  returnTo                String
+  origin                  String
+  destination             String
+  documents               String
+  order                   Order     @relation(fields: [orderId, ecomBusinessCode], references: [orderNumber, ecomBusinessCode], onDelete: Cascade)
+  orderId                 String
+  ecomBusinessCode        String
+  deliveryCode            String
+}
+
+model Permit {
+  id          String    @id @default(uuid())
+  dutyType    String
+  dutyValue   String
+  orderLine   OrderLine @relation(fields: [orderLineId], references: [id], onDelete: Cascade)
+  orderLineId String
+}
+
+model Duty {
+  id                   String    @id @default(uuid())
+  referenceNo          String
+  issuingAuthorityCode Int
+  notRequiredFlag      Boolean
+  orderLine            OrderLine @relation(fields: [orderLineId], references: [id], onDelete: Cascade)
+  orderLineId          String
+}
+
+//Order Overviews
+model OrderOverview {
+  orderNumber       String
+  invoiceNumber     String
+  ecomCode          String
+  lastActionDate    DateTime?
+  orderStatus       OrderStatus
+  orderDate         DateTime?
+  transport         String
+  numberOfItems     Int
+  declarationNumber String?     @default("")
+  batchId           String?     @default("")
+  declarationStatus String
+  declarationType   String
+  claimNumber       String?
+  claimRequestDate  DateTime?
+  claimStatus       String?
+  claimType         String?
+
+
+  @@id([orderNumber, invoiceNumber, ecomCode])
+  @@index([orderNumber, orderStatus])
+  @@index(orderNumber)
+  @@index(orderStatus)
+  @@index(invoiceNumber)
+  @@index(ecomCode)
+}
+
+model OrderExceptionOverview {
+  orderNumber          String
+  orderDate            DateTime?
+  lastActionDate       DateTime?
+  invoiceNumber        String
+  ecomCode             String
+  locked               Boolean
+  lockedBy             String
+  batchId              String //Declaration
+  declarationStatus    String
+  declarationReference String
+  rejectionDate        DateTime?
+  flightNumber         String
+  transport            String
+  mawb                 String
+
+  @@id([orderNumber, invoiceNumber, ecomCode])
+  @@index(orderNumber)
+  @@index(invoiceNumber)
+  @@index(ecomCode)
+  @@index(transport)
+  @@index(declarationReference)
+  @@index(mawb)
+  @@index(batchId)
+}
+
+model CancelledOrderOverview {
+  orderNumber        String
+  ecomCode           String
+  invoiceNumber      String
+  orderDate          DateTime?
+  cancelDate         DateTime?
+  lastActionDate     DateTime?
+  numberOfItems      Int
+  cancellationReason String
+
+  @@id([orderNumber, invoiceNumber, ecomCode])
+  @@index(orderNumber)
+  @@index(invoiceNumber)
+  @@index(ecomCode)
+  @@index(orderDate)
+  @@index(cancelDate)
+}
+
+model ReturnedOrderOverview {
+  orderNumber               String
+  ecomCode                  String
+  invoiceNumber             String
+  orderDate                 DateTime?
+  returnDate                DateTime?
+  lastActionDate            DateTime?
+  numberOfReturnItems       Int
+  returnReason              String
+  declarationNumber         String?   @default("")
+  batchId                   String?   @default("")
+  declarationStatus         String?   @default("")
+  declarationType           String?   @default("")
+  declarationPurposeDetails String
+  returnRequestNo           String
+  prevTransportDocNo        String
+  returnJustification       String
+
+  @@id([orderNumber, invoiceNumber, ecomCode])
+  @@index(orderNumber)
+  @@index(invoiceNumber)
+  @@index(ecomCode)
+  @@index(orderDate)
+  @@index(returnDate)
+}
+
+model ManualRetryView {
+  orderNumber    String
+  invoiceNumber  String
+  ecomCode       String
+  contractType   String
+  errorCode      String
+  errorDesc      String
+  failDate       DateTime
+  status         String
+  retryButton    Boolean
+  contractMethod String
+  vcId           String?
+  remark         String?
+  errorMessage   String?
+
+  @@id([orderNumber, invoiceNumber, ecomCode, contractMethod])
+  @@index(orderNumber)
+  @@index(invoiceNumber)
+  @@index(ecomCode)
+  @@index(failDate)
+  @@index(contractType)
+  @@index(errorCode)
+  @@index(errorDesc)
+  @@index(status)
+  @@index(retryButton)
+  @@index(contractMethod)
+  @@index(remark)
+  @@index(errorMessage)
+}
+
+//Order to AirwayNo to Mawb (Lookup)
+
+model OrderAirwayMawb {
+  //Look up table for orders to airwayNo to mawb
+  id       String @id @default(uuid())
+  orderId  String
+  airwayNo String
+  mawb     String
+}
+
+// User related
+model User {
+  id                     String        @id @default(uuid())
+  password               String
+  firstName              String
+  lastName               String
+  email                  String
+  role                   UserRole
+  locked                 Boolean       @default(false)
+  archived               Boolean       @default(false)
+  failedLoginAttempts    Int           @default(0)
+  passwordChangeRequired Boolean       @default(false)
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @default(now()) @updatedAt
+  archivedAt             DateTime?
+  refreshToken           RefreshToken?
+}
+
+model RefreshToken {
+  token  String @id @db.VarChar(500)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+}
+
+enum OrderStatus {
+  Submitted
+  OrderCreated
+  InTransit
+  Cleared
+  Delivered
+  Undelivered
+  OrderCancelled
+  Final
+  ReturnCreated
+  ReturnReceipt
+  GoodsMoveOutofUAE
+}
+
+enum UserRole {
+  viewer
+  editor
+  admin
+  super_admin
+}
+
+enum PartyType {
+  receiver
+  sender
+}

@@ -1,0 +1,31 @@
+<app-modal-template>
+  <h2 class="main-headline red-text">
+    {{ modalType === 'purge' ? 'Purge' : 'Retry' }}
+    {{ modalType !== 'retryOne' ? 'all' : 'order' }}
+  </h2>
+  <form [formGroup]="retryForm" (ngSubmit)="onSubmit()">
+    <div class="w-100 modalTextAreaWrap block mb-1">
+      <textarea
+        id="remark"
+        type="text"
+        name="remark"
+        placeholder="Type Remark here"
+        rows="5"
+        class="modalTextArea dhl-input"
+        formControlName="remark"
+      ></textarea>
+      <label class="dhl-label">Remark</label>
+    </div>
+    <p>
+      By clicking confirm
+      {{ modalType === 'retryOne' ? 'the selected order' : 'all orders' }} will
+      be {{ modalType === 'purge' ? 'purged' : 'retried' }}.
+    </p>
+    <div class="flex mt-2 justify-end">
+      <button type="button" (click)="closeModal()" class="btn btn-off mr-1">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-secondary">Confirm</button>
+    </div>
+  </form>
+</app-modal-template>

@@ -1,0 +1,12 @@
+{
+  "/api/*": {
+    "target": {
+      "host": "transcomm_backend",
+      "port": 3030,
+      "protocol": "http:",
+      "secure": false
+    },
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

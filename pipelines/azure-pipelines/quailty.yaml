@@ -1,0 +1,23 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- job: SonarQubeReview
+  displayName: Sonar Qube Review Code
+  steps:
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'SonarCloud'
+      organization: 'finaps-dhl'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: 'FinapsDHL_Duty-drawback'
+      cliProjectName: 'Duty drawback'
+      cliSources: src
+  
+  - task: SonarCloudAnalyze@1
+  
+  - task: SonarCloudPublish@1

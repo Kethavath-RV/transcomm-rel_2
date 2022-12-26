@@ -1,0 +1,53 @@
+@startuml new order until delivered
+autonumber
+ECommerce -> DataTransformer: POST submitOrder mode=Final
+DataTransformer -> DataTransformer: validate and transform request
+group on success:
+    DataTransformer -> Bless: POST new Order
+else on error:
+    DataTransformer -> ECommerce: return error code
+end
+Bless -> Kafka: Publish new order
+Kafka -> TransCommBackend: Subscribe to order kafka topic
+TransCommBackend -> Database: Persist order data
+TransCommBackend -> DataGen:POST submitOrder
+DataGen -> HyperLedgerAdapter:POST submitOrder
+HyperLedgerAdapter -> DataGen: POST order_data and invocie_data
+DataGen -> Bless: POST order_data and invocie_data
+Bless -> Kafka: Publish order_data and invocie_data
+Kafka -> TransCommBackend: Subscribe to order_data and invocie_data
+group on no errors in order_data
+    Kafka -> TransCommBackend: Subscribe to pickupFile kafka topic
+    TransCommBackend -> Database: Persist pickupFile data
+    Kafka -> TransCommBackend: Subscribe to movement/manifest kafka topic
+    TransCommBackend -> Database: Persist movement/manifest data
+    TransCommBackend -> DataGen: POST updateTransportInfo AutoDeclaration=Y
+    DataGen -> HyperLedgerAdapter: POST updateTransportInfo \r AutoDeclaration=Y
+    HyperLedgerAdapter -> DataGen: POST order_data, invocie_data, \r documenttracking and \r declaration_json_mapping
+    DataGen -> Bless: POST order_data, invocie_data, \r documenttracking and \r declaration_json_mapping
+    Bless -> Kafka: Publish order_data, invocie_data, \r documenttracking and \r declaration_json_mapping
+    Kafka -> TransCommBackend: Subscribe to order_data, invocie_data, documenttracking and \r declaration_json_mapping
+    group on no errors in documenttracking
+        group on declaration Type FZ Transit Out (TS3):
+            Kafka -> TransCommBackend: publish checkpoint with status=DF and destination != AUH / DXB / SHJ
+            TransCommBackend -> Database: Persist checkpoint data
+            TransCommBackend -> DataGen: POST updateExitConfimation
+            DataGen -> HyperLedgerAdapter: POST updateExitConfimation
+            HyperLedgerAdapter -> DataGen: POST claim_request, invocie_data, \r and documenttracking
+            DataGen -> Bless: POST claim_request, invocie_data, \r and documenttracking
+            Bless -> Kafka: Publish claim_request, invocie_data, \r and documenttracking
+            Kafka -> TransCommBackend: Subscribe to claim_request, invocie_data and documenttracking
+        end
+        Kafka -> TransCommBackend: publish checkpoint with eventcode=OK
+        TransCommBackend -> Database: Persist checkpoint data
+        TransCommBackend -> DataGen: POST deliverOrder
+        DataGen -> HyperLedgerAdapter: POST deliverOrder
+        HyperLedgerAdapter -> DataGen: POST order_data and invocie_data
+        DataGen -> Bless: POST order_data and invocie_data
+        Bless -> Kafka: Publish order_data and invocie_data
+        Kafka -> TransCommBackend: Subscribe to order_data and invocie_data
+    else on error see documenttracking amendment flow
+    end
+else on error see order_data amendment flow
+end
+@enduml

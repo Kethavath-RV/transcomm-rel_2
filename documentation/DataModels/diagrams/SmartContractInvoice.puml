@@ -1,0 +1,841 @@
+@startuml
+interface BODHeader {
+    +ReleaseID?: string
+    +VersionID?: string
+    +SystemEnvironmentCode?: string
+    +LanguageCode?: string
+}
+interface Sender {
+    +ReferenceID?: string
+    +LogicalID?: string
+    +ComponentID?: string
+    +TaskID?: string
+    +ConfirmationCode?: string
+    +AuthorizationID?: string
+}
+interface ApplicationArea {
+    +Sender: Sender
+    +CreationDateTime?: string
+    +Signature?: string
+    +BODID?: string
+}
+interface ResponseDetails {
+    +MessageType: string
+    +MessageCode: string
+    +MessageDescription: string
+    +RequestNumber: string
+}
+interface BODFailureMessage {
+    +ResponseDetails: ResponseDetails
+}
+interface BODWarningMessage {
+    +ResponseDetails: string
+}
+interface BODSuccessMessage {
+    +ResponseDetails: string
+}
+interface DeclarationCharges {
+    +ChargeType: string
+    +ChargeAmount: string
+}
+interface ResponseDetailsDeclaration {
+    +Identifier: string
+    +BODFailureMessage: BODFailureMessage
+    +BODWarningMessage: BODWarningMessage
+    +BODSuccessMessage: BODSuccessMessage
+    +DeclarationCharges: DeclarationCharges
+}
+interface InspectionOutcomeReasons {
+    +InspectionOutcomeReason: string
+}
+interface PersonalCustomerDetails {
+    +PersonalCustomerEmail: string
+    +PersonalCustomerCode: string
+    +PersonalCustomerName: string
+}
+interface InboundCarrierDetailsDeclarationStatus {
+    +DateOfArrival: Date
+}
+interface OutboundCarrierDetailsDeclarationResponse {
+    +DateOfDeparture: string
+}
+interface DocumentDeclarationStatus {
+    +DocumentTypeId: string
+}
+interface AdditionalReqDocuments {
+    +Document: DocumentDeclarationStatus
+}
+interface CDMCharge {
+    +ChargeTypeId: string
+    +Amount: string
+    +Remarks: string
+}
+interface AdditionalCDMCharges {
+    +CDMCharge: CDMCharge
+}
+interface StatusDetails {
+    +Remarks: string
+    +AdditionalReqDocuments: AdditionalReqDocuments
+    +AdditionalCDMCharges: AdditionalCDMCharges
+}
+interface AdditionalInformationDemand {
+    +StatusDetails: StatusDetails
+}
+interface BODDeclaration {
+    +ResponseDetails: ResponseDetailsDeclaration
+    +DeclarationId: string
+    +DeclarationNo: string
+    +RequestNo: string
+    +DecVersionNo: string
+    +DeclarationStatusDate: string
+    +DecVersionStatus: string
+    +TransactionType: string
+    +InspectionOutcome: string
+    +OriginalSourceOfSubmission: string
+    +InspectionOutcomeReasons: InspectionOutcomeReasons
+    +PersonalCustomerDetails: PersonalCustomerDetails
+    +InboundCarrierDetails: InboundCarrierDetailsDeclarationStatus
+    +OutboundCarrierDetails: OutboundCarrierDetailsDeclarationResponse
+    +AdditionalInformationDemand: AdditionalInformationDemand
+}
+interface DataArea {
+    +Verb: string
+    +BOD: BODDeclaration
+}
+interface Acknowledge {
+    +statusCode: string
+}
+interface ErrorAcknowledge {
+    +ErrorCode: string
+    +ErrorDescription: string
+}
+interface FailureResponseDetails {
+    +Error: ErrorAcknowledge[]
+}
+interface ClaimRegistrationCharge {
+    +ChargeTypeCode: string
+    +ChargeTypeDescription: string
+    +ChargeAmount: string
+}
+interface SuccessResponseDetails {
+    +ClaimNumber: string
+    +ClaimRegistrationDate: string
+    +ClaimRegistrationCharge: ClaimRegistrationCharge
+}
+interface Sync {
+    +acknowledgeCode: string
+}
+interface ClaimStatus {
+    +ClaimNumber: string
+    +ClaimStatus: string
+}
+interface DataAreaClaim {
+    +Acknowledge: Acknowledge
+    +FailureResponseDetails: FailureResponseDetails
+    +SuccessResponseDetails: SuccessResponseDetails
+    +Sync: Sync
+    +ClaimStatus: ClaimStatus
+}
+interface DeclarationClaimCustomsResponse {
+    +documentName: string
+    +Key: string
+    +BODHeader: BODHeader
+    +ApplicationArea: ApplicationArea
+    +DataArea: DataArea
+    +DataAreaClaim: DataAreaClaim
+}
+interface MessageHeader {
+    +MessageType?: string
+}
+interface DeclarationAmendReason {
+    +AmendmentReason?: string
+    +CargoStatus?: string
+}
+interface DeclarationCancellationReason {
+    +CancelReason?: string
+    +CargoStatus?: string
+}
+interface PartiesDetails {
+    +ConsignorExporterTransferorCode?: string
+    +ConsigneeImporterTransfereeCode?: string
+    +NotifyPartyCode?: string
+    +NotifyPartyName?: string
+    +CTOCargoHandlerPremisesCode?: string
+    +NotifyPartyAddress?: string
+    +ShippingAirlineAgentBusinessCode?: string
+    +BrokerBusinessCode?: string
+    +MRAAEOIndicator?: number
+    +CargoOwnership?: number
+    +AssociatedOwner?: string
+}
+interface ImporterDetails {
+    +PersonalIdentificationDocumentType?: string
+    +PersonalIdentificationNumber?: number
+    +NationalID?: string
+    +IssuingAuthorityCountry?: string
+    +Address?: string
+    +City?: string
+    +Country?: string
+    +Phone?: string
+    +Name?: string
+}
+interface ExporterDetails {
+    +PersonalIdentificationDocumentType?: string
+    +PersonalIdentificationNumber?: number
+    +IssuingAuthorityCountry?: string
+    +NationalID?: string
+    +Address?: string
+    +City?: string
+    +Country?: string
+    +Phone?: string
+    +Name?: string
+}
+interface DeclarationRelatedDocuments {
+    +DocumentCode?: number
+    +AvailabilityStatus?: number
+    +NonAvailabilityReason?: number
+}
+interface PaymentDetails {
+    +PaymentMode?: number
+    +PaymentReference?: string
+}
+interface PackageDetails {
+    +PackageType?: string
+    +TotalNumberOfPackages?: number
+    +MarksAndNumber?: string
+}
+interface ContainerDetails {
+    +ContainerNo?: string
+    +ContainerSize?: number
+    +ContainerType?: string
+    +ContainerSealNumber?: string
+}
+interface TransportDocumentDetails {
+    +InboundMasterDocumentNo?: string
+    +InboundTransportDocumentNo?: string
+    +OutboundMasterDocumentNo?: string
+    +OutboundTransportDocumentNo?: string
+    +CargoTypePackageCode?: string
+    +GrossWeightUnit?: string
+    +TotalGrossWeight?: number
+    +TotalNetWeight?: number
+    +NetWeightUnit?: string
+    +VolumeUnit?: string
+    +Volume?: number
+    +PackageDetails: PackageDetails[]
+    +ContainerDetails: ContainerDetails[]
+}
+interface Document {
+    +hash: string
+    +name: string
+    +path: string
+}
+interface DeclarationDetails {
+    +DeclarationNo?: string
+    +BrokerCustomerCode?: string
+    +DeclarantReferenceNo?: string
+    +RegimeType: string
+    +DeclarationType: string
+    +DeclarationPurpose?: number
+    +DeclarationReason?: string
+    +TradeType?: number
+    +DeclarationRelatedDocuments: DeclarationRelatedDocuments[]
+    +PaymentDetails: PaymentDetails[]
+    +TransportDocumentDetails: TransportDocumentDetails
+    +documents: Document[]
+}
+interface Discount {
+    +value: number
+    +percentage: number
+}
+interface LinePermit {
+    +PermitReferenceNo?: string
+    +PermitissuingAuthority?: number
+    +PermitIndicator?: string
+}
+interface LineVehicle {
+    +VehicleChassisNumber?: string
+    +VehicleBrand?: number
+    +VehicleModel?: string
+    +VehicleEngineNumber?: string
+    +VehicleEngineCapacity?: number
+    +VehiclePassengerCapacity?: number
+    +CarriageCapacity?: number
+    +VehicleYearOfBuilt?: string
+    +VehicleColour?: string
+    +VehicleCondition?: string
+    +VehicleType?: string
+    +VehicleDrive?: string
+    +VehicleSpecificationStandardCode?: string
+}
+interface InvoiceLineItem {
+    +InvoiceItemLineNumber: number
+    +isRestricted: string
+    +StatisticalQuantity?: number
+    +StatisticalQuantityMeasurementUnit?: string
+    +NetWeight?: number
+    +NetWeightUnit?: string
+    +GoodsDescription?: string
+    +CommodityCode?: string
+    +VehicleIndicator?: string
+    +CountryOfOrigin?: string
+    +Discount?: Discount
+    +ValueOfGoods?: number
+    +OriginalValueOfItem?: number
+    +IsFreeOfCost?: string
+    +GoodsCondition?: string
+    +ReturnDays?: number
+    +SupplementaryQuantity?: number
+    +SupplementaryQuantityMeasurementUnit?: string
+    +PreviousCustomsDeclarationReferenceNumber?: number
+    +PreviousCustomsDeclarationInvoiceNumber?: string
+    +PreviousCustomsDeclarationInvoiceLineNumber?: number
+    +PermitReferenceDetails: LinePermit[]
+    +ExemptionType?: string
+    +ExemptionReferenceNumber?: string
+    +VehicleDetail: LineVehicle[]
+}
+interface OrderInvoice {
+    +InvoiceNumber?: string
+    +InvoiceDate?: string
+    +TotalNumberOfInvoicePages?: string
+    +InvoiceType?: number
+    +SellerName?: string
+    +BuyerName?: string
+    +PaymentInstrumentType?: number
+    +ValuationMethod?: number
+    +InvoiceCurrency?: string
+    +InvoiceValue?: number
+    +INCOTermsCode?: string
+    +FreightAmount?: number
+    +FreightCurrencyCode?: string
+    +InsuranceChargesCost?: number
+    +InsuranceCurrencyCode?: string
+    +InvoiceItemsDetail: InvoiceLineItem[]
+}
+interface ShippingDetails {
+    +ExportEntityFreezoneCode?: string
+    +ImportEntityFreezoneCode?: string
+    +ExportEntityWarehouseCode?: string
+    +ImportEntityWarehouseCode?: string
+    +PortOfLoading?: string
+    +PortOfDischarge?: string
+    +OriginalLoadPort?: string
+    +DestinationCountry?: string
+    +ExitPoint?: string
+    +Invoices: OrderInvoice[]
+}
+interface InboundCarrierDetails {
+    +TransportMode?: number
+    +CarrierRegistrationNo?: string
+    +CarrierNumber?: string
+    +DateOfArrival?: string
+}
+interface OutboundCarrierDetails {
+    +TransportMode?: number
+    +CarrierRegistrationNo?: string
+    +CarrierNumber?: string
+    +DateOfArrival?: string
+}
+interface DeclarationRequestJSONPayload {
+    +DocumentName: string
+    +Key: string
+    +Messagetype: string
+    +DeclarationAmendReason: DeclarationAmendReason
+    +DeclarationCancellationReason: DeclarationCancellationReason
+    +PartiesDetails: PartiesDetails
+    +ImporterDetails: ImporterDetails
+    +ExporterDetails: ExporterDetails
+    +DeclarationDetails: DeclarationDetails
+    +ShippingDetails: ShippingDetails
+    +InboundCarrierDetails: InboundCarrierDetails
+    +OutboundCarrierDetails: OutboundCarrierDetails
+}
+interface BOD {
+    +MessageHeader: MessageHeader
+    +DeclarationRequest: DeclarationRequestJSONPayload
+}
+interface DataArea {
+    +Verb?: string
+    +BOD: BOD
+}
+interface AdditionalDocumentDetails {
+    +DocumentTypeID?: number
+    +DocumentFile: string
+}
+interface AdditionalChargeDetails {
+    +ChargeAmount?: number
+    +ChargeTypeID?: number
+    +ChargeTypeCode?: string
+    +Remarks?: string
+}
+interface ResponseHeader {
+    +AdditionalDocumentDetails: AdditionalDocumentDetails[]
+    +AdditionalChargeDetails: AdditionalChargeDetails[]
+    +DeclarationNumber?: number
+    +Remarks?: string
+    +ResponseDate?: string
+    +AdditionalDocUploaded?: boolean
+    +CDMChargeDepositAccepted?: boolean
+}
+interface DeclarationResponseJSONPayload {
+    +DocumentName?: string
+    +Key?: string
+    +DataArea: DataArea
+    +ResponseHeader: ResponseHeader
+}
+interface InvoiceTracking {
+    +documentName: string
+    +Key: string
+    +ecomBusinessCode: string
+    +orderNo: string
+    +invoiceNo: string
+    +shippingParameterID: string
+    +transportDocNo: string
+    +declarationNo: string
+    +actionDate: number
+    +actionTimeStamp: number
+    +actionByOrgType: string
+    +actionByOrgCode: string
+    +message: string
+    +status: string
+}
+interface Document {
+    +hash: string
+    +hash: string
+    +name: string
+    +name: string
+    +path: string
+    +path: string
+}
+interface Discount {
+    +value: number
+    +percentage: number
+}
+interface Permit {
+    +referenceNo: string
+    +issuingAuthorityCode: string
+    +notRequiredFlag: string
+}
+interface Sku {
+    +productCode: string
+    +quantityUOM: string
+}
+interface Exemption {
+    +exemptionType: string
+    +exemptionRefNo: string
+}
+interface Vehicle {
+    +chassisNumber: string
+    +brand: string
+    +model: string
+    +engineNumber: string
+    +capacity: string
+    +passengerCapacity: string
+    +carriageCapacity: string
+    +yearOfBuilt: string
+    +color: string
+    +condition: string
+    +vehicleType: string
+    +drive: string
+    +specificationStandard: string
+}
+interface ReturnSemantics {
+    +returnRequestNo: string
+    +requestedReturnQuantity: number
+    +confirmedReturnedQuanity: number
+    +isConfirmed: boolean
+    +returnMismatch: number
+}
+interface ReturnComputations {
+    +remainingReturnedQuantity: number
+    +returnsemantics: ReturnSemantics[]
+}
+interface LineItem {
+    +documentName: string
+    +Key: string
+    +shippingParameterID: string
+    +ecomBusinessCode: string
+    +orderNo: string
+    +invoiceNo: string
+    +lineNo: number
+    +mode: string
+    +quantityReturned: number
+    +quantity: number
+    +quantityUOM: string
+    +netWeight: number
+    +netWeightUOM: string
+    +description: string
+    +hscode: string
+    +countryOfOrigin: string
+    +country: string
+    +discount: Discount
+    +valueOfGoods: number
+    +originalValueOfItem: number
+    +isFreeOfCost: string
+    +goodsCondition: string
+    +returnDays: number
+    +supplementaryQuantity: number
+    +supplementaryQuantityUOM: string
+    +prevDeclarationReference: string
+    +permits: Permit[]
+    +sku: Sku
+    +exemptions: Exemption[]
+    +vehicle: Vehicle
+    +documents: Document[]
+    +returnComputations: ReturnComputations
+}
+interface InvoiceObj {
+    +invoiceNumber: string
+    +shippingParameterID: string
+}
+interface Shipping {
+    +shippingAgentBusinessCode: string
+    +modeOfTransport: string
+    +carrierNumber: string
+    +carrierRegistrationNo: string
+    +dateOfArrival: number
+    +dateOfDeparture: number
+    +portOfLoad: string
+    +portOfDischarge: string
+    +originalLoadPort: string
+    +destinationCountry: string
+    +pointOfExit: string
+    +cargoHandlerCode: string
+    +LMDBusinessCode: string
+}
+interface TransportDocument {
+    +masterTransportDocNo: string
+    +transportDocNo: string
+    +cargoType: string
+    +grossWeight: string
+    +grossWeightUOM: string
+    +netWeight: string
+    +netWeightUOM: string
+    +volumetricWeight: string
+    +volumetricUOM: string
+}
+interface Container {
+    +containerNo: string
+    +containerSize: string
+    +containerType: string
+    +containerSealNo: string
+}
+interface Package {
+    +packageType: string
+    +numberOfPackages: string
+    +container: Container[]
+}
+interface Document {
+    +hash: string
+    +hash: string
+    +name: string
+    +name: string
+    +path: string
+    +path: string
+}
+interface TransportInfo {
+    +documentName: string
+    +Key: string
+    +ecomBusinessCode: string
+    +orderNo: string
+    +invoices: InvoiceObj[]
+    +type: string
+    +returnRequestNo: string
+    +oldHouseTransportDocNo: string
+    +mode: string
+    +autoInitiateDeclaration: string
+    +shippingDetail: Shipping
+    +transportDocumentDetail: TransportDocument
+    +packageDetail: Package[]
+    +documents: Document[]
+}
+interface TransportInfoTrack {
+    +documentName: string
+    +Key: string
+    +current: TransportInfo
+    +history: TransportInfo[]
+}
+interface Payment {
+    +mode: string
+    +reference: string
+    +type: string
+    +isActive: boolean
+}
+interface OutBoundPreference {
+    +declarationSubmission: string
+    +payments: Payment[]
+    +documents: Document[]
+    +NRClaim: string
+}
+interface DocumentPref {
+    +documentType: string
+    +cargoType: string
+    +code: string
+    +availabilityStatus: string
+    +nonAvailabilityReason: string
+    +declarationType: string[]
+}
+interface Exemptions {
+    +code: string
+    +number: string
+    +declarationType: string[]
+    +isActive: boolean
+}
+interface ReturnPreference {
+    +declarationSubmission: string
+    +payments: Payment[]
+    +documents: DocumentPref[]
+    +referenceNo: string
+    +exemptions: Exemptions[]
+    +declarationPurpose: string
+    +INCOTerms: string
+    +fixedValue: string
+}
+interface Preference {
+    +userID: string
+    +cargoHandlerPermiseCode: string
+    +shippingAirlineBusinessCode: string
+    +lastMileDeliveryCode: string
+    +referenceNo: string
+    +insuranceValue: string
+    +insuranceUnit: string
+    +outBoundPreference: OutBoundPreference
+    +returnPreference: ReturnPreference
+}
+interface History {
+    +description: string
+    +actionTimeStamp: number
+    +actionBy: string
+    +currentStage: string
+    +status: string
+    +retryCount: number
+    +customsSubmissionResponse: string
+}
+interface DocumentTracking {
+    +documentName: string
+    +Key: string
+    +shippingParameterID: string
+    +orderNo: string
+    +invoiceNo: string
+    +orgType: string
+    +ecomBusinessCode: string
+    +funcKey: string
+    +platformRequestNumber: string
+    +documentType: string
+    +documentNo: string
+    +transportDocumentNo: string
+    +authorizedDeclarant: string
+    +regimeType: string
+    +declarationType: string
+    +requestID: string
+    +createdAt: number
+    +lastActivityTimeStamp: number
+    +lastStage: string
+    +currentStage: string
+    +actionBy: string
+    +history: History[]
+    +errors: string
+    +errorType: string
+    +responseJSONPayload: string
+    +customsSubmissionResponse: string
+    +customsStatus: string
+    +signature: string
+    +retryCount: number
+}
+interface Signature {
+    +PODFilePath: string
+    +PODHash: string
+}
+interface DeliveryStatus {
+    +transportDocNo: string
+    +type: string
+    +deliveryDate: number
+    +deliveryStatus: string
+    +signature: Signature
+    +deliverToPersonName: string
+    +deliveryType: string
+    +ReturnToFZorCW: boolean
+    +Documents: Document[]
+}
+interface DeclarationRequest {
+    +DocumentName: string
+    +Key: string
+    +BODHeader: BODHeader
+    +ApplicationArea: ApplicationArea
+    +DataArea: DataArea
+}
+interface InvoiceShippingParameters {
+    +shippingParameterID: string
+    +isSystemGenerated: boolean
+    +lineItems: LineItem[]
+    +transport: TransportInfo
+    +preference: Preference
+    +declarationDetail: DeclarationDetail
+    +documentTracking: DocumentTracking
+    +transportInfoKey: string
+    +transportInfoKeyHistory: string[]
+    +preferencesKey: string
+    +preferencesKeyHistory: string[]
+    +declarationTrackingKey: string
+    +declarationTrackingKeyHistory: string[]
+    +claimTrackingKey: string
+    +claimTrackingHistory: string[]
+    +deliveryStatus: DeliveryStatus
+}
+interface DeclarationDetail {
+    +message: string
+    +request: Request
+    +response: ResponseHeader
+}
+interface Request {
+    +paymentDetail: PaymentDetails
+    +documentDetail: DeclarationRelatedDocuments
+}
+interface ReturnDetails {
+    +returnRequestNo: string
+    +returnReason: string
+    +prevTransportDocNo: string
+    +declarationPurposeDetails: string
+    +prevDeclarationReference: string
+}
+interface ReturnDetailStructure {
+    +invoiceNo: string
+    +returnedLineItems: string
+}
+interface ReturnedLineItems {
+    +lineNo: number
+    +hscode: string
+    +quantityReturned: number
+    +lineDetail: LineItem[]
+}
+interface ConfirmReturnedLineItems {
+    +shippingParameterId: string
+    +lineNo: number
+    +hscode: string
+    +skuProductCode: string
+    +receviedQuantity: number
+    +isExtra: string
+    +quantityUOM: string
+    +goodsCondition: string
+}
+interface ConfirmReturnDelivery {
+    +transportDocNo: string
+    +returnRequestNo: string
+    +gatePassNumber: string
+    +actualMovingInDate: number
+    +dateOfReceivingBackGoods: number
+    +lineitems: ConfirmReturnedLineItems[]
+    +history: ConfirmReturnDelivery[]
+}
+interface SystemGenReturnDetail {
+    +allReturned: boolean
+    +invoiceNo: string
+    +shippingParameterId: string
+    +isDefault: string
+    +returnedLineItems: ReturnedLineItems[]
+    +confirmReturnDelivery: ConfirmReturnDelivery
+    +deliveryStatus: DeliveryStatus
+    +transportInfoKey: string
+    +transportInfoKeyHistory: string[]
+    +preferencesKey: string
+    +preferencesKeyHistory: string[]
+    +declarationKey: string
+    +declarationKeyHistory: string[]
+    +documentTrackingKey: string
+    +documentTrackingKeyHistory: string[]
+}
+interface Return {
+    +documentName: string
+    +Key: string
+    +actionDate: number
+    +orderNo: string
+    +ecomBusinessCode: string
+    +providerCode: string
+    +ReturnRequestNo: string
+    +returnReason: string
+    +prevTransportDocNo: string
+    +prevDeclarationReference: string
+    +declarationPurposeDetails: string
+    +returnDetail: ReturnDetailStructure[]
+    +returnedLineItems: ReturnedLineItems[]
+    +invoices: string[]
+    +systemGenReturnDetail: SystemGenReturnDetail
+}
+interface ExitConfirmationDetails {
+    +exitConfirmationKey: string
+    +shippingParameterID: string
+}
+interface ExitData {
+    +declarationNo: string
+    +actualDepartureDate: string
+    +carrierNumber: string
+    +pointOfExit: string
+    +debitCreditAccountNo: string
+}
+interface ExitConfirmation {
+    +documentName: string
+    +Key: string
+    +ecomBusinessCode: string
+    +actionByOrgCode: string
+    +orderNo: string
+    +invoiceNo: string
+    +requestPlatformNumber: string
+    +requestDate: number
+    +shippingParameterID: string
+    +transportDocNo: string
+    +exitData: ExitData[]
+    +claimRequestID: string
+}
+interface Invoice {
+    +documentName: string
+    +Key: string
+    +invoiceStatus: string
+    +ecomBusinessCode: string
+    +orderNo: string
+    +invoiceNumber: string
+    +invoiceDate: number
+    +actionDate: number
+    +actionTimeStamp: number
+    +isExited: boolean
+    +isUndelivered: boolean
+    +mode: string
+    +cancellationReason: string
+    +totalNoOfInvoicePages: number
+    +invoiceType: string
+    +paymentInstrumentType: string
+    +currency: string
+    +totalValue: number
+    +incoTerm: string
+    +freightAmount: number
+    +freightCurrency: string
+    +insuranceAmount: number
+    +insuranceCurrency: string
+    +exporterCode: string
+    +FZCode: string
+    +warehouseCode: string
+    +cargoOwnership: string
+    +invoiceTrackingKey: string[]
+    +invoiceTrackingLogs: InvoiceTracking[]
+    +associatedEcomCompany: string
+    +brokerBusinessCode: string
+    +logisticsSPBusinessCode: string
+    +documents: Document[]
+    +lineItemsKeys: string[]
+    +lineItems: LineItem[]
+    +shippingParameters: InvoiceShippingParameters[]
+    +hasMultiShipping: boolean
+    +returnDetail: ReturnDetails
+    +returnDetails: Return[]
+    +returnsList: Return[]
+    +returns: string[]
+    +exitConfirmations: ExitConfirmationDetails[]
+    +exitConfirmationDetail: ExitConfirmation[]
+}
+interface InvoiceTrack {
+    +documentName: string
+    +Key: string
+    +current: Invoice
+    +history: Invoice[]
+}
+@enduml

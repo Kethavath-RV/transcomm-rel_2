@@ -1,0 +1,112 @@
+/* ####################################
+Defaults
+#################################### */
+
+h1 {
+  font-size: 2.5em;
+  font-family: 'DeliveryBold', sans-serif;
+}
+
+h2 {
+  font-size: 1.875em;
+  font-family: 'DeliveryBold', sans-serif;
+}
+
+h3 {
+  font-size: 1.25em;
+  font-family: 'DeliveryBlackCd', sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+p {
+  font-size: 0.875em;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ####################################
+Custom Classes
+#################################### */
+
+.red-text {
+  color: var(--red);
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.main-headline {
+  font-family: 'DeliveryBlackCd', sans-serif;
+  font-size: 1.25rem;
+}
+.topline .subline {
+  font-family: 'DeliveryLightCd', sans-serif;
+}
+
+.secondary-headline {
+  font-family: 'DeliveryBlackCd', sans-serif;
+}
+
+/* .paragraph_header {
+  font-family: "DeliveryBlackCd";
+  font-size: 1.8rem;
+} */
+
+.introduction_large {
+  font-family: 'DeliveryLightCd', sans-serif;
+}
+.introduction_small {
+  font-family: 'DeliveryLight', sans-serif;
+}
+
+.copy {
+  font-family: 'DeliveryRegular', sans-serif;
+}
+
+.emphasis {
+  font-weight: 100; /* Soma - Fonts are very bold this brings them down a notch */
+  font-family: 'DeliveryBold', sans-serif;
+}
+
+.footer-text {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.875rem;
+}
+
+.mute {
+  color: rgba(0, 0, 0, 0.4);
+  font-family: 'DeliveryRegular', sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.09;
+  padding-top: 11px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.line-height-normal {
+  line-height: normal !important;
+}
+
+.validation-text {
+  font-size: 0.8125rem;
+  color: var(--red);
+  margin-top: 0;
+}
+
+.hyperlink {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.underline {
+  text-decoration: underline;
+}

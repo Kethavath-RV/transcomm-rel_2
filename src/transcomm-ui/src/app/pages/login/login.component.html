@@ -1,0 +1,52 @@
+<div class="flex justify-center" *ngIf="!isLoading">
+  <div class="card mt-2" [class.card-error]="isJittering">
+    <h2 class="mt-0 red-text">Login</h2>
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
+      class="flex-column align-center justify-center"
+    >
+      <div class="inputdiv mb-1">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="dhl-input"
+          placeholder="john.doe@dhl.com"
+          formControlName="email"
+          required
+        />
+        <label class="dhl-label">Email</label>
+      </div>
+      <div class="inputdiv">
+        <input
+          type="password"
+          name="password"
+          class="dhl-input"
+          placeholder="password"
+          formControlName="password"
+          required
+        />
+        <label class="dhl-label">Password</label>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="loginForm.invalid"
+        class="btn btn-primary w-100 mt-2 mb-1"
+      >
+        Login
+      </button>
+      <app-error-feedback *ngIf="serverFeedback" class="inputdiv"
+        >Unable to login. Please check your email and
+        password.</app-error-feedback
+      >
+      <app-error-feedback
+        *ngIf="f.email.touched && f.email.errors?.validateEmail"
+        class="inputdiv"
+        >The email provided is invalid.</app-error-feedback
+      >
+    </form>
+  </div>
+</div>
+<app-loader *ngIf="isLoading"></app-loader>

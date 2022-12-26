@@ -1,0 +1,760 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "DHL Transcomm-Data-Transformer",
+    "description": "DHL Transcomm Data Transformer Orders API Description"
+  },
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/submitOrder - Mode=Final (F) or Basic (B)": {
+      "post": {
+        "description": "Submit new order - Mode=Final (F) or Basic (B)",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "order",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/FinalOrder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ValidationError"
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/submitOrder - mode=Return (R)": {
+      "post": {
+        "description": "Submit new order - Mode=Return (R)",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "order",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ReturnOrder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ValidationError"
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/submitOrder - mode=Cancel (C)": {
+      "post": {
+        "description": "Submit new order - Mode=Cancel (C)",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "order",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CancelOrder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ValidationError"
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/confirmReturnDelivery": {
+      "post": {
+        "description": "Confirm return delivery",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "order",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ConfirmReturnDelivery"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ValidationError"
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ValidationError": {
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ConfirmReturnDelivery": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "vc-id-1"
+        },
+        "msgType": {
+          "type": "string",
+          "example": "submitOrder"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "orderNumber": {
+              "type": "string",
+              "example": "DEMO-ORDER-21"
+            },
+            "ecomBusinessCode": {
+              "type": "string",
+              "example": "amazonae"
+            },
+            "invoiceNumber": {
+              "type": "string",
+              "example": "INV-2-5100152TDF"
+            },
+            "lineItems": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "lineNo": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": "1292"
+                  },
+                  "hscode": {
+                    "type": "string",
+                    "example": "3702.9800"
+                  },
+                  "skuProductCode": {
+                    "type": "string",
+                    "example": "sku1020"
+                  },
+                  "receviedQuantity": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1
+                  },
+                  "isExtra": {
+                    "type": "string",
+                    "example": "N"
+                  },
+                  "hsCode": {
+                    "type": "string",
+                    "example": "22.00.1"
+                  },
+                  "quantityUOM": {
+                    "type": "string",
+                    "example": "KG"
+                  },
+                  "goodsCondition": {
+                    "type": "string",
+                    "example": "N"
+                  }
+                }
+              }
+            },
+            "transportDocNo": {
+              "type": "string",
+              "example": "HAWB38393"
+            },
+            "returnRequestNo": {
+              "type": "string",
+              "example": ""
+            },
+            "gatePasses": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "gatePassNumber": {
+                    "type": "string",
+                    "example": "GP2182"
+                  },
+                  "gatePassDirection": {
+                    "type": "string",
+                    "example": "I"
+                  },
+                  "ActualMovingInDate": {
+                    "type": "string",
+                    "example": "15/1/2020"
+                  }
+                }
+              }
+            },
+            "dateOfReceivingBackGoods": {
+              "type": "string",
+              "example": "15/1/2020"
+            }
+          }
+        }
+      }
+    },
+    "ReturnOrder": {
+      "properties": {
+        "msgType": {
+          "type": "string",
+          "example": "submitOrder"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "orderNumber": {
+              "type": "string",
+              "example": "ORDER-S-65"
+            },
+            "actionDate": {
+              "type": "string",
+              "example": "2021-08-28T17:59:27.453Z"
+            },
+            "ecomBusinessCode": {
+              "type": "string",
+              "example": "1100"
+            },
+            "mode": {
+              "type": "string",
+              "example": "R"
+            },
+            "invoices": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "example": "R"
+                  },
+                  "invoiceNumber": {
+                    "type": "string",
+                    "example": "12902"
+                  },
+                  "exporterCode": {
+                    "type": "string",
+                    "example": "AMZ_EXP_22"
+                  },
+                  "returnDetails": {
+                    "type": "object",
+                    "properties": {
+                      "returnRequestNo": {
+                        "type": "string",
+                        "example": "RET22002"
+                      },
+                      "returnReason": {
+                        "type": "string",
+                        "example": "2"
+                      },
+                      "returnTransportDocNo": {
+                        "type": "string",
+                        "example": "TD191022"
+                      },
+                      "returnJustification": {
+                        "type": "string",
+                        "example": "Items for playground, theatre, exhibition and like events"
+                      }
+                    }
+                  },
+                  "lineItems": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "mode": {
+                          "type": "string",
+                          "example": "R"
+                        },
+                        "lineNo": {
+                          "type": "integer",
+                          "format": "int32",
+                          "example": "11"
+                        },
+                        "hscode": {
+                          "type": "string",
+                          "example": "9004.10.00"
+                        },
+                        "quantityReturned": {
+                          "type": "integer",
+                          "format": "int32",
+                          "example": 1
+                        },
+                        "exemptions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "exemptionType": {
+                                "type": "integer",
+                                "format": "int32",
+                                "example": "1030"
+                              },
+                              "exemptionRefNo": {
+                                "type": "string",
+                                "example": "1261202"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "CancelOrder": {
+      "properties": {
+        "msgType": {
+          "type": "string",
+          "example": "submitOrder"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "orderNumber": {
+              "type": "string",
+              "example": "ORDER-S-67"
+            },
+            "actionDate": {
+              "type": "string",
+              "example": "2021-08-28T17:59:27.453Z"
+            },
+            "ecomBusinessCode": {
+              "type": "string",
+              "example": "1100"
+            },
+            "mode": {
+              "type": "string",
+              "example": "C"
+            },
+            "invoices": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "invoiceNumber": {
+                    "type": "string",
+                    "example": "12902"
+                  },
+                  "cancellationReason": {
+                    "type": "string",
+                    "example": "Test"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "FinalOrder": {
+      "properties": {
+        "msgType": {
+          "type": "string",
+          "example": "submitOrder"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "orderNumber": {
+              "type": "string",
+              "example": "ORDER-S-68"
+            },
+            "actionDate": {
+              "type": "string",
+              "example": "01/14/2020 10:10:00"
+            },
+            "ecomBusinessCode": {
+              "type": "string",
+              "example": "12345"
+            },
+            "mode": {
+              "type": "string",
+              "example": "F"
+            },
+            "consigneeName": {
+              "type": "string",
+              "example": "ISMA NOOR"
+            },
+            "consigneeAddress": {
+              "type": "object",
+              "properties": {
+                "addressLine1": {
+                  "type": "string",
+                  "example": "10th Floor, Plaza IBM"
+                },
+                "addressLine2": {
+                  "type": "string",
+                  "example": "No. 1005, First Avenue"
+                },
+                "POBox": {
+                  "type": "string",
+                  "example": "54000"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "54000"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "PK"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "+944413344901"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "isma.noor@avanzainnovations.com"
+                }
+              }
+            },
+            "billTo": {
+              "type": "string",
+              "example": "ISMA NOOR"
+            },
+            "billToAddress": {
+              "type": "object",
+              "properties": {
+                "addressLine1": {
+                  "type": "string",
+                  "example": "10th Floor, Plaza IBM"
+                },
+                "addressLine2": {
+                  "type": "string",
+                  "example": "No. 1005, First Avenue"
+                },
+                "POBox": {
+                  "type": "string",
+                  "example": "54000"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "54000"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "PK"
+                }
+              }
+            },
+            "shipTo": {
+              "type": "string",
+              "example": "ISMA NOOR"
+            },
+            "shipToAddress": {
+              "type": "object",
+              "properties": {
+                "addressLine1": {
+                  "type": "string",
+                  "example": "10th Floor, Plaza IBM"
+                },
+                "addressLine2": {
+                  "type": "string",
+                  "example": "No. 1005, First Avenue"
+                },
+                "POBox": {
+                  "type": "string",
+                  "example": "54000"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "54000"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "PK"
+                }
+              }
+            },
+            "invoices": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "example": "F"
+                  },
+                  "invoiceNumber": {
+                    "type": "string",
+                    "example": "12902"
+                  },
+                  "invoiceDate": {
+                    "type": "string",
+                    "example": "08/31/2020"
+                  },
+                  "invoiceType": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": "2"
+                  },
+                  "incoTerm": {
+                    "type": "string",
+                    "example": "CIF"
+                  },
+                  "totalNoOfInvoicePages": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": "1"
+                  },
+                  "paymentInstrumentType": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": "10"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "example": "AED"
+                  },
+                  "totalValue": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": "2050"
+                  },
+                  "exporterCode": {
+                    "type": "string",
+                    "example": "12902"
+                  },
+                  "FZCode": {
+                    "type": "string",
+                    "example": "1"
+                  },
+                  "freightAmount": {
+                    "type": "number"
+                  },
+                  "freightCurrency": {
+                    "type": "string",
+                    "example": "AED"
+                  },
+                  "warehouseCode": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "cargoOwnership": {
+                    "type": "string",
+                    "example": "1"
+                  },
+                  "associatedEcomCompany": {
+                    "type": "string",
+                    "example": "",
+                    "maxLength": 15
+                  },
+                  "deliveryProviderBusinessCode": {
+                    "type": "string",
+                    "example": "",
+                    "maxLength": 10
+                  },
+                  "brokerBusinessCode": {
+                    "type": "string",
+                    "example": "DHL"
+                  },
+                  "logisticsSPBusinessCode": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "documents": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "hash": {
+                          "type": "string",
+                          "example": "2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5"
+                        },
+                        "path": {
+                          "type": "string",
+                          "example": "/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "44.pdf"
+                        }
+                      }
+                    }
+                  },
+                  "lineItems": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "mode": {
+                          "type": "string",
+                          "example": "F"
+                        },
+                        "lineNo": {
+                          "type": "integer",
+                          "format": "int32",
+                          "example": "11"
+                        },
+                        "hscode": {
+                          "type": "string",
+                          "example": "9004.10.00"
+                        },
+                        "goodsCondition": {
+                          "type": "string",
+                          "example": "N"
+                        },
+                        "returnDays": {
+                          "type": "integer",
+                          "format": "int32",
+                          "example": "1"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Tom Ford Black Faye Oval Sunglasses"
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "format": "int32",
+                          "example": "2"
+                        },
+                        "quantityUOM": {
+                          "type": "string",
+                          "example": "kg"
+                        },
+                        "netWeight": {
+                          "type": "integer",
+                          "format": "int32",
+                          "example": "2"
+                        },
+                        "netWeightUOM": {
+                          "type": "string",
+                          "example": "kg"
+                        },
+                        "dutyPaid": {
+                          "type": "string",
+                          "example": "N"
+                        },
+                        "supplementaryQuantity": {
+                          "type": "string",
+                          "format": "nullable"
+                        },
+                        "supplementaryQuantityUOM": {
+                          "type": "string",
+                          "format": "nullable"
+                        },
+                        "valueOfGoods": {
+                          "type": "integer",
+                          "format": "int32",
+                          "example": "196"
+                        },
+                        "countryOfOrigin": {
+                          "type": "string",
+                          "example": "IR"
+                        },
+                        "prevDeclarationReference": {
+                          "type": "string",
+                          "format": "nullable"
+                        },
+                        "exemptions": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "sku": {
+                          "type": "object",
+                          "properties": {
+                            "productCode": {
+                              "type": "string",
+                              "example": "1902CC"
+                            },
+                            "quantityUOM": {
+                              "type": "string",
+                              "example": "KG"
+                            },
+                            "unitPrice": {
+                              "type": "number",
+                              "example": "10.0"
+                            }
+                          }
+                        },
+                        "discount": {
+                          "type": "object",
+                          "properties": {
+                            "value": {
+                              "type": "string",
+                              "format": "nullable"
+                            },
+                            "percentage": {
+                              "type": "integer",
+                              "format": "int32",
+                              "example": "2"
+                            }
+                          }
+                        },
+                        "permits": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "originalValueOfItem": {
+                          "type": "integer",
+                          "format": "int32",
+                          "example": "200"
+                        },
+                        "isFreeOfCost": {
+                          "type": "string",
+                          "example": "N"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

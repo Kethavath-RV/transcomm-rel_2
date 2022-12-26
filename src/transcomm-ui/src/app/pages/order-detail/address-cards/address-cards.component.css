@@ -1,0 +1,26 @@
+.wrapper {
+  background-image: url('src/assets/images/order_detail_bg.avif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-bottom: 4rem;
+}
+
+.card {
+  margin: 1rem;
+  margin-bottom: -2rem;
+  width: 100%;
+}
+
+.card:first-of-type {
+  margin-left: 4rem;
+}
+
+.card:last-of-type {
+  margin-right: 4rem;
+}
+
+.personal {
+  flex-basis: 50%;
+  padding-bottom: 0.5rem;
+}

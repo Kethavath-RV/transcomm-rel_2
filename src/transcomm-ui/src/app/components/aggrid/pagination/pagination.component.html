@@ -1,0 +1,46 @@
+<div class="pagination" *ngIf="numberOfPages > 1">
+  <a
+    class="pointer"
+    (click)="previousPageHandler()"
+    [ngClass]="{ deactivated: paginationArray[0].active }"
+  >
+    <svg
+      id="dhl_icons"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 48 48"
+      height="16"
+      width="16"
+      fill="currentColor"
+    >
+      <path
+        d="M31.086 43.914L11.17 24 31.086 4.086l2.828 2.828L16.83 24l17.085 17.086z"
+      />
+    </svg>
+  </a>
+  <a
+    *ngFor="let item of paginationArray"
+    class="pointer"
+    [ngClass]="{ active: item.active }"
+    (click)="newPageSet(item.page)"
+  >
+    {{ item.page }}</a
+  >
+  <a
+    class="pointer"
+    (click)="nextPageHandler()"
+    [ngClass]="{
+      deactivated: paginationArray[paginationArray.length - 1].active
+    }"
+    ><svg
+      id="dhl_icons"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 48 48"
+      height="16"
+      width="16"
+      fill="currentColor"
+    >
+      <path
+        d="M16.914 43.914l-2.828-2.828L31.17 24 14.086 6.914l2.828-2.828L36.83 24z"
+      ></path></svg
+  ></a>
+</div>

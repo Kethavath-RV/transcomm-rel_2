@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  transcomm_backend_migration:
+    build:
+      context: ./
+      dockerfile: ./docker/transcomm-backend/database-migration/Dockerfile
+      args:
+        DATABASE_URL: ${TRANSCOMM_BACKEND_DATABASE_URL}
+    depends_on:
+      db_mariadb:
+        condition: service_healthy
+  db_mariadb:
+    image: mariadb:${MARIADB_VERSION:-latest}
+    restart: 'always'
+    ports:
+      - '3306:3306'
+    volumes:
+      - type: volume
+        source: mariadb-volume-data
+        target: /var/lib/mysql/
+    healthcheck:
+      test: '/usr/bin/mysql --user=mila --password=Pas5word --execute "SHOW DATABASES;"'
+      interval: 1s
+      retries: 100
+      start_period: 1s
+      timeout: 10s
+    environment:
+      MYSQL_ROOT_PASSWORD: 'Pas5word'
+      MYSQL_DATABASE: 'testdb'
+      MYSQL_USER: 'mila'
+      MYSQL_PASSWORD: 'Pas5word'
+
+volumes:
+  mariadb-volume-data:

@@ -1,0 +1,69 @@
+<div class="filterBox">
+  <div>
+    <select
+      [(ngModel)]="filterType1"
+      (ngModelChange)="onInputChanged({ filterType1: $event })"
+    >
+      <option
+        *ngFor="let filterType of filterTypeKeys"
+        value="{{ filterType }}"
+        class="dhl-input dhl-input-small"
+        selected="filterType === filterType1"
+      >
+        {{ filterTypeEnum[filterType] }}
+      </option>
+    </select>
+    <input
+      class="filterInput"
+      type="date"
+      [(ngModel)]="filter1"
+      (ngModelChange)="onInputChanged({ filter1: $event })"
+      placeholder="Filter..."
+    />
+    <div *ngIf="conditional !== 'single' && filter1">
+      <div class="flex-row justify-center align-center">
+        <div>
+          <input
+            type="radio"
+            id="and"
+            name="condition"
+            value="AND"
+            (click)="onClick($event)"
+            checked
+          />
+          <label for="and">And</label>
+        </div>
+        <div class="">
+          <input
+            type="radio"
+            id="or"
+            name="condition"
+            value="OR"
+            (click)="onClick($event)"
+          />
+          <label for="or">Or</label>
+        </div>
+      </div>
+      <select
+        [(ngModel)]="filterType2"
+        (ngModelChange)="onInputChanged({ filterType2: $event })"
+      >
+        <option
+          *ngFor="let filterType of filterTypeKeys"
+          value="{{ filterType }}"
+          class="dhl-input dhl-input-small"
+          selected="filterType === filterType2"
+        >
+          {{ filterTypeEnum[filterType] }}
+        </option>
+      </select>
+      <input
+        class="filterInput"
+        type="date"
+        [(ngModel)]="filter2"
+        (ngModelChange)="onInputChanged({ filter2: $event })"
+        placeholder="Filter..."
+      />
+    </div>
+  </div>
+</div>

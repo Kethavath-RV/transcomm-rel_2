@@ -1,0 +1,21 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(ecom, "E-commerce User")
+Person(dhlEmployee, "DHL Employee")
+Enterprise_Boundary(dhl, "DHL"){
+  System_Ext(bless, "BLESS platform")
+  System(dutydrawback, "Duty Drawback")
+  System_Ext(hyperledger, "HyperLedger NodeJS adapter")
+  System_Ext(dataproviders, "upstream data providers")
+}
+
+Rel(ecom,dutydrawback,"uses")
+Rel(dhlEmployee,dutydrawback,"uses")
+BiRel_R(bless, dutydrawback, "uses", "Kafka & HTTP")
+Rel_R(dutydrawback, hyperledger, "uses", "HTTP")
+Rel_U(dataproviders, dutydrawback, "uses", "kafka")
+
+LAYOUT_WITH_LEGEND()
+
+@enduml

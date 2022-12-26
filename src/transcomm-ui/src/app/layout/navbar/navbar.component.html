@@ -1,0 +1,27 @@
+<nav class="flex justify-around box-border h-100 w-100 align-center px-2 pb-2">
+  <a class="block" routerLink="/{{ homeLink }}">
+    <img class="logo" src="/assets/icons/dhl_logo.svg" alt="dhl logo" />
+  </a>
+  <ul
+    *ngIf="navlinks.length"
+    class="flex flex-wrap justify-center align-center flex-1"
+  >
+    <li class="mx-05 text-center" *ngFor="let navlink of navlinks">
+      <a
+        routerLink="{{ navlink.route }}"
+        [routerLinkActive]="['is-active']"
+        class="nav-link emphasis"
+      >
+        {{ navlink.label }}
+      </a>
+    </li>
+  </ul>
+  <div class="pointer" *ngIf="navlinks.length">
+    <a
+      (click)="onLogout()"
+      class="nav-link transition-colors ease-in duration-200 emphasis"
+    >
+      Log out
+    </a>
+  </div>
+</nav>

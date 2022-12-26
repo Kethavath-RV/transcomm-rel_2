@@ -1,0 +1,77 @@
+<div
+  class="mt-1 introduction_small wrapper"
+  *ngFor="let receipt of returnReceipts; let i = index"
+>
+  <div class="receipt-wrapper">
+    <span class="emphasis mb-1 block"
+      >Receipt {{ i + 1 }}: {{ receipt.returnRequestNumber }}</span
+    >
+    <div class="flex space-between generic-data-wrapper">
+      <div>
+        <div class="mb-03 flex space-between">
+          <span>Order No.</span
+          ><span class="ml-4">{{ receipt.orderNumber }}</span>
+        </div>
+        <div class="mb-03 flex space-between">
+          <span>Ecom. Code</span
+          ><span class="ml-4">{{ receipt.ecomBusinessCode }}</span>
+        </div>
+        <div class="mb-03 flex space-between">
+          <span>Invoice No.</span
+          ><span class="ml-4">{{ receipt.invoiceNumber }}</span>
+        </div>
+      </div>
+      <div>
+        <div class="mb-03 flex space-between">
+          <span>Return Request No.</span
+          ><span class="ml-4">{{ receipt.returnRequestNumber }}</span>
+        </div>
+        <div class="mb-03 flex space-between">
+          <span>Transport Document No.</span
+          ><span class="ml-4">{{ receipt.transportDocNo }}</span>
+        </div>
+        <div class="mb-03 flex space-between">
+          <span>Transport Provider Code</span
+          ><span class="ml-4">{{ receipt.transportProviderCode }}</span>
+        </div>
+      </div>
+      <div>
+        <div class="mb-03 flex space-between">
+          <span>Date of receiving back goods</span
+          ><span class="ml-4">{{ receipt.dateOfReceivingBackGoods }}</span>
+        </div>
+        <div class="mb-03 flex space-between">
+          <span>Gatepass No.</span
+          ><span class="ml-4">{{ receipt.gatePassNumber }}</span>
+        </div>
+        <div class="mb-03 flex space-between">
+          <span>Actual moving in date</span
+          ><span class="ml-4">{{ receipt.actualMovingInDate }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="mt-1">
+      <span class="emphasis block"
+        >Line Items {{ receipt.returnRequestNumber }}</span
+      >
+      <thead>
+        <tr>
+          <th scope="col" class="emphasis" *ngFor="let header of headers">
+            {{ header }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lineItem of receipt.lineItems">
+          <td>{{ lineItem.lineNumber }}</td>
+          <td>{{ lineItem.hsCode }}</td>
+          <td>{{ lineItem.skuProductCode }}</td>
+          <td>{{ lineItem.isExtra }}</td>
+          <td>{{ lineItem.receviedQuantity }} {{ lineItem.quantityUOM }}</td>
+          <td>{{ lineItem.goodsCondition }}</td>
+        </tr>
+      </tbody>
+    </div>
+  </div>
+</div>
+<div class="none-found" *ngIf="!returnReceipts.length">No Receipt of Returns was found.</div>

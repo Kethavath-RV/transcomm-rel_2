@@ -1,0 +1,15 @@
+<div class="delivered-grid" *ngIf="delivered.length">
+  <div class="row-item" *ngFor="let col of columns">
+    <span class="emphasis block">
+      {{ col.displayName }}
+    </span>
+  </div>
+  <ng-container *ngFor="let delivery of delivered">
+    <div class="row-item" *ngFor="let col of columns">
+      <span class="block">{{ delivery[col.selector] }}</span>
+    </div>
+  </ng-container>
+</div>
+<div class="none-found" *ngIf="!delivered.length">
+  No Delivered item was found.
+</div>

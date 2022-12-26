@@ -1,0 +1,56 @@
+@startuml declaration amendment sequence
+title Declaration Amendment Sequence
+participant TransCommUI
+participant BLESS
+participant TransCommBackend
+participant DataGen
+participant HyperLedgerAdapter
+
+autonumber 12
+TransCommUI -> TransCommBackend: submit amendment
+TransCommBackend -> DataGen: POST submitOrder mode=U 
+DataGen -> HyperLedgerAdapter: POST submitOrder mode=U
+HyperLedgerAdapter -> DataGen: Publish event with Collection and Key (order, invoice)
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (order, invoice)
+DataGen -> BLESS: Publish order and publish invoice data
+BLESS -> TransCommBackend: Publish order and publish invoice data
+Group on (business)errors in event
+TransCommBackend -> BLESS: Publish event that error has occured
+TransCommBackend -> TransCommBackend: STOP
+end
+
+' TODO: check whether we also get documenttracking
+TransCommBackend -> DataGen: POST updateTransportInfo mode=U 
+DataGen -> HyperLedgerAdapter: POST updateTransportInfo mode=U 
+HyperLedgerAdapter -> DataGen: Publish event with Collection and Key (order, invoice)
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (order, invoice)
+DataGen -> BLESS: Publish order and publish invoice data
+BLESS -> TransCommBackend: Publish order and publish invoice data
+Group on (business)errors in event
+TransCommBackend -> BLESS: Publish event that error has occured
+TransCommBackend -> TransCommBackend: STOP
+end
+
+
+TransCommBackend -> DataGen: POST initiateDeclaration
+DataGen -> HyperLedgerAdapter: POST initiateDeclaration
+HyperLedgerAdapter -> DataGen: Publish event with Collection and Key (documenttracking)
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (documenttracking)
+DataGen -> BLESS: Publish documenttracking data
+BLESS -> TransCommBackend: Publish documenttracking data
+Group on (business)errors in event
+TransCommBackend -> BLESS: Publish event that error has occured
+TransCommBackend -> TransCommBackend: STOP
+end
+
+' TODO: check what other event will still come in
+HyperLedgerAdapter -> DataGen: Publish event with Collection and Key (documenttracking)
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (documenttracking)
+DataGen -> BLESS: Publish documenttracking data
+BLESS -> TransCommBackend: Publish documenttracking data
+Group on (declaration)errors in event
+TransCommBackend -> TransCommBackend: Mark order as exception
+end
+
+
+@enduml

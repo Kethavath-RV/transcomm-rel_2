@@ -1,0 +1,27 @@
+@startuml Transcom backend aggregate flow
+title Transcom backend Aggregate Flow
+participant BLESS as "BLESS / KAFKA"
+box "Transcom Backend" #LightBlue
+participant KafkaConsumer
+participant CommandHandler
+participant OrderAggregate
+participant EventHandler
+participant ViewService
+end box
+
+BLESS -> KafkaConsumer : Publish Message
+KafkaConsumer -> CommandHandler : Invoke Command
+CommandHandler -> OrderAggregate: Get Order Aggregate By Id
+OrderAggregate -> OrderAggregate: Hydrate Events
+OrderAggregate -> CommandHandler: Returns Aggregate
+group validation failure  
+CommandHandler -> KafkaConsumer: Throw Error
+end
+CommandHandler -> OrderAggregate: Apply New Event
+OrderAggregate -> EventHandler : Triggers event handler
+EventHandler -> OrderAggregate: Get Order Aggregate
+OrderAggregate -> OrderAggregate: Hydrate Events
+OrderAggregate -> EventHandler: Returns Aggregate
+EventHandler -> ViewService: Generates and stores views
+
+@enduml

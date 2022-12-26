@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    /* Basic Options */
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "outDir": "build",
+    "rootDir": ".",
+    "typeRoots": ["../node_modules/@types", "./node_modules/@types"],
+    "types": ["jest", "node"]
+  },
+  "include": ["."]
+}

@@ -1,0 +1,7 @@
+{
+  "collectCoverage": true,
+  "coverageReporters": ["cobertura", "text", "json", "html"],
+  "reporters": ["jest-junit", "default"],
+  "modulePathIgnorePatterns": ["<rootDir>/build/"],
+  "moduleDirectories": ["node_modules", "src"]
+}

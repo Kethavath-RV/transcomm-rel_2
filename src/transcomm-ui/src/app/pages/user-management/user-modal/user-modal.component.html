@@ -1,0 +1,180 @@
+<app-modal-template>
+  <ng-container *ngIf="!isLoading">
+    <h2 class="main-headline red-text my-1">
+      {{ modalType === 'add' ? 'New user' : 'Edit user' }}
+    </h2>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="relative w-100 block mb-1">
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          class="dhl-input"
+          placeholder="John"
+          formControlName="firstName"
+          (focus)="onFocus()"
+          [ngClass]="{
+            feedbackBorder:
+              (f['firstName'].touched && f['firstName'].errors) ||
+              serverFeedback
+          }"
+          required
+        />
+        <label class="dhl-label flex-1"> First Name </label>
+        <app-error-feedback *ngIf="f['firstName'].touched && f['firstName'].errors !== null"
+          >Please enter a first name</app-error-feedback
+        >
+      </div>
+      <div class="relative w-100 block mb-05">
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          class="dhl-input"
+          [ngClass]="{
+            feedbackBorder:
+              (f['lastName'].touched && f['lastName'].errors) || serverFeedback
+          }"
+          placeholder="Doe"
+          (focus)="onFocus()"
+          formControlName="lastName"
+          required
+        />
+        <label class="dhl-label"> Last Name </label>
+        <app-error-feedback *ngIf="f['lastName'].touched && f['lastName'].errors !== null"
+          >Please enter a first name</app-error-feedback>
+      </div>
+      <div class="relative w-100 block mb-1">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="dhl-input"
+          placeholder="john.doe@dhl.com"
+          formControlName="email"
+          (focus)="onFocus()"
+          [ngClass]="{
+            feedbackBorder:
+              (f['email'].touched && f['email'].errors) || serverFeedback
+          }"
+          (keydown.space)="$event.preventDefault()"
+          (paste)="onPaste($event)"
+          required
+        />
+        <label class="dhl-label"> Email </label>
+        <app-error-feedback *ngIf="f['email'].touched && f['email'].invalid">{{
+          f['email'].getError('validateEmail').msg
+        }}</app-error-feedback>
+      </div>
+      <div
+        class="mb-1 pointer underline"
+        (click)="toggleShowPasswordReset()"
+        *ngIf="modalType === 'edit'"
+      >
+        Reset Password
+      </div>
+      <div
+        *ngIf="
+          modalType === 'add' || (modalType === 'edit' && showPasswordReset)
+        "
+        class="relative w-100 block mb-2"
+      >
+        <input
+          type="password"
+          name="password"
+          class="dhl-input"
+          placeholder="password"
+          formControlName="password"
+          (focus)="onFocus()"
+          [ngClass]="{
+            feedbackBorder:
+              (f['password'].touched && f['password'].errors) || serverFeedback
+          }"
+        />
+        <label class="dhl-label"> Password </label>
+        <ng-container *ngIf="f['password'].touched">
+          <app-error-feedback *ngIf="f['password'].hasError('passLength')">{{
+            f['password'].getError('passLength').msg
+          }}</app-error-feedback>
+          <app-error-feedback *ngIf="f['password'].hasError('criteriaMatch')">{{
+            f['password'].getError('criteriaMatch').msg
+          }}</app-error-feedback>
+        </ng-container>
+      </div>
+      <span
+        *ngIf="modalType === 'add' || editUser.role !== 'admin'"
+        class="emphasis mb-1 block"
+        >Role</span
+      >
+      <div *ngIf="userRole !== 'super_admin'" class="dhl-radiodiv">
+        <label class="mb-1"
+          ><input
+            name="role"
+            formControlName="role"
+            type="radio"
+            value="viewer"
+            (focus)="onFocus()"
+          />
+          <div><div></div></div>
+          <span>Viewer</span></label
+        >
+        <label class="mb-1"
+          ><input
+            name="role"
+            formControlName="role"
+            type="radio"
+            value="editor"
+            (focus)="onFocus()"
+          />
+          <div><div></div></div>
+          <span>Editor</span></label
+        >
+        <label *ngIf="modalType === 'add'" class="mb-1"
+          ><input
+            name="role"
+            (focus)="onFocus()"
+            formControlName="role"
+            type="radio"
+            value="admin"
+          />
+          <div><div></div></div>
+          <span>Admin</span></label
+        >
+      </div>
+      <div *ngIf="userRole === 'super_admin'" class="dhl-radiodiv">
+        <label class="mb-1">
+          <div><div></div></div>
+          <span>Admin</span></label
+        >
+      </div>
+      <div class="flex space-between mb-1">
+        <div class="flex">
+          <button
+            *ngIf="modalType !== 'add'"
+            type="button"
+            [disabled]="disableDelete"
+            (click)="openWarningModal()"
+            class="btn btn-off pl-0"
+          >
+            Delete
+          </button>
+        </div>
+        <div class="flex">
+          <button type="button" (click)="closeModal()" class="btn btn-off mr-1">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            [disabled]="userForm.invalid"
+            class="btn btn-secondary"
+          >
+            {{ modalType === 'add' ? 'Add' : 'Save' }}
+          </button>
+        </div>
+      </div>
+      <app-error-feedback *ngIf="serverFeedback">{{
+        serverFeedback
+      }}</app-error-feedback>
+    </form>
+  </ng-container>
+</app-modal-template>

@@ -1,0 +1,83 @@
+@startuml Outbound Happy Flow
+title Outbound Happy Flow
+footer (* inter module communication)
+participant DataTransformer
+participant BLESS as "BLESS / KAFKA"
+participant TransCommBackend
+participant DataGen
+participant HyperLedgerAdapter
+
+' Submitted Order
+autonumber
+DataTransformer -> BLESS : Submitted Order
+BLESS -> TransCommBackend: Publish Submitted Order
+TransCommBackend -> BLESS: Acknowledgement
+BLESS -> TransCommBackend: Processed notification
+TransCommBackend -> DataGen: POST submitOrder mode=B
+DataGen -> HyperLedgerAdapter: POST submitOrder mode=B
+HyperLedgerAdapter -> DataGen: Publish event with Collection and Key (order, invoice)
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (order, invoice)
+DataGen -> BLESS: Publish order and publish invoice data
+BLESS -> TransCommBackend: Publish order and publish invoice data
+TransCommBackend -> BLESS: Acknowledgement
+BLESS -> TransCommBackend: Processed notification
+TransCommBackend -> DataGen: POST submitOrder mode=F
+DataGen -> HyperLedgerAdapter: POST submitOrder mode=F
+HyperLedgerAdapter -> DataGen: Publish event with Collection and Key (order, invoice)
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (order, invoice)
+DataGen -> BLESS: Publish order and publish invoice data
+BLESS -> TransCommBackend: Publish order and publish invoice data
+TransCommBackend -> BLESS: Acknowledgement
+BLESS -> TransCommBackend: Processed notification
+
+' Movements
+BLESS -> TransCommBackend: Publish Pickup File*
+BLESS -> TransCommBackend: Publish Master Movement*
+BLESS -> TransCommBackend: Publish Detailed Movement*
+TransCommBackend -> DataGen: POST updateTransportInfo mode=F (auto declaration)
+DataGen -> HyperLedgerAdapter: POST updateTransportInfo mode=F (auto declaration)
+HyperLedgerAdapter -> DataGen: Publish event with Collection and Key (order, invoice, documentracking, declaration_json)
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (order, invoice, documentracking, declaration_json)
+DataGen -> BLESS: Publish order, invoice, documentracking, declaration data
+BLESS -> TransCommBackend: Publish order, invoice, documentracking, declaration data
+TransCommBackend -> BLESS: Acknowledgement
+BLESS -> TransCommBackend: Processed notification
+
+' Declaration Status Change
+HyperLedgerAdapter -> DataGen: Publish event (declaration status change) with Collection and Key (documenttracking)
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (documenttracking)
+DataGen -> BLESS: Publish documenttracking data
+BLESS -> TransCommBackend: Publish documenttracking data
+TransCommBackend -> BLESS: Acknowledgement
+BLESS -> TransCommBackend: Processed notification
+
+' Claims / DF File
+BLESS -> TransCommBackend: Publish DF File*
+TransCommBackend -> DataGen: POST UpdateExitConfirmation
+DataGen -> HyperLedgerAdapter: POST UpdateExitConfirmation
+HyperLedgerAdapter -> DataGen: Publish event with Collection and Key (order, invoice, documentracking, claim_request)
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (order, invoice, documentracking, claim_request)
+DataGen -> BLESS: Publish order, invoice, documentracking, claim_request data
+BLESS -> TransCommBackend: Publish order, invoice, documentracking, claim_request data
+TransCommBackend -> BLESS: Acknowledgement
+BLESS -> TransCommBackend: Processed notification
+
+' Claim Status Change
+HyperLedgerAdapter -> DataGen: Publish event (Claim status change) with Collection and Key (documenttracking)
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (documenttracking)
+DataGen -> BLESS: Publish documenttracking data
+BLESS -> TransCommBackend: Publish documenttracking data
+TransCommBackend -> BLESS: Acknowledgement
+BLESS -> TransCommBackend: Processed notification
+
+' Delivered
+BLESS -> TransCommBackend: Publish OK File*
+TransCommBackend -> DataGen: POST DeliverOrder
+DataGen -> HyperLedgerAdapter: POST DeliverOrder
+HyperLedgerAdapter -> DataGen: Publish event with Collection and Key (order, invoice
+DataGen -> HyperLedgerAdapter: GET data using Collection and Key (order, invoice)
+BLESS -> TransCommBackend: Publish order, invoice data
+TransCommBackend -> BLESS: Acknowledgement
+BLESS -> TransCommBackend: Processed notification
+
+@enduml

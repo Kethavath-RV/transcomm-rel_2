@@ -1,0 +1,6 @@
+{
+  "collectCoverage": true,
+  "rootDir": "src",
+  "coverageReporters": ["cobertura"],
+  "reporters": ["jest-junit", "default"]
+}

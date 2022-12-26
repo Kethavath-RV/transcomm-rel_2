@@ -1,0 +1,70 @@
+.dhl-input {
+  border: solid 1px var(--grey-medium-light);
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  transition: border-color 250ms;
+  font-family: 'DeliveryRegular', sans-serif;
+  font-size: 0.9375rem;
+  outline: 0;
+  padding: 25px 0.875rem 10px 0.875rem;
+  width: 100%;
+}
+
+.dhl-label {
+  box-sizing: border-box;
+  color: var(--black);
+  font-family: 'DeliveryRegular', sans-serif;
+  font-size: 0.75rem;
+  left: 1px;
+  line-height: 1.09;
+  opacity: 1;
+  overflow: hidden;
+  padding-left: 0.875rem;
+  padding-right: calc(2.5 * 0.875rem);
+  padding-top: 11px;
+  pointer-events: none;
+  position: absolute;
+  text-overflow: ellipsis;
+  top: 1px;
+  transform: translateY(0);
+  transition: color 250ms, transform 250ms, font-size 250ms, opacity 250ms;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.inputdiv {
+  display: inline-block;
+  position: relative;
+  width: 256px;
+  transition: border-color 250ms;
+}
+
+.inputdiv:focus-within {
+  border-width: 1px;
+  border-color: var(--black);
+}
+
+.inputdiv:focus-within > label {
+  font-family: 'DeliveryBold', sans-serif;
+}
+
+.inputdiv:focus-within > input {
+  border-width: 1px;
+  border-color: var(--black);
+}
+
+.dhl-input-small {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.dhl-input:not(:focus):not(:placeholder-shown):valid,
+.dhl-input:not(:focus):not(:placeholder-shown).ng-valid {
+  border-color: var(--black);
+}
+
+.dhl-input:not(:focus):not(:placeholder-shown):invalid,
+.dhl-input:not(:focus):not(:placeholder-shown).ng-invalid {
+  border-color: var(--red);
+  border-width: 1px;
+}

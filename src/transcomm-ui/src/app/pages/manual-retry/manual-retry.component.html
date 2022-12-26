@@ -1,0 +1,21 @@
+<div class="m-2">
+  <div class="flex-row space-between">
+    <button
+      appDebounceClick
+      (debounceClick)="clearFilters()"
+      class="btn btn-secondary mb-1"
+    >
+      Clear Filters
+    </button>
+    <div class="flex">
+      <button (click)="showModal('purge')" class="btn btn-secondary mb-1">
+        Purge all
+      </button>
+      <button (click)="showModal('retryAll')" class="btn btn-primary mb-1 ml-1">
+        Retry all
+      </button>
+    </div>
+  </div>
+  <app-aggrid [paginatedData$]="paginatedData$" [columnDefs]="columnDefs">
+  </app-aggrid>
+</div>

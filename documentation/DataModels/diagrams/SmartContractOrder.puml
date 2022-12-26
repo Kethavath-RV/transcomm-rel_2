@@ -1,0 +1,79 @@
+@startuml
+interface Address {
+    +addressLine1: string
+    +addressLine2: string
+    +POBox: string
+    +city: string
+    +country: string
+    +phone: string
+    +email: string
+    +addressType: string
+}
+interface OtherShipToAddress {
+    +ShipToAddress: Address
+    +ShippingParameterID: string
+}
+interface Document {
+    +hash: string
+    +name: string
+    +path: string
+}
+interface ErrorValidation {
+    +errorCode: string
+    +errorDiscription: string
+    +methodName: string
+    +refFields: string
+}
+interface ErrorBusiness {
+    +apiName: string
+    +mode: string
+    +timeStamp: number
+    +errorValidation: ErrorValidation[]
+}
+interface Order {
+    +documentName: string
+    +Key: string
+    +orderNo: string
+    +errorCount: number
+    +orderStatus: string
+    +orderDate: number
+    +exporterCodeArr: string[]
+    +logisticsSPBusinessCodeArr: string[]
+    +actionDate: number
+    +actionTimeStamp: number
+    +ecomBusinessCode: string
+    +mode: string
+    +consigneeName: string
+    +consigneeAddress: Address
+    +billTo: string
+    +hasMultiShipping: string
+    +isMarketPlace: string
+    +billToAddress: Address
+    +shipTo: string
+    +shipToAddress: Address
+    +otherShipToAddress: OtherShipToAddress[]
+    +invoices: string[]
+    +documents: Document[]
+    +invoiceSummary: InvoiceSummary[]
+    +errorBusiness: ErrorBusiness[]
+    +isFaulty: boolean
+}
+interface InvoiceSummary {
+    +currency: string
+    +invoiceKey: string
+    +exporterCode: string
+    +FZCode: string
+    +warehouseCode: string
+    +lineItemsKeys: string
+    +type: string
+    +invoiceNo: string
+    +invoiceValue: number
+    +status: string
+}
+interface OrderTrack {
+    +documentName: string
+    +Key: string
+    +current: Order
+    +History: Order[]
+}
+@enduml

@@ -1,0 +1,27 @@
+FROM node:14
+RUN mkdir -p /app
+WORKDIR /app
+
+COPY tsconfig.base.json .
+COPY tsconfig.packages.json .
+COPY package.json .
+COPY yarn.lock .
+
+COPY ./core/package.json ./core/
+COPY ./core/tsconfig.json ./core/
+COPY ./core/yarn.lock ./core/
+
+COPY ./transcomm-ui/package.json ./transcomm-ui/
+COPY ./transcomm-ui/yarn.lock ./transcomm-ui/
+COPY ./transcomm-ui/tsconfig.json ./transcomm-ui/
+
+RUN yarn install
+
+COPY ./core ./core
+COPY ./transcomm-ui ./transcomm-ui
+
+WORKDIR /app/transcomm-ui
+
+EXPOSE 4200 49153
+
+CMD ["yarn", "start"]

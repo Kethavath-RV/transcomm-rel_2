@@ -1,0 +1,59 @@
+version: '3.4'
+
+services:
+  trans-comm-data-transformer:
+    build:
+      dockerfile: data-transformer/Dockerfile.development
+    ports:
+      - 6060:6060
+    environment:
+      SERVER_PORT: 6060
+      BLESS_URL: ${BLESS_URL}
+    restart: always
+  trans-comm-backend:
+    build:
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - '3000:3000'
+    restart: always
+    environment:
+      KAFKA_TOPIC_CUSTOMS: ${KAFKA_TOPIC_CUSTOMS}
+      KAFKA_TOPIC_PICKUPS_MOVEMENTS: ${KAFKA_TOPIC_PICKUPS_MOVEMENTS}
+      KAFKA_TOPIC_BLESS_COMMON_APP_OUTPUT: ${KAFKA_TOPIC_BLESS_COMMON_APP_OUTPUT}
+      KAFKA_BROKERS: ${KAFKA_BROKERS}
+      KAFKA_GROUP_ID: ${KAFKA_GROUP_ID}
+      DATAGEN_URL: ${DATAGEN_URL}
+      EVENTSTORE_CONNECTION_STRING: ${EVENTSTORE_CONNECTION_STRING}
+  trans-comm-ui:
+    ports:
+      - 80:80
+    volumes:
+      - ./transcomm-ui/src:/app/transcomm-ui/src
+    environment:
+      NODE_ENV: production
+      SERVER_PORT: 80
+    restart: always
+  eventstore.db:
+    environment:
+      - EVENTSTORE_CLUSTER_SIZE=1
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+      - EVENTSTORE_EXT_TCP_PORT=1113
+      - EVENTSTORE_INSECURE=true
+      - EVENTSTORE_ENABLE_EXTERNAL_TCP=true
+      - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
+    ports:
+      - 1113:1113
+      - 2113:2113
+    volumes:
+      - type: volume
+        source: eventstore-volume-data
+        target: /var/lib/eventstore
+      - type: volume
+        source: eventstore-volume-logs
+        target: /var/log/eventstore
+
+volumes:
+  eventstore-volume-data:
+  eventstore-volume-logs:

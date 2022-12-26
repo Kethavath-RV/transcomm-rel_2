@@ -1,0 +1,95 @@
+.togglewrapper {
+  position: relative;
+  user-select: none;
+}
+
+.togglelabel {
+  cursor: pointer;
+  font-family: Delivery, Verdana, sans-serif;
+  font-size: 0.9375rem;
+  padding-bottom: 0.875rem;
+  padding-left: 44px;
+  padding-top: 0.875rem;
+}
+.disabled {
+  cursor: auto !important;
+}
+
+.toggleinput {
+  left: -9999px;
+  position: absolute;
+}
+
+.toggleslide {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: solid 1px var(--grey-light);
+  border-radius: 12px;
+  box-sizing: border-box;
+  color: var(--black);
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  left: 0;
+  top: 0;
+  position: absolute;
+  padding: 3px;
+  pointer-events: none;
+  transition: border-color 250ms, background-color 250ms;
+  width: 44px;
+}
+
+.togglecircle {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 4px 0 rgb(0 0 0 / 25%), 0 1px 2px 0 rgb(0 0 0 / 25%),
+    0 0 0 1px rgb(0 0 0 / 30%);
+  height: 22px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: transform 250ms;
+  width: 22px;
+}
+
+.lock-open,
+.lock-closed {
+  width: 12px;
+  padding-left: 5px;
+  padding-top: 3px;
+}
+
+.toggleinput:checked ~ .toggleslide > .togglecircle > .lock-closed {
+  display: block;
+}
+.toggleinput:checked ~ .toggleslide > .togglecircle > .lock-open {
+  display: none;
+}
+
+.toggleinput:not(:checked) ~ .toggleslide > .togglecircle > .lock-closed {
+  display: none;
+}
+.toggleinput:not(:checked) ~ .toggleslide > .togglecircle > .lock-open {
+  display: block;
+}
+
+.toggleinput:not(:checked) ~ .toggleslide > .togglecircle {
+  transform: translateX(0);
+}
+.toggleinput:checked ~ .toggleslide > .togglecircle {
+  transform: translateX(20px);
+}
+
+.toggleinput:checked ~ .toggleslide {
+  background-color: var(--red);
+  border-color: var(--red);
+}
+
+.toggleinput:checked ~ .disabled {
+  background-color: var(--grey-medium-light);
+  border-color: var(--grey-medium-light);
+}
+
+.toggleinput:checked ~ .disabled > .togglecircle {
+  box-shadow: none;
+}

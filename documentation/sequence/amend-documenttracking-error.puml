@@ -1,0 +1,29 @@
+@startuml declaration amendment sequence
+autonumber
+BLESS -> Kafka: publish documenttracking event \rwith customsStatus=declined || Failed
+Kafka -> TransCommBackend: subscribe to documenttracking event
+TransCommBackend -> TransComDatabase: persist documenttracking
+group on only manual amending
+    TransCommUI -> TransCommBackend: amend fields
+    TransCommBackend -> TransCommBackend: validate amended on MOC, length and business logic
+    TransCommBackend -> TransComDatabase: persist amended fields
+    group On success:
+        TransComDatabase -> TransCommBackend: Data persisted
+        TransCommBackend -> BLESS: Post amended data
+        BLESS -> TransCommBackend: Notification: "PROCESSED"
+    else On failure of persisting:
+        TransComDatabase -> TransCommBackend: Data not persisted
+       TransCommBackend -> TransCommUI: return 500
+    end
+else on new movement file TODO
+else on new pickup file TODO
+else on order mode=U TODO
+end
+TransCommUI -> TransCommBackend: submit new state
+TransCommBackend -> DataGen: POST submitOrder mode=U AND \rupdateTransportInfo mode=U AND \rinitiateDeclaration
+DataGen -> HyperLedgerAdapter: POST submitOrder mode=U AND \rupdateTransportInfo mode=U AND \rinitiateDeclaration
+HyperLedgerAdapter -> DataGen: POST order_data, invocie_data, \r documenttracking and \r declaration_json_mapping
+DataGen -> BLESS: POST order_data, invocie_data, \r documenttracking and \r declaration_json_mapping
+BLESS -> Kafka: Publish order_data, invocie_data, \r documenttracking and \r declaration_json_mapping
+Kafka -> TransCommBackend: Subscribe to order_data, invocie_data, documenttracking and \r declaration_json_mapping
+@enduml

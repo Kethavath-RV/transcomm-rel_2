@@ -1,0 +1,76 @@
+:host {
+  --ball-size: 1rem;
+  counter-reset: item-counter;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem;
+}
+
+.exclamation-svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Top level list */
+ul {
+  background: var(--grey-light);
+  margin: 0;
+  padding: 1.3125rem 1.3125rem 0 1.3125rem;
+  border-radius: var(--border-radius);
+}
+
+/* sub lists */
+ul ul {
+  padding-bottom: 0px;
+  --spacing-left: calc(var(--ball-size) * 2 + 0.5rem);
+  padding-left: var(--spacing-left);
+  margin-left: calc(var(--spacing-left) * -1);
+  border-radius: var(--border-radius);
+  background-color: var(--light-grey);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%), 0 2px 12px 0 rgb(0 0 0 / 10%),
+    0 0 1px 0 rgb(0 0 0 / 10%);
+  box-sizing: border-box;
+}
+
+li {
+  padding-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* subtitle for sublist needs to be aligned left */
+ul ~ .subtitle {
+  margin-left: -2rem;
+}
+
+.subtitle {
+  margin: 0px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.list-entry {
+  margin: 0px;
+  counter-increment: item-counter;
+  overflow-wrap: anywhere;
+}
+
+/*numbered ball for list item*/
+.list-entry::before {
+  position: absolute;
+  margin-left: calc(var(--ball-size) * -2);
+  margin-top: 0.25rem;
+  height: var(--ball-size);
+  width: var(--ball-size);
+  background: var(--red);
+  border: 1px solid var(--red);
+  border-radius: 50%;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: var(--ball-size);
+  color: #fff;
+  content: counter(item-counter);
+}

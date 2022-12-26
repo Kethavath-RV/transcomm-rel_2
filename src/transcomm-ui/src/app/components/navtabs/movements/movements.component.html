@@ -1,0 +1,84 @@
+<section
+  class="flex-column introduction_small"
+  *ngFor="let movement of movements; let i = index"
+>
+  <h4 class="emphasis mb-1 block">Movement Type: {{ movement.type ?? '-' }}</h4>
+  <div class="flex space-between gap-10">
+    <div>
+      <div class="flex gap-10">
+        <span class="width-120">MAWB</span>
+        <span>{{ movement.mawb ?? '-' }}</span>
+      </div>
+      <div class="flex gap-10">
+        <span class="width-120">Airway Bill No</span>
+        <span>{{ movement.airwayBillNumber ?? '-' }}</span>
+      </div>
+      <div class="flex gap-10">
+        <span class="width-120">Flight No</span>
+        <span>{{ movement.flightNumber ?? '-' }}</span>
+      </div>
+    </div>
+    <div>
+      <div class="flex gap-10">
+        <span class="width-120">Mode</span>
+        <span>{{ movement.mode ?? '-' }}</span>
+      </div>
+      <div class="flex gap-10">
+        <span class="width-120">Shipment Mode</span>
+        <span>{{ movement.broker ?? '-' }}</span>
+      </div>
+      <div class="flex gap-10">
+        <span class="width-120">Reference Id</span>
+        <span>{{ movement.referenceId ?? '-' }}</span>
+      </div>
+    </div>
+    <div (clickOutside)="hideBoxes(i)">
+      <div class="flex gap-10 space-between">
+        <span class="width-120">Cargo Handler</span>
+        <span>{{ movement.cargoHandler ?? '-' }}</span>
+      </div>
+      <div class="flex gap-10 space-between">
+        <span class="width-120">Shipping Details</span>
+        <div class="relative">
+          <span
+            class="border-bottom pointer"
+            (click)="toggleBox('shipping', i)"
+          >
+            View details
+          </span>
+
+          <div
+            class="details-container"
+            *ngIf="
+              shownDetails.detailsType === 'shipping' &&
+              shownDetails.indShowing === i
+            "
+          >
+            <app-shipping-details
+              [shippingDetails]="displayedShippingDetails"
+            ></app-shipping-details>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-10 space-between">
+        <div class="width-120">Package Details</div>
+        <div class="relative">
+          <span class="border-bottom pointer" (click)="toggleBox('package', i)">
+            View details
+          </span>
+          <div
+            class="details-container"
+            *ngIf="
+              shownDetails.detailsType === 'package' &&
+              shownDetails.indShowing === i
+            "
+          >
+            <app-package-details
+              [packageDetails]="displayedPackageDetails"
+            ></app-package-details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

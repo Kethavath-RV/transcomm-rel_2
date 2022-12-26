@@ -1,0 +1,15 @@
+<div class="m-2">
+  <button
+    appDebounceClick
+    (debounceClick)="clearFilters()"
+    class="btn btn-secondary mb-1"
+  >
+    Clear Filters
+  </button>
+  <app-aggrid
+    [paginatedData$]="paginatedData$"
+    [columnDefs]="columnDefs"
+    (onRowDoubleClickedEvent)="onRowDoubleClicked($event)"
+  >
+  </app-aggrid>
+</div>

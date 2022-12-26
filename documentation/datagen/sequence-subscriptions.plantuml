@@ -1,0 +1,20 @@
+@startuml Subscription
+participant Datagen
+participant "SQL Database" as database 
+participant Redis
+participant Hyperledger
+
+autonumber
+Datagen -> database : Request Starting Block
+Datagen -> Hyperledger : Create subscriptions with starting block
+Hyperledger -> Datagen : Delivers events for a given subscription (in order)
+Datagen -> Redis: Queues each request as recieved
+Redis -> Datagen : Process each event
+Datagen -> Datagen : Verifies Event
+group Is relevant
+Datagen -> database : Store Record & Query Event(s).
+else Not relevant
+Datagen -> database : Store Record with ignored flag. 
+end
+Datagen -> Redis : Remove item from queue.
+@enduml

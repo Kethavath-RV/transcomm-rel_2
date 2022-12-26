@@ -1,0 +1,51 @@
+<div class="card">
+  <button (click)="onClose()" class="btn-cross">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      role="presentation"
+      class="cross-svg"
+    >
+      <path
+        fill="currentColor"
+        d="M18.364 4.222l1.414 1.414L13.414 12l6.364 6.364-1.414 1.414L12 13.414l-6.364 6.364-1.414-1.414L10.586 12 4.222 5.636l1.414-1.414L12 10.586l6.364-6.364z"
+      ></path>
+    </svg>
+  </button>
+  <div class="flex mb-1">
+    <img
+      class="exclamation-svg mr-1"
+      src="/assets/icons/exception_rgb_red.svg"
+      alt=""
+    />
+    <h4 class="emphasis m-0">
+      {{
+        errorsInSidebar[0].exceptions.length > 0
+          ? errorsInSidebar[0].exceptions.length + ' Exception(s)'
+          : errorsInSidebar.length + ' Error(s)'
+      }}
+    </h4>
+  </div>
+
+  <ul>
+    <ng-container *ngFor="let error of errorsInSidebar">
+      <li class="pl-2">
+        <ul *ngIf="error.eventType === 'Exception'">
+          <ng-container *ngFor="let exception of error.exceptions">
+            <li>
+              <p class="list-entry">
+                <strong class="emphasis mr-05">{{ exception.exceptionCode }}</strong>
+                {{ exception.exceptionDetail.split('+')[2] }}
+              </p>
+            </li>
+          </ng-container>
+        </ul>
+        <p *ngIf="error.eventType !== 'Exception'" class="list-entry">
+          {{ error.eventType }}
+        </p>
+        <p class="subtitle">{{ error.eventTime | date: 'medium' }}</p>
+      </li>
+    </ng-container>
+  </ul>
+</div>

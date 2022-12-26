@@ -1,0 +1,28 @@
+nav {
+  background: linear-gradient(
+    90deg,
+    var(--yellow),
+    var(--yellow) 48%,
+    var(--yellow-light) 70%,
+    var(--yellow-lightest)
+  );
+  padding-top: 1.4rem;
+  padding-bottom: 0.7rem;
+}
+
+.logo {
+  width: 173px;
+  height: 24px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: var(--red);
+}
+
+.is-active {
+  border-bottom: 2px solid var(--red);
+}

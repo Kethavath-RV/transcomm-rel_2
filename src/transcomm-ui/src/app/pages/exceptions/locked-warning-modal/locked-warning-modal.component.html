@@ -1,0 +1,11 @@
+<app-modal-template [dismissable]="false">
+  <h3 class="emphasis">Lock the declaration</h3>
+  <p>
+    You can only amend the declaration once you lock it first. When you lock the
+    declaration, your colleagues won’t be able to edit it.
+  </p>
+  <div class="actions">
+    <span (click)="closeModal(false)" class="emphasis red-text">Read-only</span>
+    <button (click)="closeModal(true)" class="btn btn-secondary">Lock it</button>
+  </div>
+</app-modal-template>

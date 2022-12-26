@@ -1,0 +1,30 @@
+@startuml
+start
+:Queued events begins processing;
+if (Validate event) then (invalid)
+  :Log validation error move onto next job;
+  detach
+else (valid)
+endif
+if (chain code event or status change event) then (chain code)
+  :Query if Transaction Id is known;
+  if(Transaction known) then (No)
+    :Log event;
+    :Create ignore record;
+    :move onto next job;
+    detach
+  else (yes)
+  endif
+else (status change event)
+  :Query if HL Key is known;
+  if(HL Key known) then (No)
+    :Log event;
+    :Create ignore record;
+    :move onto next job;
+    detach
+  else (yes)
+  endif
+endif
+:Create query record;
+stop
+@enduml

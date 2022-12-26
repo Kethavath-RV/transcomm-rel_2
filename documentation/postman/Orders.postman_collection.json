@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "922f7e34-ea42-47b1-9ab8-ccebf5ed3884",
+		"name": "Orders",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4040/api/orders/DEMO-ORDER-14/INV-2-5100152TDF",
+					"host": [
+						"localhost"
+					],
+					"port": "4040",
+					"path": [
+						"api",
+						"orders",
+						"DEMO-ORDER-14",
+						"INV-2-5100152TDF"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetWithExceptions",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"searchParams\": {\n        \"orderNumber\": {\n            \"endsWith\": \"2\"\n        }\n    },\n    \"sortParams\": [\n        {\n            \"rejectionDate\": \"desc\"\n        },\n        {\n            \"orderNumber\": \"asc\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4040/api/orders/exceptions",
+					"host": [
+						"localhost"
+					],
+					"port": "4040",
+					"path": [
+						"api",
+						"orders",
+						"exceptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCancelledOrders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"searchParams\": {\n        \"orderNumber\": {\n            \"endsWith\": \"2\"\n        }\n    },\n    \"sortParams\": [\n        {\n            \"cancelDate\": \"desc\"\n        },\n        {\n            \"orderNumber\": \"asc\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4040/api/orders/cancelledOrders",
+					"host": [
+						"localhost"
+					],
+					"port": "4040",
+					"path": [
+						"api",
+						"orders",
+						"cancelledOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QueryOverview",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"searchParams\": {\n        \"orderNumber\": {\"contains\": \"SIMON\"}\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4040/api/orders/overview?orderBy=desc&sortBy=orderNumber&take=30",
+					"host": [
+						"localhost"
+					],
+					"port": "4040",
+					"path": [
+						"api",
+						"orders",
+						"overview"
+					],
+					"query": [
+						{
+							"key": "orderBy",
+							"value": "desc"
+						},
+						{
+							"key": "sortBy",
+							"value": "orderNumber"
+						},
+						{
+							"key": "take",
+							"value": "30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LockOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRlcjIiLCJzdWIiOiI5MWFhY2I4Yi1iNDNjLTRkOWQtOThiYS1kNzk2NmNlZGZkNDIiLCJpc3N1ZXIiOiJESExUcmFuc0NvbSIsImlhdCI6MTYyNzkxMTczMSwiZXhwIjoxNjI3OTE1MzMxfQ.-7XLqzcNy5r4lADMc-I7y9BsdUBJIdio67DYdI0Rt-c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:4040/api/orders/DEMO-ORDER-30/INV-2-5100152TDF/lock",
+					"host": [
+						"localhost"
+					],
+					"port": "4040",
+					"path": [
+						"api",
+						"orders",
+						"DEMO-ORDER-30",
+						"INV-2-5100152TDF",
+						"lock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostAmendment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "17f92ff0-342f-4382-93db-424fe65d12e4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"invoiceId\": \"a67943db-86d6-4a82-b747-3f1d16d38312\",\n    \"invoiceNumber\": \"INV-2-5100152TDF\",\n    \"orderLines\": [{\n        \"lineNumber\": \"1\",\n        \"commodityCode\": \"newCommCode\"\n    }]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4040/api/orders/amendment",
+					"host": [
+						"localhost"
+					],
+					"port": "4040",
+					"path": [
+						"api",
+						"orders",
+						"amendment"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

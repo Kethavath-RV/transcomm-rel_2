@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'DeliveryRegular';
+  src: url('../assets/fonts/Delivery_W_Rg.woff2') format('woff2'),
+    url('../assets/fonts/Delivery_W_Rg.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DeliveryBold';
+  src: url('../assets/fonts/Delivery_W_Bd.woff2') format('woff2'),
+    url('../assets/fonts/Delivery_W_Bd.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DeliveryBoldIt';
+  src: url('../assets/fonts/Delivery_W_BdIt.woff2') format('woff2'),
+    url('../assets/fonts/Delivery_W_BdIt.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DeliveryBlackCd';
+  src: url('../assets/fonts/Delivery_W_CdBlk.woff2') format('woff2'),
+    url('../assets/fonts/Delivery_W_CdBlk.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DeliveryLightCd';
+  src: url('../assets/fonts/Delivery_W_CdLt.woff2') format('woff2'),
+    url('../assets/fonts/Delivery_W_CdLt.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DeliveryLight';
+  src: url('../assets/fonts/Delivery_W_Lt.woff2') format('woff2'),
+    url('../assets/fonts/Delivery_W_Lt.woff') format('woff');
+  font-display: swap;
+}

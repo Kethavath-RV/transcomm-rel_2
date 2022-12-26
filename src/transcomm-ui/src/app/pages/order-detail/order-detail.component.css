@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  --main-width: 100%;
+  --transition-time: 0.4s;
+  /* min-width of sidebar is 15rem when displayed, LHS of min is 0 or bigger than 15*/
+  --min-sidebar: min(calc(calc(100% - var(--main-width)) * 99999), 15rem);
+  --width-sidebar: calc(100% - var(--main-width));
+}
+
+.main {
+  width: calc(
+    var(--main-width) - 4rem -
+      calc(max(var(--min-sidebar) - var(--width-sidebar), 0px))
+  );
+  transition: width var(--transition-time) ease-in-out;
+}
+
+.sidebar {
+  width: var(--width-sidebar);
+  min-width: var(--min-sidebar);
+  transition: width var(--transition-time) ease-in-out;
+}

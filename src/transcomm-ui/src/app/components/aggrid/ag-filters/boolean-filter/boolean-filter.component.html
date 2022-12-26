@@ -1,0 +1,16 @@
+<div class="filterBox">
+  <span>Choose filter</span>
+  <select
+    [(ngModel)]="filter"
+    (ngModelChange)="onInputChanged({ filter: $event })"
+  >
+    <option
+      *ngFor="let filter of filters"
+      value="{{ filter }}"
+      class="dhl-input dhl-input-small"
+      selected="filter === filter"
+    >
+      {{ filter }}
+    </option>
+  </select>
+</div>

@@ -1,0 +1,1336 @@
+{
+  "info": {
+    "_postman_id": "e9389938-0608-4915-9375-56869b3cb4fb",
+    "name": "HappyFlow-return-inbound-DHLE",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "6176475"
+  },
+  "item": [
+    {
+      "name": "1.SubmitOrder (1)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "var uuid = require('uuid');",
+              "var myUUID = uuid.v4().slice(0,5);",
+              "",
+              "pm.environment.set(\"OrderNumber\", `\"ORDER-S-${myUUID}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = responseBody.split(' ').pop();",
+              "",
+              "pm.test('response data contains vcID', () => {",
+              "    pm.expect(jsonData).to.be.an('string');",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"vcId\", `\"${jsonData}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRlcjIiLCJzdWIiOiI5MWFhY2I4Yi1iNDNjLTRkOWQtOThiYS1kNzk2NmNlZGZkNDIiLCJpc3N1ZXIiOiJESExUcmFuc0NvbSIsImlhdCI6MTYyNzkxMTczMSwiZXhwIjoxNjI3OTE1MzMxfQ.-7XLqzcNy5r4lADMc-I7y9BsdUBJIdio67DYdI0Rt-c",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": \"vc-id-1\",\n    \"msgType\": \"submitOrder\",\n    \"data\": {\n        \"orderNumber\": {{OrderNumber}},\n        \"orderDate\": \"2021-08-28T17:59:27Z\",\n        \"actionDate\": \"2021-08-28T17:59:27Z\",\n        \"ecomBusinessCode\": {{EcomCode}},\n        \"mode\": \"F\",\n        \"consigneeName\": \"ISMA NOOR TEST\",\n        \"consigneeAddress\": {\n            \"addressLine1\": \"10th Floor, Plaza IBM\",\n            \"addressLine2\": \"No. 1005, First Avenue\",\n            \"POBox\": \"54000\",\n            \"city\": \"54000\",\n            \"country\": \"IN\",\n            \"phone\": \"+944413344901\",\n            \"email\": \"isma.noor@avanzainnovations.com\"\n        },\n        \"billTo\": \"ISMA NOOR\",\n        \"billToAddress\": {\n            \"addressLine1\": \"10th Floor, Plaza IBM\",\n            \"addressLine2\": \"No. 1005, First Avenue\",\n            \"POBox\": \"54000\",\n            \"city\": \"54000\",\n            \"country\": \"PK\"\n        },\n        \"shipTo\": \"ISMA NOOR\",\n        \"shipToAddress\": {\n            \"addressLine1\": \"10th Floor, Plaza IBM\",\n            \"addressLine2\": \"No. 1005, First Avenue\",\n            \"POBox\": \"54000\",\n            \"city\": \"54000\",\n            \"country\": \"PK\"\n        },\n        \"documents\": [{\n            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\",\n            \"name\": \"44.pdf\"\n        }],\n        \"__kvp\": [\n            {\n                \"attributeSerialNo\": 1,\n                \"attributeName\": \"kvpname\",\n                \"attributeValue\": \"kvpValue\"\n            }\n        ],\n        \"invoices\": [\n            {\n            \"mode\": \"F\",\n            \"invoiceNumber\": {{InvoiceId}},\n            \"invoiceDate\": \"2021-08-28T17:59:27Z\",\n            \"invoiceType\": 2,\n            \"incoTerm\": \"CIF\",\n            \"totalNoOfInvoicePages\": 1,\n            \"paymentInstrumentType\": 1,\n            \"currency\": \"AED\",\n            \"totalValue\": 2050,\n            \"exporterCode\": \"12902\",\n            \"FZCode\": \"1\",\n            \"warehouseCode\": \"\",\n            \"cargoOwnership\": \"1\",\n            \"associatedEcomCompany\": \"\",\n            \"brokerBusinessCode\": \"TESTDHL\",\n            \"deliveryProviderBusinessCode\": \"testDPBC\",\n            \"logisticsSPBusinessCode\": \"DHL\",\n            \"documents\": [{\n                \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\",\n                \"name\": \"44.pdf\"\n            }],\n            \"lineItems\": [\n                {\n                \"mode\": \"F\",\n                \"lineNo\": 11,\n                \"hscode\": \"1022900\",\n                \"goodsCondition\": \"N\",\n                \"returnDays\": 1,\n                \"description\": \"Tom Ford Black Faye Oval Sunglasses\",\n                \"quantity\": 2,\n                \"quantityUOM\": \"kg\",\n                \"netWeight\": 2,\n                \"netWeightUOM\": \"kg\",\n                \"dutyPaid\": \"N\",\n                \"supplementaryQuantity\": null,\n                \"supplementaryQuantityUOM\": null,\n                \"valueOfGoods\": 196,\n                \"countryOfOrigin\": \"IR\",\n                \"prevDeclarationReference\": null,\n                \"exemptions\": [],\n                \"sku\": {\n                    \"productCode\": \"1902CC\",\n                    \"quantityUOM\": \"KG\",\n                    \"unitPrice\": 10.0\n                },\n                \"documents\": [{\n                    \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                    \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\",\n                    \"name\": \"44.pdf\"\n                }],\n                \"discount\": {\n                    \"value\": null,\n                    \"percentage\": 2\n                },\n                \"permits\": [],\n                \"originalValueOfItem\": 200,\n                \"isFreeOfCost\": \"N\"\n                }\n            ]\n            }\n        ]\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostDataTransformer}}:6060/submitOrder",
+          "host": ["{{hostDataTransformer}}"],
+          "port": "6060",
+          "path": ["submitOrder"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2.Post processed notification to kafka (4)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\t\"id\": {{vcId}},\n\t\t\"type\": \"PROCESSED\",\n\t\t\"data\": {}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockBless}}:5050/postNotificationToKafka",
+          "host": ["{{hostMockBless}}"],
+          "port": "5050",
+          "path": ["postNotificationToKafka"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3.GetLastTxId(Basic)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var lastTxId = pm.environment.get(\"lastTxId\")",
+              "var txId = responseBody;",
+              "",
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('response has a txId', () => {",
+              "  pm.expect(txId).not.to.eql('none');",
+              "  pm.expect(txId).to.be.an('string');",
+              "});",
+              "",
+              "pm.test('txId has changed', () => {",
+              "    pm.expect(`\"${txId}\"`).not.to.eql(lastTxId);",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"lastTxId\", `\"${txId}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/lastTx",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["lastTx"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4.ContractEvent-ChainEvent-BasicOrder (7)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "let uuid = require('uuid');",
+              "pm.environment.set(\"HLOrderId\", `\"${uuid.v4()}\"`);",
+              "pm.environment.set(\"HLInvoiceId\", `\"${uuid.v4()}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txId\": {{lastTxId}},\n    \"eventName\": \"chainCodeEvent\",\n    \"block\": \"1\",\n    \"function\": \"order\",\n    \"eventNameForContractItself\": \"submitOrder\",\n    \"payloads\": [\n          {\n            \"key\": {{HLOrderId}},\n            \"collection\": \"order_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936\",\n                \"Key\": \"AE-9239786_ORD-T-45936\",\n                \"current\": {\n                    \"Key\": \"AE-9239786_ORD-T-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"billTo\": \"ISMA NOOR\",\n                    \"billToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"consigneeAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"isma.noor@avanzainnovations.com\",\n                        \"phone\": \"+944413344901\"\n                    },\n                    \"consigneeCode\": \"\",\n                    \"consigneeName\": \"Nabeel\",\n                    \"documentName\": \"orders_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"eCommBusinessName\": \"fz company\",\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"errorBusiness\": null,\n                    \"errorCount\": 0,\n                    \"exporterCodeArr\": [\n                        \"AE-9239786\"\n                    ],\n                    \"hasMultiShipping\": \"\",\n                    \"invoiceSummary\": null,\n                    \"invoices\": [\n                        {{InvoiceId}}\n                    ],\n                    \"isFaulty\": false,\n                    \"isMarketPlace\": false,\n                    \"kvp\": [\n                        {\n                            \"action\": \"ORDER\",\n                            \"apiName\": \"submitOrder\",\n                            \"attributeName\": \"kvpname\",\n                            \"attributeSerialNo\": 1,\n                            \"attributeValue\": \"kvpValue\",\n                            \"mode\": \"B\",\n                            \"timestamp\": 1627472368428\n                        }\n                    ],\n                    \"logisticsSPBusinessCodeArr\": [\n                        \"AE-1000042\"\n                    ],\n                    \"mode\": \"B\",\n                    \"orderDate\": \"14/11/2020 12:10:19\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"orderStatus\": \"FINALIZED\",\n                    \"referenceID\": \"f9dd563a-ae88-4487-86a0-9e8756191649\",\n                    \"shipTo\": \"ISMA NOOR\",\n                    \"shipToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    }\n                },\n                \"documentName\": \"order_data\",\n                \"history\": []\n            }\n        },\n        {\n            \"key\": {{HLInvoiceId}},\n            \"collection\": \"invoice_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"_rev\": \"1-46726bfdf92885010823495d1cc5ebe7\",\n                \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"current\": {\n                    \"FZCode\": \"3\",\n                    \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"associatedEcomCompany\": \"\",\n                    \"brokerBusinessCode\": \"AE-1000042\",\n                    \"cancellationReason\": \"\",\n                    \"cargoOwnership\": \"1\",\n                    \"currency\": \"AED\",\n                    \"deliveryProviderBusinessCode\": \"AE-1000042\",\n                    \"documentName\": \"invoice_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"exitConfirmationDetail\": null,\n                    \"exitConfirmations\": null,\n                    \"exporterCode\": \"AE-9239786\",\n                    \"freightAmount\": 0,\n                    \"freightCurrency\": \"\",\n                    \"hasMultiShipping\": false,\n                    \"incoTerm\": \"CIF\",\n                    \"insuranceAmount\": 0,\n                    \"insuranceCurrency\": \"\",\n                    \"invoiceDate\": \"2021-06-23\",\n                    \"invoiceNumber\": {{InvoiceId}},\n                    \"invoiceStatus\": \"FINALIZED\",\n                    \"invoiceTrackingKey\": [\n                        \"776bc0f0-ef98-11eb-aff5-f5aaef552e72\"\n                    ],\n                    \"invoiceTrackingLogs\": null,\n                    \"invoiceType\": \"1\",\n                    \"isExited\": false,\n                    \"isUndelivered\": false,\n                    \"kvp\": null,\n                    \"lineItems\": null,\n                    \"lineItemsKeys\": [\n                        \"AE-9239786_ORD-T-45936_INV-1-45936_1\"\n                    ],\n                    \"logisticsSPBusinessCode\": \"AE-1000042\",\n                    \"mode\": \"B\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"otherShipToAddress\": {\n                        \"POBox\": \"\",\n                        \"addressLine1\": \"\",\n                        \"addressLine2\": \"\",\n                        \"addressType\": \"\",\n                        \"city\": \"\",\n                        \"country\": \"\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"paymentInstrumentType\": \"1\",\n                    \"returnDetail\": {\n                        \"returnJustification\": \"\",\n                        \"returnReason\": \"\",\n                        \"returnRequestNo\": \"\"\n                    },\n                    \"returnDetails\": null,\n                    \"returns\": null,\n                    \"returnsList\": null,\n                    \"shippingParameters\": [\n                        {\n                            \"claimTrackingHistory\": null,\n                            \"claimTrackingKey\": \"\",\n                            \"declarationDetail\": null,\n                            \"declarationTrackingKey\": \"\",\n                            \"declarationTrackingKeyHistory\": null,\n                            \"deliveryStatus\": {\n                                \"ReturnToFZorCW\": \"\",\n                                \"deliverToPersonName\": \"\",\n                                \"deliveryDate\": \"\",\n                                \"deliveryStatus\": \"\",\n                                \"deliveryType\": \"\",\n                                \"documents\": null,\n                                \"kvp\": null,\n                                \"signature\": {\n                                    \"PODFilePath\": \"\",\n                                    \"PODHash\": \"\"\n                                },\n                                \"transportDocNo\": \"\",\n                                \"type\": \"\"\n                            },\n                            \"documentTracking\": null,\n                            \"isSystemGenerated\": true,\n                            \"lineItems\": null,\n                            \"preference\": null,\n                            \"preferencesKey\": \"\",\n                            \"preferencesKeyHistory\": null,\n                            \"shippingParameterID\": \"\",\n                            \"transport\": null,\n                            \"transportInfoKey\": \"\",\n                            \"transportInfoKeyHistory\": null\n                        }\n                    ],\n                    \"totalNoOfInvoicePages\": 4,\n                    \"totalValue\": 1000,\n                    \"warehouseCode\": \"\"\n                },\n                \"documentName\": \"invoice_data\",\n                \"history\": []\n            }\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/event/createMockContractEvent",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["event", "createMockContractEvent"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5.GetLastTxId(Final)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var lastTxId = pm.environment.get(\"lastTxId\")",
+              "var txId = responseBody;",
+              "",
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('response has a txId', () => {",
+              "  pm.expect(txId).not.to.eql('none');",
+              "  pm.expect(txId).to.be.an('string');",
+              "});",
+              "",
+              "pm.test('txId has changed', () => {",
+              "    pm.expect(`\"${txId}\"`).not.to.eql(lastTxId);",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"lastTxId\", `\"${txId}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/lastTx",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["lastTx"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6.ContractEvent-ChainEvent-FinalOrder (15)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txId\": {{lastTxId}},\n    \"eventName\": \"chainCodeEvent\",\n    \"block\": \"1\",\n    \"function\": \"order\",\n    \"eventNameForContractItself\": \"submitOrder\",\n    \"payloads\": [\n          {\n            \"key\": {{HLOrderId}},\n            \"collection\": \"order_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936\",\n                \"Key\": \"AE-9239786_ORD-T-45936\",\n                \"current\": {\n                    \"Key\": \"AE-9239786_ORD-T-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"billTo\": \"ISMA NOOR\",\n                    \"billToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"consigneeAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"isma.noor@avanzainnovations.com\",\n                        \"phone\": \"+944413344901\"\n                    },\n                    \"consigneeCode\": \"\",\n                    \"consigneeName\": \"Nabeel\",\n                    \"documentName\": \"orders_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"eCommBusinessName\": \"fz company\",\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"errorBusiness\": null,\n                    \"errorCount\": 0,\n                    \"exporterCodeArr\": [\n                        \"AE-9239786\"\n                    ],\n                    \"hasMultiShipping\": \"\",\n                    \"invoiceSummary\": null,\n                    \"invoices\": [\n                        {{InvoiceId}}\n                    ],\n                    \"isFaulty\": false,\n                    \"isMarketPlace\": false,\n                    \"kvp\": [\n                        {\n                            \"action\": \"ORDER\",\n                            \"apiName\": \"submitOrder\",\n                            \"attributeName\": \"kvpname\",\n                            \"attributeSerialNo\": 1,\n                            \"attributeValue\": \"kvpValue\",\n                            \"mode\": \"F\",\n                            \"timestamp\": 1627472368428\n                        }\n                    ],\n                    \"logisticsSPBusinessCodeArr\": [\n                        \"AE-1000042\"\n                    ],\n                    \"mode\": \"F\",\n                    \"orderDate\": \"14/11/2020 12:10:19\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"orderStatus\": \"FINALIZED\",\n                    \"referenceID\": \"f9dd563a-ae88-4487-86a0-9e8756191649\",\n                    \"shipTo\": \"ISMA NOOR\",\n                    \"shipToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    }\n                },\n                \"documentName\": \"order_data\",\n                \"history\": []\n            }\n        },\n        {\n            \"key\": {{HLInvoiceId}},\n            \"collection\": \"invoice_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"_rev\": \"1-46726bfdf92885010823495d1cc5ebe7\",\n                \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"current\": {\n                    \"FZCode\": \"3\",\n                    \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"associatedEcomCompany\": \"\",\n                    \"brokerBusinessCode\": \"AE-1000042\",\n                    \"cancellationReason\": \"\",\n                    \"cargoOwnership\": \"1\",\n                    \"currency\": \"AED\",\n                    \"deliveryProviderBusinessCode\": \"AE-1000042\",\n                    \"documentName\": \"invoice_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"exitConfirmationDetail\": null,\n                    \"exitConfirmations\": null,\n                    \"exporterCode\": \"AE-9239786\",\n                    \"freightAmount\": 0,\n                    \"freightCurrency\": \"\",\n                    \"hasMultiShipping\": false,\n                    \"incoTerm\": \"CIF\",\n                    \"insuranceAmount\": 0,\n                    \"insuranceCurrency\": \"\",\n                    \"invoiceDate\": \"2021-06-23\",\n                    \"invoiceNumber\": {{InvoiceId}},\n                    \"invoiceStatus\": \"FINALIZED\",\n                    \"invoiceTrackingKey\": [\n                        \"776bc0f0-ef98-11eb-aff5-f5aaef552e72\"\n                    ],\n                    \"invoiceTrackingLogs\": null,\n                    \"invoiceType\": \"1\",\n                    \"isExited\": false,\n                    \"isUndelivered\": false,\n                    \"kvp\": null,\n                    \"lineItems\": null,\n                    \"lineItemsKeys\": [\n                        \"AE-9239786_ORD-T-45936_INV-1-45936_1\"\n                    ],\n                    \"logisticsSPBusinessCode\": \"AE-1000042\",\n                    \"mode\": \"F\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"otherShipToAddress\": {\n                        \"POBox\": \"\",\n                        \"addressLine1\": \"\",\n                        \"addressLine2\": \"\",\n                        \"addressType\": \"\",\n                        \"city\": \"\",\n                        \"country\": \"\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"paymentInstrumentType\": \"1\",\n                    \"returnDetail\": {\n                        \"returnJustification\": \"\",\n                        \"returnReason\": \"\",\n                        \"returnRequestNo\": \"\"\n                    },\n                    \"returnDetails\": null,\n                    \"returns\": null,\n                    \"returnsList\": null,\n                    \"shippingParameters\": [\n                        {\n                            \"claimTrackingHistory\": null,\n                            \"claimTrackingKey\": \"\",\n                            \"declarationDetail\": null,\n                            \"declarationTrackingKey\": \"\",\n                            \"declarationTrackingKeyHistory\": null,\n                            \"deliveryStatus\": {\n                                \"ReturnToFZorCW\": \"\",\n                                \"deliverToPersonName\": \"\",\n                                \"deliveryDate\": \"\",\n                                \"deliveryStatus\": \"\",\n                                \"deliveryType\": \"\",\n                                \"documents\": null,\n                                \"kvp\": null,\n                                \"signature\": {\n                                    \"PODFilePath\": \"\",\n                                    \"PODHash\": \"\"\n                                },\n                                \"transportDocNo\": \"\",\n                                \"type\": \"\"\n                            },\n                            \"documentTracking\": null,\n                            \"isSystemGenerated\": true,\n                            \"lineItems\": null,\n                            \"preference\": null,\n                            \"preferencesKey\": \"\",\n                            \"preferencesKeyHistory\": null,\n                            \"shippingParameterID\": \"\",\n                            \"transport\": null,\n                            \"transportInfoKey\": \"\",\n                            \"transportInfoKeyHistory\": null\n                        }\n                    ],\n                    \"totalNoOfInvoicePages\": 4,\n                    \"totalValue\": 1000,\n                    \"warehouseCode\": \"\"\n                },\n                \"documentName\": \"invoice_data\",\n                \"history\": []\n            }\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/event/createMockContractEvent",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["event", "createMockContractEvent"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7.Post pickup file to kafka (21)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": \"vc-id-pickup-1\",\n    \"msgType\": \"pickupfile\",\n    \"data\": [\n        {\n            \"eventCode\": \"PU\",\n            \"eventRemark\": \"event\",\n            \"ecomBusinessCode\": {{EcomCode}},\n            \"weight\": \"0.800\",\n            \"volumeWeight\": \"1.200\",\n            \"weightQualifier\": \"KGM\",\n            \"shipperReference\": {{OrderNumber}},\n            \"hawb\": {{hawb}},\n            \"ETADateTime\": \"2021-08-24 23:59:00\",\n            \"eventDate\":\"2021-09-29 17:05:33\",\n            \"eventGMT\":\"+04:00\",\n            \"destination\": \"RUH\",\n            \"origin\": \"DXB\",\n            \"numberOfPackages\": 100,\n            \"shipmentDeclaredValue\": \"\",\n            \"shipmentCurrency\": \"\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockBless}}:5050/postPickupFileToKafka",
+          "host": ["{{hostMockBless}}"],
+          "port": "5050",
+          "path": ["postPickupFileToKafka"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "8.Post DHLE Declaration Request to kafka",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n    {\n        \"body\": {\n            \"UNB\": {\n                \"MessageCode\": \"DEC\",\n                \"MessageVersionNumber\": 1,\n                \"SenderIdentification\": \"AE-9105338\",\n                \"InterchangeControlReference\": \"1\",\n                \"RecipientIdentification\": \"AE-9105338\",\n                \"DateTime\": \"2022-04-04T13:32:42+04:00\"\n            },\n            \"UTH\": {\n                \"ReplytoTransportMode\": \"WEBSERVICE\",\n                \"ReplytoAddress\": \"swewer\",\n                \"ReplytoMessageFormat\": \"XML\"\n            },\n            \"UNH\": {\n                \"MessageReferenceNumber\": \"20220404133237-611\",\n                \"MessageType\": \"NEW\"\n            },\n            \"Declaration\": {\n                \"BatchHeader\": {\n                    \"BrokerBusinessCode\": \"AE-9105338\",\n                    \"BrokerCustomerCode\": \"196007174\",\n                    \"CTOCargoHandlerPremisesCode\": \"PR-91936\",\n                    \"ShippingAirlineAgentBusinessCode\": \"AE-9105338\",\n                    \"PortOfLoading\": \"D04\",\n                    \"PortOfDischarge\": \"YUL\",\n                    \"TotalNoOfConsignment\": \"1\",\n                    \"OutboundMasterDocumentNo\": {{mawb}},\n                    \"OutboundCarrierDetails\": {\n                        \"TransportMode\": \"8\",\n                        \"CarrierRegistrationNo\": \"BA0106\",\n                        \"DateOfDeparture\": \"2022-03-31\"\n                    }\n                },\n                \"Consignments\": {\n                    \"PartiesDetails\": {\n                        \"ConsignorExporterTransferorCode\": \"AE-9105341\",\n                        \"ConsigneeImporterTransfereeCode\": null,\n                        \"NotifyPartyCode\": null,\n                        \"NotifyPartyName\": null,\n                        \"NotifyPartyAddress\": null,\n                        \"CTOCargoHandlerPremisesCode\": null,\n                        \"ShippingAirlineAgentBusinessCode\": null,\n                        \"BrokerBusinessCode\": null,\n                        \"MRAAEOIndicator\": null\n                    },\n                    \"DeclarationDetails\": {\n                        \"DeclarantReferenceNo\": \"8151140060\",\n                        \"RegimeType\": 3,\n                        \"DeclarationType\": 303,\n                        \"TotalNumberHAWBsConsolidated\": 1,\n                        \"DeclarationRelatedDocuments\": [\n                            {\n                                \"DocumentCode\": 1,\n                                \"AvailabilityStatus\": 2,\n                                \"NonAvailabilityStatus\": null\n                            },\n                            {\n                                \"DocumentCode\": 2,\n                                \"AvailabilityStatus\": 1,\n                                \"NonAvailabilityStatus\": null\n                            },\n                            {\n                                \"DocumentCode\": 3,\n                                \"AvailabilityStatus\": 1,\n                                \"NonAvailabilityStatus\": null\n                            },\n                            {\n                                \"DocumentCode\": 4,\n                                \"AvailabilityStatus\": 1,\n                                \"NonAvailabilityStatus\": null\n                            }\n                        ],\n                        \"PaymentDetails\": [\n                            {\n                                \"PaymentMode\": 1,\n                                \"PaymentReference\": \"1222978\"\n                            },\n                            {\n                                \"PaymentMode\": 2,\n                                \"PaymentReference\": \"2334019\"\n                            }\n                        ],\n                        \"TransportDocumentDetails\": [\n                            {\n                                \"OutboundTransportDocumentNo\": {{hawb}},\n                                \"CargoTypePackageCode\": \"1\",\n                                \"GrossWeightUnit\": \"kg\",\n                                \"TotalGrossWeight\": 3.75,\n                                \"NetWeightUnit\": \"kg\",\n                                \"TotalNetWeight\": 3.75,\n                                \"PackageDetails\": [\n                                    {\n                                        \"PackageType\": \"BOX\",\n                                        \"TotalNumberOfPackages\": 1\n                                    }\n                                ],\n                                \"InboundMasterDocumentNo\": null,\n                                \"InboundTransportDocumentNo\": null,\n                                \"OutboundMasterDocumentNo\": null,\n                                \"VolumeUnit\": null,\n                                \"Volume\": null,\n                                \"ContainerDetails\": null\n                            }\n                        ],\n                        \"DeclarationReason\": null,\n                        \"GoodsType\": null,\n                        \"DeclarationNo\": null,\n                        \"BrokerCustomerCode\": null,\n                        \"DeclarationPurpose\": null\n                    },\n                    \"ShippingDetails\": {\n                        \"DestinationCountry\": \"CA\",\n                        \"ExitPort\": \"AFZ\",\n                        \"Invoices\": [\n                            {\n                                \"InvoiceNumber\": {{InvoiceId}},\n                                \"InvoiceDate\": \"2022-04-04\",\n                                \"TotalNumberOfInvoicePages\": 1,\n                                \"InvoiceType\": 1,\n                                \"PaymentInstrumentType\": 10,\n                                \"InvoiceCurrency\": \"USD\",\n                                \"InvoiceValue\": 187.13,\n                                \"INCOTermsCode\": \"DDU\",\n                                \"InvoiceItemsDetail\": [\n                                    {\n                                        \"InvoiceItemLineNumber\": 1,\n                                        \"CommodityCode\": \"84733000\",\n                                        \"GoodsDescription\": \"12310P73J00 COVERCOMPCYLNH\",\n                                        \"StatisticalQuantityMeasurementUnit\": \"kg\",\n                                        \"StatisticalQuantity\": 3.75,\n                                        \"NetWeightUnit\": \"kg\",\n                                        \"NetWeight\": 3.75,\n                                        \"SupplementaryQuantityMeasurementUnit\": \"kg\",\n                                        \"ValueOfGoods\": 187.13,\n                                        \"CountryOfOrigin\": \"AE\",\n                                        \"PermitRefenceDetails\": [\n                                            {\n                                                \"PermitIndicator\": \"N\",\n                                                \"PermitReferenceNo\": null,\n                                                \"PermitissuingAuthority\": null\n                                            }\n                                        ],\n                                        \"GoodsCondition\": null,\n                                        \"VehicleIndicator\": null,\n                                        \"PreviousCustomsDeclarationInvoiceNumber\": null,\n                                        \"ExemptionReferenceNumber\": null,\n                                        \"isRestricted\": null,\n                                        \"SupplementaryQuantity\": null,\n                                        \"PreviousCustomsDeclarationReferenceNumber\": null,\n                                        \"PreviousCustomsDeclarationInvoiceLineNumber\": null,\n                                        \"ExemptionType\": null,\n                                        \"VehicleDetail\": null\n                                    }\n                                ],\n                                \"SellerName\": null,\n                                \"BuyerName\": null,\n                                \"FreightCurrencyCode\": null,\n                                \"InsuranceCurrencyCode\": null,\n                                \"FreightCharges\": null,\n                                \"InsuranceChargesCost\": null\n                            }\n                        ],\n                        \"ExportEntityFreezoneCode\": null,\n                        \"ImportEntityFreezoneCode\": null,\n                        \"ExportEntityWarehouseCode\": null,\n                        \"ImportEntityWarehouseCode\": null,\n                        \"PortOfLoading\": null,\n                        \"PortOfDischarge\": null,\n                        \"OriginalLoadPort\": null\n                    },\n                    \"DeclarationAmendReason\": {\n                        \"AmendmentReason\": null,\n                        \"CargoStatus\": null\n                    },\n                    \"DeclarationCancellationReason\": {\n                        \"CancelReason\": null,\n                        \"CargoStatus\": null\n                    },\n                    \"ImporterDetails\": {\n                        \"PersonalIdentificationDocumentType\": null,\n                        \"PersonalIdentificationNumber\": null,\n                        \"NationalID\": null,\n                        \"IssuingAuthorityCountry\": null,\n                        \"Name\": null,\n                        \"Address\": null,\n                        \"Phone\": null,\n                        \"Country\": null,\n                        \"City\": null\n                    },\n                    \"ExporterDetails\": {\n                        \"PersonalIdentificationDocumentType\": null,\n                        \"PersonalIdentificationNumber\": null,\n                        \"NationalID\": null,\n                        \"IssuingAuthorityCountry\": null,\n                        \"Name\": null,\n                        \"Address\": null,\n                        \"Phone\": null,\n                        \"Country\": null,\n                        \"City\": null\n                    }\n                }\n            }\n        }\n    }\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockBless}}:5050/postDHLEDeclarationRequest",
+          "host": ["{{hostMockBless}}"],
+          "port": "5050",
+          "path": ["postDHLEDeclarationRequest"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5.GetLastTxId(Shipping)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var lastTxId = pm.environment.get(\"lastTxId\")",
+              "var txId = responseBody;",
+              "",
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('response has a txId', () => {",
+              "  pm.expect(txId).not.to.eql('none');",
+              "  pm.expect(txId).to.be.an('string');",
+              "});",
+              "",
+              "pm.test('txId has changed', () => {",
+              "    pm.expect(`\"${txId}\"`).not.to.eql(lastTxId);",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"lastTxId\", `\"${txId}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/lastTx",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["lastTx"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "10.ContractEvent-ChainEvent-Shipping (26)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "let uuid = require('uuid');",
+              "pm.environment.set(\"HLDocumentTrackingId\", `\"${uuid.v4()}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txId\": {{lastTxId}},\n    \"eventName\": \"chainCodeEvent\",\n    \"block\": \"1\",\n    \"function\": \"order\",\n    \"eventNameForContractItself\": \"UPDATETRANSPORTINFO\",\n    \"payloads\": [\n        {\n            \"key\": {{HLDocumentTrackingId}},\n            \"collection\": \"documenttracking\",\n            \"payload\": {\n                \"BODID\": \"871602d0-ef9e-11eb-aff5-f5aaef552e72\",\n                \"Key\": {{HLDocumentTrackingId}},\n                \"actionBy\": \"DHL\",\n                \"authorizedDeclarant\": \"DHL\",\n                \"createdAt\": 1627474971756,\n                \"currentStage\": \"W\",\n                \"customsStatus\": \"\",\n                \"customsSubmissionResponse\": \"\",\n                \"declarationType\": \"303\",\n                \"documentName\": \"documenttrackings\",\n                \"documentNo\": \"\",\n                \"documentType\": \"DECLARATION\",\n                \"documents\": null,\n                \"ecomBusinessCode\": {{EcomCode}},\n                \"errorType\": \"\",\n                \"errors\": \"\",\n                \"funcKey\": \"FZ_ROW_false_ALL\",\n                \"history\": [\n                    {\n                        \"actionBy\": \"DHL\",\n                        \"actionTimeStamp\": 1627474971756,\n                        \"currentStage\": \"W\",\n                        \"customsSubmissionResponse\": \"\",\n                        \"description\": \"Waiting for generation\",\n                        \"retryCount\": 0,\n                        \"status\": \"\"\n                    }\n                ],\n                \"invoiceNo\": {{InvoiceId}},\n                \"isExited\": true,\n                \"kvp\": null,\n                \"lastActivityTimeStamp\": 1627474971756,\n                \"lastStage\": \"\",\n                \"orderNo\": {{OrderNumber}},\n                \"orgType\": \"\",\n                \"platformRequestNumber\": \"\",\n                \"regimeType\": \"3\",\n                \"requestID\": \"\",\n                \"responseJSONPayload\": \"\",\n                \"retryCount\": 0,\n                \"shippingParameterID\": \"\",\n                \"signature\": \"\",\n                \"transportDocumentNo\": {{hawb}}\n            }\n        },\n        {\n            \"key\": {{HLDocumentTrackingId}},\n            \"collection\": \"declaration_json_mapping\",\n            \"payload\": {\n                \"ApplicationArea\": {\n                    \"BODID\": \"871602d0-ef9e-11eb-aff5-f5aaef552e72\",\n                    \"CreationDateTime\": \"2021-07-28T12:22:51\",\n                    \"Sender\": {\n                        \"AuthorizationID\": \"AE-1000042\",\n                        \"ConfirmationCode\": \"ALWAYS\",\n                        \"LogicalID\": \"ECOM\",\n                        \"ReferenceID\": \"a1d30e395c6ff9891fbb\",\n                        \"TaskID\": \"ECOM-SUBMIT-DEC\"\n                    }\n                },\n                \"BODHeader\": {\n                    \"LanguageCode\": \"en-US\",\n                    \"ReleaseID\": \"9.3\",\n                    \"SystemEnvironmentCode\": \"DEV\",\n                    \"VersionID\": \"1.0\"\n                },\n                \"DataArea\": {\n                    \"BOD\": {\n                        \"DeclarationRequest\": {\n                            \"DeclarationAmendReason\": {},\n                            \"DeclarationCancellationReason\": {},\n                            \"DeclarationDetails\": {\n                                \"BrokerCustomerCode\": 1212,\n                                \"DeclarantReferenceNo\": \"ORD-T-45939\",\n                                \"DeclarationRelatedDocuments\": [\n                                    {\n                                        \"AvailabilityStatus\": 1,\n                                        \"DocumentCode\": 1,\n                                        \"NonAvailabilityReason\": 1\n                                    }\n                                ],\n                                \"DeclarationType\": \"303\",\n                                \"PaymentDetails\": [\n                                    {\n                                        \"PaymentMode\": 1,\n                                        \"PaymentReference\": \"1002060\"\n                                    },\n                                    {\n                                        \"PaymentMode\": 2,\n                                        \"PaymentReference\": \"2000968\"\n                                    }\n                                ],\n                                \"RegimeType\": \"3\",\n                                \"TradeType\": 1,\n                                \"TransportDocumentDetails\": {\n                                    \"CargoTypePackageCode\": \"1\",\n                                    \"ContainerDetails\": null,\n                                    \"GrossWeightUnit\": \"carat\",\n                                    \"NetWeightUnit\": \"carat\",\n                                    \"OutboundMasterDocumentNo\": \"MAWB45936\",\n                                    \"OutboundTransportDocumentNo\": \"HAWB45936\",\n                                    \"PackageDetails\": [\n                                        {\n                                            \"MarksAndNumber\": \"marks\",\n                                            \"PackageType\": \"CTN\",\n                                            \"TotalNumberOfPackages\": 1\n                                        }\n                                    ],\n                                    \"TotalGrossWeight\": 2,\n                                    \"TotalNetWeight\": 2,\n                                    \"Volume\": 2,\n                                    \"VolumeUnit\": \"m3\"\n                                },\n                                \"documents\": null\n                            },\n                            \"DocumentName\": \"\",\n                            \"ExporterDetails\": {\n                                \"Phone\": \"\"\n                            },\n                            \"ImporterDetails\": {\n                                \"Address\": \"10th Floor, Plaza IBM No. 1005, First Avenue\",\n                                \"City\": \"54000\",\n                                \"Country\": \"PK\",\n                                \"Name\": \"Nabeel\",\n                                \"Phone\": \"+944413344901\"\n                            },\n                            \"InboundCarrierDetails\": {},\n                            \"Key\": \"\",\n                            \"OutboundCarrierDetails\": {\n                                \"CarrierNumber\": \"20640223\",\n                                \"CarrierRegistrationNo\": \"DEE116\",\n                                \"DateOfDeparture\": \"2021-06-23\",\n                                \"TransportMode\": 1\n                            },\n                            \"PartiesDetails\": {\n                                \"BrokerBusinessCode\": \"AE-1000042\",\n                                \"CTOCargoHandlerPremisesCode\": \"PR-00240\",\n                                \"CargoOwnership\": 1,\n                                \"ConsignorExporterTransferorCode\": \"AE-9239786\",\n                                \"ShippingAirlineAgentBusinessCode\": \"AE-1000059\"\n                            },\n                            \"ShippingDetails\": {\n                                \"DestinationCountry\": \"PK\",\n                                \"ExitPort\": \"AFZ\",\n                                \"ExportEntityFreezoneCode\": \"3\",\n                                \"Invoices\": [\n                                    {\n                                        \"BuyerName\": \"ISMA NOOR\",\n                                        \"INCOTermsCode\": \"CIF\",\n                                        \"InvoiceCurrency\": \"AED\",\n                                        \"InvoiceDate\": \"2021-06-23\",\n                                        \"InvoiceItemsDetail\": [\n                                            {\n                                                \"CommodityCode\": \"70193200\",\n                                                \"CountryOfOrigin\": \"AE\",\n                                                \"Discount\": {\n                                                    \"percentage\": 0,\n                                                    \"value\": 0\n                                                },\n                                                \"GoodsCondition\": \"N\",\n                                                \"GoodsDescription\": \"Thin sheets of glass fibres or glass wool\",\n                                                \"InvoiceItemLineNumber\": 1,\n                                                \"IsFreeOfCost\": \"N\",\n                                                \"NetWeight\": 2,\n                                                \"NetWeightUnit\": \"kg\",\n                                                \"OriginalValueOfItem\": 1000,\n                                                \"PermitReferenceDetails\": [],\n                                                \"ReturnDays\": 7,\n                                                \"StatisticalQuantity\": 2,\n                                                \"StatisticalQuantityMeasurementUnit\": \"kg\",\n                                                \"ValueOfGoods\": 1000,\n                                                \"VehicleDetail\": null,\n                                                \"VehicleIndicator\": \"N\"\n                                            }\n                                        ],\n                                        \"InvoiceNumber\": {{InvoiceId}},\n                                        \"InvoiceType\": 1,\n                                        \"InvoiceValue\": 1000,\n                                        \"PaymentInstrumentType\": 1,\n                                        \"SellerName\": \"FZ company 2\",\n                                        \"TotalNumberOfInvoicePages\": 4\n                                    }\n                                ],\n                                \"OriginalLoadPort\": \"FLY\",\n                                \"PortOfDischarge\": \"FLY\",\n                                \"PortOfLoading\": \"D04\"\n                            }\n                        },\n                        \"MessageHeader\": {\n                            \"MessageType\": \"NEW\"\n                        }\n                    }\n                },\n                \"DocumentName\": \"declaration_payload\",\n                \"Key\": {{HLDocumentTrackingId}}\n            }\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/event/createMockContractEvent",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["event", "createMockContractEvent"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "11.ContractEvent-DeclarationStatusChange (32)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txId\": \"{{$guid}}\",\n    \"eventName\": \"chainCodeEvent\",\n    \"block\": \"1\",\n    \"function\": \"order\",\n    \"eventNameForContractItself\": \"DECLARATION_STATUS_CHANGE\",\n    \"payloads\": [\n        {\n            \"key\": {{HLDocumentTrackingId}},\n            \"collection\": \"documenttracking\",\n            \"payload\": {\n                \"BODID\": \"871602d0-ef9e-11eb-aff5-f5aaef552e72\",\n                \"Key\": {{HLDocumentTrackingId}},\n                \"actionBy\": \"DHL\",\n                \"authorizedDeclarant\": \"AE-8122703\",\n                \"authorized_Declarant\": \"AE-8122703\",\n                \"logistic_Provider\": \"AE-8122703\",\n                \"createdAt\": 1637912588636,\n                \"currentStage\": \"SS\",\n                \"customsStatus\": \"6\",\n                \"customsSubmissionResponse\": \"\",\n                \"declarationType\": \"201\",\n                \"documentName\": \"documenttrackings\",\n                \"documentNo\": \"ORD-T-45939\",\n                \"documentType\": \"DECLARATION\",\n                \"documents\": null,\n                \"ecomBusinessCode\": {{EcomCode}},\n                \"errorType\": \"\",\n                \"errors\": \"\",\n                \"funcKey\": \"FZ_ROW_false_ALL\",\n                \"history\": [\n                    {\n                        \"actionBy\": \"DHL\",\n                        \"actionTimeStamp\": 1627474971756,\n                        \"currentStage\": \"W\",\n                        \"customsSubmissionResponse\": \"\",\n                        \"description\": \"Waiting for generation\",\n                        \"retryCount\": 0,\n                        \"status\": \"\"\n                    }\n                ],\n                \"invoiceNo\": {{InvoiceId}},\n                \"isExited\": true,\n                \"kvp\": null,\n                \"direction\": \"1\",\n                \"lastActivityTimeStamp\": 1637912734910,\n                \"lastStage\": \"\",\n                \"orderNo\": {{OrderNumber}},\n                \"orgType\": \"\",\n                \"platformRequestNumber\": \"\",\n                \"regimeType\": \"2\",\n                \"requestID\": \"1026420\",\n                \"responseJSONPayload\": \"{\\\"DataArea\\\":{\\\"Verb\\\":\\\"CONFIRM\\\",\\\"BOD\\\":{\\\"ResponseDetails\\\":{\\\"BODFailureMessage\\\":null,\\\"BODWarningMessage\\\":null,\\\"BODSuccessMessage\\\":{\\\"ResponseDetails\\\":{\\\"MessageType\\\":null,\\\"MessageCode\\\":null,\\\"MessageDescription\\\":null,\\\"RequestNumber\\\":1041403}},\\\"DeclarationCharges\\\":[{\\\"ChargeType\\\":101,\\\"ChargeAmount\\\":45}],\\\"Identifier\\\":null}}},\\\"BODHeader\\\":{\\\"ReleaseID\\\":\\\"9.3\\\",\\\"VersionID\\\":\\\"1.0\\\",\\\"SystemEnvironmentCode\\\":\\\"SIT\\\",\\\"LanguageCode\\\":\\\"en-US\\\"},\\\"ApplicationArea\\\":{\\\"Sender\\\":{\\\"ReferenceID\\\":\\\"00000000000011942532\\\",\\\"LogicalID\\\":\\\"DPP\\\",\\\"ComponentID\\\":null,\\\"TaskID\\\":\\\"ECOM-SUBMIT-DEC-RESP\\\",\\\"ConfirmationCode\\\":\\\"Always\\\",\\\"AuthorizationID\\\":null},\\\"Receiver\\\":null,\\\"CreationDateTime\\\":1641391435643,\\\"Signature\\\":null,\\\"BODID\\\":\\\"be46ac8f-e5e1-4ed1-9b97-8bea376c0add\\\"}}\",\n                \"retryCount\": 0,\n                \"shippingParameterID\": \"\",\n                \"signature\": \"\",\n                \"transportDocumentNo\": {{hawb}}\n            }\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/event/createMockContractEvent",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["event", "createMockContractEvent"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "12.Post delivered file to kafka (53)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": \"vc-id-pickup-1\",\n    \"msgType\": \"pickupfile\",\n    \"data\": [\n        {\n            \"eventCode\": \"OK\",\n            \"eventRemark\": \"delivered\",\n            \"ecomBusinessCode\": {{EcomCode}},\n            \"weight\": \"0.800\",\n            \"volumeWeight\": \"1.200\",\n            \"weightQualifier\": \"KGM\",\n            \"shipperReference\": {{OrderNumber}},\n            \"hawb\": {{hawb}},\n            \"ETADateTime\": \"2021-08-24 23:59:00\",\n            \"eventDate\":\"2021-09-29 17:05:33\",\n            \"eventGMT\":\"+04:00\",\n            \"destination\": \"RUH\",\n            \"origin\": \"DXB\",\n            \"numberOfPackages\": 100,\n            \"shipmentDeclaredValue\": \"\",\n            \"shipmentCurrency\": \"\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockBless}}:5050/postPickupFileToKafka",
+          "host": ["{{hostMockBless}}"],
+          "port": "5050",
+          "path": ["postPickupFileToKafka"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "13.GetLastTxId(Delivered)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var lastTxId = pm.environment.get(\"lastTxId\")",
+              "var txId = responseBody;",
+              "",
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('response has a txId', () => {",
+              "  pm.expect(txId).not.to.eql('none');",
+              "  pm.expect(txId).to.be.an('string');",
+              "});",
+              "",
+              "pm.test('txId has changed', () => {",
+              "    pm.expect(`\"${txId}\"`).not.to.eql(lastTxId);",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"lastTxId\", `\"${txId}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/lastTx",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["lastTx"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "14.ContractEvent-ChainEvent-Delivered (56)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [""],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txId\": {{lastTxId}},\n    \"eventName\": \"chainCodeEvent\",\n    \"block\": \"1\",\n    \"function\": \"order\",\n    \"eventNameForContractItself\": \"deliverOrder\",\n    \"payloads\": [\n          {\n            \"key\": {{HLOrderId}},\n            \"collection\": \"order_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936\",\n                \"Key\": \"AE-9239786_ORD-T-45936\",\n                \"current\": {\n                    \"Key\": \"AE-9239786_ORD-T-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"billTo\": \"ISMA NOOR\",\n                    \"billToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"consigneeAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"isma.noor@avanzainnovations.com\",\n                        \"phone\": \"+944413344901\"\n                    },\n                    \"consigneeCode\": \"\",\n                    \"consigneeName\": \"Nabeel\",\n                    \"documentName\": \"orders_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"eCommBusinessName\": \"fz company\",\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"errorBusiness\": null,\n                    \"errorCount\": 0,\n                    \"exporterCodeArr\": [\n                        \"AE-9239786\"\n                    ],\n                    \"hasMultiShipping\": \"\",\n                    \"invoiceSummary\": null,\n                    \"invoices\": [\n                        {{InvoiceId}}\n                    ],\n                    \"isFaulty\": false,\n                    \"isMarketPlace\": false,\n                    \"kvp\": [\n                        {\n                            \"action\": \"ORDER\",\n                            \"apiName\": \"submitOrder\",\n                            \"attributeName\": \"kvpname\",\n                            \"attributeSerialNo\": 1,\n                            \"attributeValue\": \"kvpValue\",\n                            \"mode\": \"F\",\n                            \"timestamp\": 1627472368428\n                        }\n                    ],\n                    \"logisticsSPBusinessCodeArr\": [\n                        \"AE-1000042\"\n                    ],\n                    \"mode\": \"F\",\n                    \"orderDate\": \"14/11/2020 12:10:19\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"orderStatus\": \"FINALIZED\",\n                    \"referenceID\": \"f9dd563a-ae88-4487-86a0-9e8756191649\",\n                    \"shipTo\": \"ISMA NOOR\",\n                    \"shipToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    }\n                },\n                \"documentName\": \"order_data\",\n                \"history\": []\n            }\n        },\n        {\n            \"key\": {{HLInvoiceId}},\n            \"collection\": \"invoice_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"_rev\": \"1-46726bfdf92885010823495d1cc5ebe7\",\n                \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"current\": {\n                    \"FZCode\": \"3\",\n                    \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"associatedEcomCompany\": \"\",\n                    \"brokerBusinessCode\": \"AE-1000042\",\n                    \"cancellationReason\": \"\",\n                    \"cargoOwnership\": \"1\",\n                    \"currency\": \"AED\",\n                    \"deliveryProviderBusinessCode\": \"AE-1000042\",\n                    \"documentName\": \"invoice_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"exitConfirmationDetail\": null,\n                    \"exitConfirmations\": null,\n                    \"exporterCode\": \"AE-9239786\",\n                    \"freightAmount\": 0,\n                    \"freightCurrency\": \"\",\n                    \"hasMultiShipping\": false,\n                    \"incoTerm\": \"CIF\",\n                    \"insuranceAmount\": 0,\n                    \"insuranceCurrency\": \"\",\n                    \"invoiceDate\": \"2021-06-23\",\n                    \"invoiceNumber\": {{InvoiceId}},\n                    \"invoiceStatus\": \"FINALIZED\",\n                    \"invoiceTrackingKey\": [\n                        \"776bc0f0-ef98-11eb-aff5-f5aaef552e72\"\n                    ],\n                    \"invoiceTrackingLogs\": null,\n                    \"invoiceType\": \"1\",\n                    \"isExited\": false,\n                    \"isUndelivered\": false,\n                    \"kvp\": null,\n                    \"lineItems\": null,\n                    \"lineItemsKeys\": [\n                        \"AE-9239786_ORD-T-45936_INV-1-45936_1\"\n                    ],\n                    \"logisticsSPBusinessCode\": \"AE-1000042\",\n                    \"mode\": \"F\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"otherShipToAddress\": {\n                        \"POBox\": \"\",\n                        \"addressLine1\": \"\",\n                        \"addressLine2\": \"\",\n                        \"addressType\": \"\",\n                        \"city\": \"\",\n                        \"country\": \"\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"paymentInstrumentType\": \"1\",\n                    \"returnDetail\": {\n                        \"returnJustification\": \"\",\n                        \"returnReason\": \"\",\n                        \"returnRequestNo\": \"\"\n                    },\n                    \"returnDetails\": null,\n                    \"returns\": null,\n                    \"returnsList\": null,\n                    \"shippingParameters\": [\n                        {\n                            \"claimTrackingHistory\": null,\n                            \"claimTrackingKey\": \"\",\n                            \"declarationDetail\": null,\n                            \"declarationTrackingKey\": \"\",\n                            \"declarationTrackingKeyHistory\": null,\n                            \"deliveryStatus\": {\n                                \"ReturnToFZorCW\": \"\",\n                                \"deliverToPersonName\": \"\",\n                                \"deliveryDate\": \"\",\n                                \"deliveryStatus\": \"\",\n                                \"deliveryType\": \"\",\n                                \"documents\": null,\n                                \"kvp\": null,\n                                \"signature\": {\n                                    \"PODFilePath\": \"\",\n                                    \"PODHash\": \"\"\n                                },\n                                \"transportDocNo\": \"\",\n                                \"type\": \"\"\n                            },\n                            \"documentTracking\": null,\n                            \"isSystemGenerated\": true,\n                            \"lineItems\": null,\n                            \"preference\": null,\n                            \"preferencesKey\": \"\",\n                            \"preferencesKeyHistory\": null,\n                            \"shippingParameterID\": \"\",\n                            \"transport\": null,\n                            \"transportInfoKey\": \"\",\n                            \"transportInfoKeyHistory\": null\n                        }\n                    ],\n                    \"totalNoOfInvoicePages\": 4,\n                    \"totalValue\": 1000,\n                    \"warehouseCode\": \"\"\n                },\n                \"documentName\": \"invoice_data\",\n                \"history\": []\n            }\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/event/createMockContractEvent",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["event", "createMockContractEvent"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "15.ReturnOrder (R1)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = responseBody.split(' ').pop();",
+              "",
+              "pm.test('response data contains vcID', () => {",
+              "    pm.expect(jsonData).to.be.an('string');",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"vcId\", `\"${jsonData}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "var uuid = require('uuid');",
+              "var myUUID = uuid.v4().slice(0,5);",
+              "",
+              "pm.environment.set(\"returnRequestNo\", `\"RET-${myUUID}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRlcjIiLCJzdWIiOiI5MWFhY2I4Yi1iNDNjLTRkOWQtOThiYS1kNzk2NmNlZGZkNDIiLCJpc3N1ZXIiOiJESExUcmFuc0NvbSIsImlhdCI6MTYyNzkxMTczMSwiZXhwIjoxNjI3OTE1MzMxfQ.-7XLqzcNy5r4lADMc-I7y9BsdUBJIdio67DYdI0Rt-c",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": \"vc-id-1\",\n    \"msgType\": \"submitOrder\",\n    \"data\": {\n        \"orderNumber\": {{OrderNumber}},\n        \"actionDate\": \"2021-08-28T17:59:27.453Z\",\n        \"ecomBusinessCode\": {{EcomCode}},\n        \"mode\": \"R\",\n        \"invoices\": [\n            {\n                \"mode\": \"R\",\n                \"invoiceNumber\": {{InvoiceId}},\n                \"exporterCode\": \"AMZ_EXP_22\",\n                \"returnDetail\": {\n                    \"returnRequestNo\": {{returnRequestNo}},\n                    \"returnReason\": \"2\",\n                    \"returnTransportDocNo\": \"TD191022\",\n                    \"returnJustification\": \"Items for playground, theatre, exhibition and like events\"\n                },\n                \"lineItems\": [\n                    {\n                        \"mode\": \"R\",\n                        \"lineNo\": 11,\n                        \"hscode\": \"9004.10.00\",\n                        \"quantityReturned\": 1,\n                        \"exemptions\": [\n                            {\n                                \"exemptionType\": 1030,\n                                \"exemptionRefNo\": \"1261202\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostDataTransformer}}:6060/submitOrder",
+          "host": ["{{hostDataTransformer}}"],
+          "port": "6060",
+          "path": ["submitOrder"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "16.Post processed notification to kafka (R4)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\t\"id\": {{vcId}},\n\t\t\"type\": \"PROCESSED\",\n\t\t\"data\": {}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockBless}}:5050/postNotificationToKafka",
+          "host": ["{{hostMockBless}}"],
+          "port": "5050",
+          "path": ["postNotificationToKafka"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "17.GetLastTxId(Return)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var lastTxId = pm.environment.get(\"lastTxId\")",
+              "var txId = responseBody;",
+              "",
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('response has a txId', () => {",
+              "  pm.expect(txId).not.to.eql('none');",
+              "  pm.expect(txId).to.be.an('string');",
+              "});",
+              "",
+              "pm.test('txId has changed', () => {",
+              "    pm.expect(`\"${txId}\"`).not.to.eql(lastTxId);",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"lastTxId\", `\"${txId}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/lastTx",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["lastTx"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "18.ContractEvent-ChainEvent-ReturnOrder (R7)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "let uuid = require('uuid');",
+              "pm.environment.set(\"HLOrderId\", `\"${uuid.v4()}\"`);",
+              "pm.environment.set(\"HLInvoiceId\", `\"${uuid.v4()}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txId\": {{lastTxId}},\n    \"eventName\": \"chainCodeEvent\",\n    \"block\": \"1\",\n    \"function\": \"order\",\n    \"eventNameForContractItself\": \"submitOrder\",\n    \"payloads\": [\n          {\n            \"key\": {{HLOrderId}},\n            \"collection\": \"order_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936\",\n                \"Key\": \"AE-9239786_ORD-T-45936\",\n                \"current\": {\n                    \"Key\": \"AE-9239786_ORD-T-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"billTo\": \"ISMA NOOR\",\n                    \"billToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"consigneeAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"isma.noor@avanzainnovations.com\",\n                        \"phone\": \"+944413344901\"\n                    },\n                    \"consigneeCode\": \"\",\n                    \"consigneeName\": \"Nabeel\",\n                    \"documentName\": \"orders_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"eCommBusinessName\": \"fz company\",\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"errorBusiness\": null,\n                    \"errorCount\": 0,\n                    \"exporterCodeArr\": [\n                        \"AE-9239786\"\n                    ],\n                    \"hasMultiShipping\": \"\",\n                    \"invoiceSummary\": null,\n                    \"invoices\": [\n                        {{InvoiceId}}\n                    ],\n                    \"isFaulty\": false,\n                    \"isMarketPlace\": false,\n                    \"kvp\": [\n                        {\n                            \"action\": \"ORDER\",\n                            \"apiName\": \"submitOrder\",\n                            \"attributeName\": \"kvpname\",\n                            \"attributeSerialNo\": 1,\n                            \"attributeValue\": \"kvpValue\",\n                            \"mode\": \"R\",\n                            \"timestamp\": 1627472368428\n                        }\n                    ],\n                    \"logisticsSPBusinessCodeArr\": [\n                        \"AE-1000042\"\n                    ],\n                    \"mode\": \"R\",\n                    \"orderDate\": \"14/11/2020 12:10:19\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"orderStatus\": \"FINALIZED\",\n                    \"referenceID\": \"f9dd563a-ae88-4487-86a0-9e8756191649\",\n                    \"shipTo\": \"ISMA NOOR\",\n                    \"shipToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    }\n                },\n                \"documentName\": \"order_data\",\n                \"history\": []\n            }\n        },\n        {\n            \"key\": {{HLInvoiceId}},\n            \"collection\": \"invoice_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"_rev\": \"1-46726bfdf92885010823495d1cc5ebe7\",\n                \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"current\": {\n                    \"FZCode\": \"3\",\n                    \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"associatedEcomCompany\": \"\",\n                    \"brokerBusinessCode\": \"AE-1000042\",\n                    \"cancellationReason\": \"\",\n                    \"cargoOwnership\": \"1\",\n                    \"currency\": \"AED\",\n                    \"deliveryProviderBusinessCode\": \"AE-1000042\",\n                    \"documentName\": \"invoice_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"exitConfirmationDetail\": null,\n                    \"exitConfirmations\": null,\n                    \"exporterCode\": \"AE-9239786\",\n                    \"freightAmount\": 0,\n                    \"freightCurrency\": \"\",\n                    \"hasMultiShipping\": false,\n                    \"incoTerm\": \"CIF\",\n                    \"insuranceAmount\": 0,\n                    \"insuranceCurrency\": \"\",\n                    \"invoiceDate\": \"2021-06-23\",\n                    \"invoiceNumber\": {{InvoiceId}},\n                    \"invoiceStatus\": \"FINALIZED\",\n                    \"invoiceTrackingKey\": [\n                        \"776bc0f0-ef98-11eb-aff5-f5aaef552e72\"\n                    ],\n                    \"invoiceTrackingLogs\": null,\n                    \"invoiceType\": \"1\",\n                    \"isExited\": false,\n                    \"isUndelivered\": false,\n                    \"kvp\": null,\n                    \"lineItems\": null,\n                    \"lineItemsKeys\": [\n                        \"AE-9239786_ORD-T-45936_INV-1-45936_1\"\n                    ],\n                    \"logisticsSPBusinessCode\": \"AE-1000042\",\n                    \"mode\": \"R\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"otherShipToAddress\": {\n                        \"POBox\": \"\",\n                        \"addressLine1\": \"\",\n                        \"addressLine2\": \"\",\n                        \"addressType\": \"\",\n                        \"city\": \"\",\n                        \"country\": \"\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"paymentInstrumentType\": \"1\",\n                    \"returnDetail\": {\n                        \"returnJustification\": \"\",\n                        \"returnReason\": \"\",\n                        \"returnRequestNo\": \"\"\n                    },\n                    \"returnDetails\": null,\n                    \"returns\": null,\n                    \"returnsList\": null,\n                    \"shippingParameters\": [\n                        {\n                            \"claimTrackingHistory\": null,\n                            \"claimTrackingKey\": \"\",\n                            \"declarationDetail\": null,\n                            \"declarationTrackingKey\": \"\",\n                            \"declarationTrackingKeyHistory\": null,\n                            \"deliveryStatus\": {\n                                \"ReturnToFZorCW\": \"\",\n                                \"deliverToPersonName\": \"\",\n                                \"deliveryDate\": \"\",\n                                \"deliveryStatus\": \"\",\n                                \"deliveryType\": \"\",\n                                \"documents\": null,\n                                \"kvp\": null,\n                                \"signature\": {\n                                    \"PODFilePath\": \"\",\n                                    \"PODHash\": \"\"\n                                },\n                                \"transportDocNo\": \"\",\n                                \"type\": \"\"\n                            },\n                            \"documentTracking\": null,\n                            \"isSystemGenerated\": true,\n                            \"lineItems\": null,\n                            \"preference\": null,\n                            \"preferencesKey\": \"\",\n                            \"preferencesKeyHistory\": null,\n                            \"shippingParameterID\": \"\",\n                            \"transport\": null,\n                            \"transportInfoKey\": \"\",\n                            \"transportInfoKeyHistory\": null\n                        }\n                    ],\n                    \"totalNoOfInvoicePages\": 4,\n                    \"totalValue\": 1000,\n                    \"warehouseCode\": \"\"\n                },\n                \"documentName\": \"invoice_data\",\n                \"history\": []\n            }\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/event/createMockContractEvent",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["event", "createMockContractEvent"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "19.Post return pickup file to kafka (R13)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": \"vc-id-pickup-1\",\n    \"msgType\": \"pickupfile\",\n    \"data\": [\n        {\n            \"eventCode\": \"PU\",\n            \"eventRemark\": \"event\",\n            \"ecomBusinessCode\": {{EcomCode}},\n            \"weight\": \"0.800\",\n            \"volumeWeight\": \"1.200\",\n            \"weightQualifier\": \"KGM\",\n            \"shipperReference\": {{OrderNumber}},\n            \"hawb\": {{returnhawb}},\n            \"ETADateTime\": \"2021-08-24 23:59:00\",\n            \"eventDate\":\"2021-09-29 17:05:33\",\n            \"eventGMT\":\"+04:00\",\n            \"destination\": \"RUH\",\n            \"origin\": \"DXB\",\n            \"numberOfPackages\": 100,\n            \"shipmentDeclaredValue\": \"\",\n            \"shipmentCurrency\": \"\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockBless}}:5050/postPickupFileToKafka",
+          "host": ["{{hostMockBless}}"],
+          "port": "5050",
+          "path": ["postPickupFileToKafka"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "20.Post Return DHLE Declaration Request to kafka",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n    {\n        \"body\": {\n            \"UNB\": {\n                \"MessageCode\": \"DEC\",\n                \"MessageVersionNumber\": 1,\n                \"SenderIdentification\": \"AE-9105338\",\n                \"InterchangeControlReference\": \"1\",\n                \"RecipientIdentification\": \"AE-1224439\",\n                \"DateTime\": \"2022-04-18T15:47:16.590+04:00\"\n            },\n            \"UTH\": {\n                \"ReplytoTransportMode\": \"WEBSERVICE\",\n                \"ReplytoAddress\": \"swewer\",\n                \"ReplytoMessageFormat\": \"XML\"\n            },\n            \"UNH\": {\n                \"MessageReferenceNumber\": \"20220418154711-823\",\n                \"MessageType\": \"NEW\"\n            },\n            \"Declaration\": {\n                \"BatchHeader\": {\n                    \"BatchType\": \"5\",\n                    \"BrokerBusinessCode\": \"AE-9105338\",\n                    \"BrokerCustomerCode\": \"142525558\",\n                    \"CTOCargoHandlerPremisesCode\": \"PR-91936\",\n                    \"ShippingAirlineAgentBusinessCode\": \"AE-9105338\",\n                    \"PortOfLoading\": \"CAN\",\n                    \"PortOfDischarge\": \"D04\",\n                    \"TotalNoOfConsignment\": \"1\",\n                    \"InboundMasterDocumentNo\": {{returnmawb}},\n                    \"InboundCarrierDetails\": {\n                        \"TransportMode\": \"8\",\n                        \"CarrierRegistrationNo\": \"3S0514\",\n                        \"CarrierNumber\": \"3S0514\",\n                        \"DateOfArrival\": \"2022-03-03\"\n                    }\n                },\n                \"Consignments\": {\n                    \"PartiesDetails\": {\n                        \"ConsigneeImporterTransfereeCode\": \"AE-9105340\",\n                        \"ConsignorExporterTransferorCode\": null,\n                        \"NotifyPartyCode\": null,\n                        \"NotifyPartyName\": null,\n                        \"NotifyPartyAddress\": null,\n                        \"CTOCargoHandlerPremisesCode\": null,\n                        \"ShippingAirlineAgentBusinessCode\": null,\n                        \"BrokerBusinessCode\": null,\n                        \"MRAAEOIndicator\": null\n                    },\n                    \"ImporterDetails\": {\n                        \"Country\": \"AE\",\n                        \"PersonalIdentificationDocumentType\": null,\n                        \"PersonalIdentificationNumber\": null,\n                        \"NationalID\": null,\n                        \"IssuingAuthorityCountry\": null,\n                        \"Name\": null,\n                        \"Address\": null,\n                        \"Phone\": null,\n                        \"City\": null\n                    },\n                    \"DeclarationDetails\": {\n                        \"DeclarantReferenceNo\": \"1097286050\",\n                        \"RegimeType\": 1,\n                        \"DeclarationType\": 101,\n                        \"DeclarationRelatedDocuments\": [\n                            {\n                                \"DocumentCode\": 1,\n                                \"AvailabilityStatus\": 2,\n                                \"NonAvailabilityStatus\": null\n                            },\n                            {\n                                \"DocumentCode\": 2,\n                                \"AvailabilityStatus\": 2,\n                                \"NonAvailabilityStatus\": null\n                            },\n                            {\n                                \"DocumentCode\": 3,\n                                \"AvailabilityStatus\": 1,\n                                \"NonAvailabilityStatus\": null\n                            },\n                            {\n                                \"DocumentCode\": 4,\n                                \"AvailabilityStatus\": 1,\n                                \"NonAvailabilityStatus\": null\n                            }\n                        ],\n                        \"PaymentDetails\": [\n                            {\n                                \"PaymentMode\": 1,\n                                \"PaymentReference\": \"1222978\"\n                            },\n                            {\n                                \"PaymentMode\": 2,\n                                \"PaymentReference\": \"2334019\"\n                            }\n                        ],\n                        \"TransportDocumentDetails\": [\n                            {\n                                \"InboundTransportDocumentNo\": {{returnhawb}},\n                                \"CargoTypePackageCode\": \"1\",\n                                \"GrossWeightUnit\": \"kg\",\n                                \"TotalGrossWeight\": 5.5,\n                                \"NetWeightUnit\": \"kg\",\n                                \"TotalNetWeight\": 5.5,\n                                \"PackageDetails\": [\n                                    {\n                                        \"PackageType\": \"BOX\",\n                                        \"TotalNumberOfPackages\": 1\n                                    }\n                                ],\n                                \"InboundMasterDocumentNo\": null,\n                                \"OutboundMasterDocumentNo\": null,\n                                \"OutboundTransportDocumentNo\": null,\n                                \"VolumeUnit\": null,\n                                \"Volume\": null,\n                                \"ContainerDetails\": null\n                            }\n                        ],\n                        \"DeclarationReason\": null,\n                        \"GoodsType\": null,\n                        \"DeclarationNo\": null,\n                        \"BrokerCustomerCode\": null,\n                        \"DeclarationPurpose\": null,\n                        \"TotalNumberHAWBsConsolidated\": null\n                    },\n                    \"ShippingDetails\": {\n                        \"Invoices\": [\n                            {\n                                \"InvoiceNumber\": \"12345\",\n                                \"InvoiceDate\": \"2022-04-17\",\n                                \"TotalNumberOfInvoicePages\": 1,\n                                \"InvoiceType\": 1,\n                                \"SellerName\": \"ZOETOP BUSINESS COLIMITED\",\n                                \"PaymentInstrumentType\": 10,\n                                \"InvoiceCurrency\": \"USD\",\n                                \"InvoiceValue\": 55,\n                                \"INCOTermsCode\": \"DDP\",\n                                \"InvoiceItemsDetail\": [\n                                    {\n                                        \"InvoiceItemLineNumber\": 1,\n                                        \"CommodityCode\": \"84733000\",\n                                        \"GoodsDescription\": \"HIGH HEELED SHOES\",\n                                        \"GoodsCondition\": \"N\",\n                                        \"StatisticalQuantityMeasurementUnit\": \"kg\",\n                                        \"StatisticalQuantity\": 5.5,\n                                        \"NetWeightUnit\": \"kg\",\n                                        \"NetWeight\": 5.5,\n                                        \"SupplementaryQuantityMeasurementUnit\": \"kg\",\n                                        \"SupplementaryQuantity\": 5.5,\n                                        \"ValueOfGoods\": 55,\n                                        \"CountryOfOrigin\": \"CN\",\n                                        \"VehicleIndicator\": null,\n                                        \"PreviousCustomsDeclarationInvoiceNumber\": null,\n                                        \"ExemptionReferenceNumber\": null,\n                                        \"isRestricted\": null,\n                                        \"PreviousCustomsDeclarationReferenceNumber\": null,\n                                        \"PreviousCustomsDeclarationInvoiceLineNumber\": null,\n                                        \"ExemptionType\": null,\n                                        \"PermitRefenceDetails\": null,\n                                        \"VehicleDetail\": null\n                                    }\n                                ],\n                                \"BuyerName\": null,\n                                \"FreightCurrencyCode\": null,\n                                \"InsuranceCurrencyCode\": null,\n                                \"FreightCharges\": null,\n                                \"InsuranceChargesCost\": null\n                            }\n                        ],\n                        \"ExportEntityFreezoneCode\": null,\n                        \"ImportEntityFreezoneCode\": null,\n                        \"ExportEntityWarehouseCode\": null,\n                        \"ImportEntityWarehouseCode\": null,\n                        \"PortOfLoading\": null,\n                        \"PortOfDischarge\": null,\n                        \"OriginalLoadPort\": null,\n                        \"DestinationCountry\": null,\n                        \"ExitPort\": null\n                    },\n                    \"DeclarationAmendReason\": {\n                        \"AmendmentReason\": null,\n                        \"CargoStatus\": null\n                    },\n                    \"DeclarationCancellationReason\": {\n                        \"CancelReason\": null,\n                        \"CargoStatus\": null\n                    },\n                    \"ExporterDetails\": {\n                        \"PersonalIdentificationDocumentType\": null,\n                        \"PersonalIdentificationNumber\": null,\n                        \"NationalID\": null,\n                        \"IssuingAuthorityCountry\": null,\n                        \"Name\": null,\n                        \"Address\": null,\n                        \"Phone\": null,\n                        \"Country\": null,\n                        \"City\": null\n                    }\n                }\n            }\n        }\n    }\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockBless}}:5050/postDHLEDeclarationRequest",
+          "host": ["{{hostMockBless}}"],
+          "port": "5050",
+          "path": ["postDHLEDeclarationRequest"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "21.GetLastTxId (Return Shipping)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var lastTxId = pm.environment.get(\"lastTxId\")",
+              "var txId = responseBody;",
+              "",
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('response has a txId', () => {",
+              "  pm.expect(txId).not.to.eql('none');",
+              "  pm.expect(txId).to.be.an('string');",
+              "});",
+              "",
+              "pm.test('txId has changed', () => {",
+              "    pm.expect(`\"${txId}\"`).not.to.eql(lastTxId);",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"lastTxId\", `\"${txId}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/lastTx",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["lastTx"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "22.ContractEvent-ChainEvent-ReturnShipping (R18)",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "let uuid = require('uuid');",
+              "pm.environment.set(\"ReturnHLDocumentTrackingId\", `\"${uuid.v4()}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txId\": {{lastTxId}},\n    \"eventName\": \"chainCodeEvent\",\n    \"block\": \"1\",\n    \"function\": \"order\",\n    \"eventNameForContractItself\": \"UPDATETRANSPORTINFO\",\n    \"payloads\": [\n        {\n            \"key\": {{ReturnHLDocumentTrackingId}},\n            \"collection\": \"documenttracking\",\n            \"payload\": {\n                \"BODID\": \"871602d0-ef9e-11eb-aff5-f5aaef552e72\",\n                \"Key\": {{ReturnHLDocumentTrackingId}},\n                \"actionBy\": \"DHL\",\n                \"authorizedDeclarant\": \"DHL\",\n                \"createdAt\": 1627474971756,\n                \"currentStage\": \"W\",\n                \"customsStatus\": \"\",\n                \"customsSubmissionResponse\": \"\",\n                \"declarationType\": \"303\",\n                \"documentName\": \"documenttrackings\",\n                \"documentNo\": \"\",\n                \"documentType\": \"DECLARATION\",\n                \"documents\": null,\n                \"ecomBusinessCode\": {{EcomCode}},\n                \"errorType\": \"\",\n                \"errors\": \"\",\n                \"funcKey\": \"FZ_ROW_false_ALL\",\n                \"history\": [\n                    {\n                        \"actionBy\": \"DHL\",\n                        \"actionTimeStamp\": 1627474971756,\n                        \"currentStage\": \"W\",\n                        \"customsSubmissionResponse\": \"\",\n                        \"description\": \"Waiting for generation\",\n                        \"retryCount\": 0,\n                        \"status\": \"\"\n                    }\n                ],\n                \"invoiceNo\": {{InvoiceId}},\n                \"isExited\": true,\n                \"kvp\": null,\n                \"lastActivityTimeStamp\": 1627474971756,\n                \"lastStage\": \"\",\n                \"orderNo\": {{OrderNumber}},\n                \"orgType\": \"\",\n                \"platformRequestNumber\": \"\",\n                \"regimeType\": \"3\",\n                \"requestID\": \"\",\n                \"responseJSONPayload\": \"\",\n                \"retryCount\": 0,\n                \"shippingParameterID\": \"\",\n                \"signature\": \"\",\n                \"transportDocumentNo\": {{hawb}}\n            }\n        },\n        {\n            \"key\": {{ReturnHLDocumentTrackingId}},\n            \"collection\": \"declaration_json_mapping\",\n            \"payload\": {\n                \"ApplicationArea\": {\n                    \"BODID\": \"871602d0-ef9e-11eb-aff5-f5aaef552e72\",\n                    \"CreationDateTime\": \"2021-07-28T12:22:51\",\n                    \"Sender\": {\n                        \"AuthorizationID\": \"AE-1000042\",\n                        \"ConfirmationCode\": \"ALWAYS\",\n                        \"LogicalID\": \"ECOM\",\n                        \"ReferenceID\": \"a1d30e395c6ff9891fbb\",\n                        \"TaskID\": \"ECOM-SUBMIT-DEC\"\n                    }\n                },\n                \"BODHeader\": {\n                    \"LanguageCode\": \"en-US\",\n                    \"ReleaseID\": \"9.3\",\n                    \"SystemEnvironmentCode\": \"DEV\",\n                    \"VersionID\": \"1.0\"\n                },\n                \"DataArea\": {\n                    \"BOD\": {\n                        \"DeclarationRequest\": {\n                            \"DeclarationAmendReason\": {},\n                            \"DeclarationCancellationReason\": {},\n                            \"DeclarationDetails\": {\n                                \"BrokerCustomerCode\": 1212,\n                                \"DeclarantReferenceNo\": \"ORD-T-45936-Return\",\n                                \"DeclarationRelatedDocuments\": [\n                                    {\n                                        \"AvailabilityStatus\": 1,\n                                        \"DocumentCode\": 1,\n                                        \"NonAvailabilityReason\": 1\n                                    }\n                                ],\n                                \"DeclarationType\": \"303\",\n                                \"PaymentDetails\": [\n                                    {\n                                        \"PaymentMode\": 1,\n                                        \"PaymentReference\": \"1002060\"\n                                    },\n                                    {\n                                        \"PaymentMode\": 2,\n                                        \"PaymentReference\": \"2000968\"\n                                    }\n                                ],\n                                \"RegimeType\": \"3\",\n                                \"TradeType\": 1,\n                                \"TransportDocumentDetails\": {\n                                    \"CargoTypePackageCode\": \"1\",\n                                    \"ContainerDetails\": null,\n                                    \"GrossWeightUnit\": \"carat\",\n                                    \"NetWeightUnit\": \"carat\",\n                                    \"OutboundMasterDocumentNo\": \"MAWB45936\",\n                                    \"OutboundTransportDocumentNo\": \"HAWB45936\",\n                                    \"PackageDetails\": [\n                                        {\n                                            \"MarksAndNumber\": \"marks\",\n                                            \"PackageType\": \"CTN\",\n                                            \"TotalNumberOfPackages\": 1\n                                        }\n                                    ],\n                                    \"TotalGrossWeight\": 2,\n                                    \"TotalNetWeight\": 2,\n                                    \"Volume\": 2,\n                                    \"VolumeUnit\": \"m3\"\n                                },\n                                \"documents\": null\n                            },\n                            \"DocumentName\": \"\",\n                            \"ExporterDetails\": {\n                                \"Phone\": \"\"\n                            },\n                            \"ImporterDetails\": {\n                                \"Address\": \"10th Floor, Plaza IBM No. 1005, First Avenue\",\n                                \"City\": \"54000\",\n                                \"Country\": \"PK\",\n                                \"Name\": \"Nabeel\",\n                                \"Phone\": \"+944413344901\"\n                            },\n                            \"InboundCarrierDetails\": {},\n                            \"Key\": \"\",\n                            \"OutboundCarrierDetails\": {\n                                \"CarrierNumber\": \"20640223\",\n                                \"CarrierRegistrationNo\": \"DEE116\",\n                                \"DateOfDeparture\": \"2021-06-23\",\n                                \"TransportMode\": 1\n                            },\n                            \"PartiesDetails\": {\n                                \"BrokerBusinessCode\": \"AE-1000042\",\n                                \"CTOCargoHandlerPremisesCode\": \"PR-00240\",\n                                \"CargoOwnership\": 1,\n                                \"ConsignorExporterTransferorCode\": \"AE-9239786\",\n                                \"ShippingAirlineAgentBusinessCode\": \"AE-1000059\"\n                            },\n                            \"ShippingDetails\": {\n                                \"DestinationCountry\": \"PK\",\n                                \"ExitPort\": \"AFZ\",\n                                \"ExportEntityFreezoneCode\": \"3\",\n                                \"Invoices\": [\n                                    {\n                                        \"BuyerName\": \"ISMA NOOR\",\n                                        \"INCOTermsCode\": \"CIF\",\n                                        \"InvoiceCurrency\": \"AED\",\n                                        \"InvoiceDate\": \"2021-06-23\",\n                                        \"InvoiceItemsDetail\": [\n                                            {\n                                                \"CommodityCode\": \"70193200\",\n                                                \"CountryOfOrigin\": \"AE\",\n                                                \"Discount\": {\n                                                    \"percentage\": 0,\n                                                    \"value\": 0\n                                                },\n                                                \"GoodsCondition\": \"N\",\n                                                \"GoodsDescription\": \"Thin sheets of glass fibres or glass wool\",\n                                                \"InvoiceItemLineNumber\": 1,\n                                                \"IsFreeOfCost\": \"N\",\n                                                \"NetWeight\": 2,\n                                                \"NetWeightUnit\": \"kg\",\n                                                \"OriginalValueOfItem\": 1000,\n                                                \"PermitReferenceDetails\": [],\n                                                \"ReturnDays\": 7,\n                                                \"StatisticalQuantity\": 2,\n                                                \"StatisticalQuantityMeasurementUnit\": \"kg\",\n                                                \"ValueOfGoods\": 1000,\n                                                \"VehicleDetail\": null,\n                                                \"VehicleIndicator\": \"N\"\n                                            }\n                                        ],\n                                        \"InvoiceNumber\": {{InvoiceId}},\n                                        \"InvoiceType\": 1,\n                                        \"InvoiceValue\": 1000,\n                                        \"PaymentInstrumentType\": 1,\n                                        \"SellerName\": \"FZ company 2\",\n                                        \"TotalNumberOfInvoicePages\": 4\n                                    }\n                                ],\n                                \"OriginalLoadPort\": \"FLY\",\n                                \"PortOfDischarge\": \"FLY\",\n                                \"PortOfLoading\": \"D04\"\n                            }\n                        },\n                        \"MessageHeader\": {\n                            \"MessageType\": \"NEW\"\n                        }\n                    }\n                },\n                \"DocumentName\": \"declaration_payload\",\n                \"Key\": {{ReturnHLDocumentTrackingId}}\n            }\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/event/createMockContractEvent",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["event", "createMockContractEvent"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "23.ContractEvent-ReturnDeclarationStatusChange (R24)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txId\": \"{{$guid}}\",\n    \"eventName\": \"chainCodeEvent\",\n    \"block\": \"1\",\n    \"function\": \"order\",\n    \"eventNameForContractItself\": \"DECLARATION_STATUS_CHANGE\",\n    \"payloads\": [\n        {\n            \"key\": {{ReturnHLDocumentTrackingId}},\n            \"collection\": \"documenttracking\",\n            \"payload\": {\n                \"BODID\": \"871602d0-ef9e-11eb-aff5-f5aaef552e72\",\n                \"Key\": {{ReturnHLDocumentTrackingId}},\n                \"actionBy\": \"DHL\",\n                \"authorizedDeclarant\": \"DHL\",\n                \"createdAt\": 1627474971756,\n                \"currentStage\": \"W\",\n                \"customsStatus\": \"6\",\n                \"customsSubmissionResponse\": \"\",\n                \"declarationType\": \"303\",\n                \"documentName\": \"documenttrackings\",\n                \"documentNo\": \"ORD-T-45936-Return\",\n                \"documentType\": \"DECLARATION\",\n                \"documents\": null,\n                \"ecomBusinessCode\": {{EcomCode}},\n                \"errorType\": \"\",\n                \"errors\": \"\",\n                \"funcKey\": \"FZ_ROW_false_ALL\",\n                \"history\": [\n                    {\n                        \"actionBy\": \"DHL\",\n                        \"actionTimeStamp\": 1627474971756,\n                        \"currentStage\": \"W\",\n                        \"customsSubmissionResponse\": \"\",\n                        \"description\": \"Waiting for generation\",\n                        \"retryCount\": 0,\n                        \"status\": \"\"\n                    }\n                ],\n                \"invoiceNo\": \"inv-1\",\n                \"isExited\": true,\n                \"kvp\": null,\n                \"lastActivityTimeStamp\": 1627474971756,\n                \"lastStage\": \"\",\n                \"orderNo\": {{OrderNumber}},\n                \"orgType\": \"\",\n                \"platformRequestNumber\": \"\",\n                \"regimeType\": \"3\",\n                \"requestID\": \"Declaration name\",\n                \"responseJSONPayload\": \"{\\\"DataArea\\\":{\\\"Verb\\\":\\\"CONFIRM\\\",\\\"BOD\\\":{\\\"ResponseDetails\\\":{\\\"BODFailureMessage\\\":null,\\\"BODWarningMessage\\\":null,\\\"BODSuccessMessage\\\":{\\\"ResponseDetails\\\":{\\\"MessageType\\\":null,\\\"MessageCode\\\":null,\\\"MessageDescription\\\":null,\\\"RequestNumber\\\":1041403}},\\\"DeclarationCharges\\\":[{\\\"ChargeType\\\":101,\\\"ChargeAmount\\\":45}],\\\"Identifier\\\":null}}},\\\"BODHeader\\\":{\\\"ReleaseID\\\":\\\"9.3\\\",\\\"VersionID\\\":\\\"1.0\\\",\\\"SystemEnvironmentCode\\\":\\\"SIT\\\",\\\"LanguageCode\\\":\\\"en-US\\\"},\\\"ApplicationArea\\\":{\\\"Sender\\\":{\\\"ReferenceID\\\":\\\"00000000000011942532\\\",\\\"LogicalID\\\":\\\"DPP\\\",\\\"ComponentID\\\":null,\\\"TaskID\\\":\\\"ECOM-SUBMIT-DEC-RESP\\\",\\\"ConfirmationCode\\\":\\\"Always\\\",\\\"AuthorizationID\\\":null},\\\"Receiver\\\":null,\\\"CreationDateTime\\\":1641391435643,\\\"Signature\\\":null,\\\"BODID\\\":\\\"be46ac8f-e5e1-4ed1-9b97-8bea376c0add\\\"}}\",\n                \"retryCount\": 0,\n                \"shippingParameterID\": \"\",\n                \"signature\": \"\",\n                \"transportDocumentNo\": {{hawb}}\n            }\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/event/createMockContractEvent",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["event", "createMockContractEvent"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "24.Post return delivered file to kafka (R30)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": \"vc-id-pickup-1\",\n    \"msgType\": \"pickupfile\",\n    \"data\": [\n        {\n            \"eventCode\": \"OK\",\n            \"eventRemark\": \"event\",\n            \"ecomBusinessCode\": {{EcomCode}},\n            \"weight\": \"0.800\",\n            \"volumeWeight\": \"1.200\",\n            \"weightQualifier\": \"KGM\",\n            \"shipperReference\": {{OrderNumber}},\n            \"hawb\": {{returnhawb}},\n            \"ETADateTime\": \"2021-08-24 23:59:00\",\n            \"eventDate\":\"2021-09-29 17:05:33\",\n            \"eventGMT\":\"+04:00\",\n            \"destination\": \"RUH\",\n            \"origin\": \"DXB\",\n            \"numberOfPackages\": 100,\n            \"shipmentDeclaredValue\": \"\",\n            \"shipmentCurrency\": \"\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockBless}}:5050/postPickupFileToKafka",
+          "host": ["{{hostMockBless}}"],
+          "port": "5050",
+          "path": ["postPickupFileToKafka"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "25.GetLastTxId (ReturnDelivered)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var lastTxId = pm.environment.get(\"lastTxId\")",
+              "var txId = responseBody;",
+              "",
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('response has a txId', () => {",
+              "  pm.expect(txId).not.to.eql('none');",
+              "  pm.expect(txId).to.be.an('string');",
+              "});",
+              "",
+              "pm.test('txId has changed', () => {",
+              "    pm.expect(`\"${txId}\"`).not.to.eql(lastTxId);",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"lastTxId\", `\"${txId}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/lastTx",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["lastTx"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "26.ContractEvent-ChainEvent-ReturnDelivered (R33)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [""],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txId\": {{lastTxId}},\n    \"eventName\": \"chainCodeEvent\",\n    \"block\": \"1\",\n    \"function\": \"order\",\n    \"eventNameForContractItself\": \"deliverOrder\",\n    \"payloads\": [\n          {\n            \"key\": {{HLOrderId}},\n            \"collection\": \"order_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936\",\n                \"Key\": \"AE-9239786_ORD-T-45936\",\n                \"current\": {\n                    \"Key\": \"AE-9239786_ORD-T-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"billTo\": \"ISMA NOOR\",\n                    \"billToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"consigneeAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"isma.noor@avanzainnovations.com\",\n                        \"phone\": \"+944413344901\"\n                    },\n                    \"consigneeCode\": \"\",\n                    \"consigneeName\": \"Nabeel\",\n                    \"documentName\": \"orders_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"eCommBusinessName\": \"fz company\",\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"errorBusiness\": null,\n                    \"errorCount\": 0,\n                    \"exporterCodeArr\": [\n                        \"AE-9239786\"\n                    ],\n                    \"hasMultiShipping\": \"\",\n                    \"invoiceSummary\": null,\n                    \"invoices\": [\n                        {{InvoiceId}}\n                    ],\n                    \"isFaulty\": false,\n                    \"isMarketPlace\": false,\n                    \"kvp\": [\n                        {\n                            \"action\": \"ORDER\",\n                            \"apiName\": \"submitOrder\",\n                            \"attributeName\": \"kvpname\",\n                            \"attributeSerialNo\": 1,\n                            \"attributeValue\": \"kvpValue\",\n                            \"mode\": \"F\",\n                            \"timestamp\": 1627472368428\n                        }\n                    ],\n                    \"logisticsSPBusinessCodeArr\": [\n                        \"AE-1000042\"\n                    ],\n                    \"mode\": \"F\",\n                    \"orderDate\": \"14/11/2020 12:10:19\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"orderStatus\": \"FINALIZED\",\n                    \"referenceID\": \"f9dd563a-ae88-4487-86a0-9e8756191649\",\n                    \"shipTo\": \"ISMA NOOR\",\n                    \"shipToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    }\n                },\n                \"documentName\": \"order_data\",\n                \"history\": []\n            }\n        },\n        {\n            \"key\": {{HLInvoiceId}},\n            \"collection\": \"invoice_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"_rev\": \"1-46726bfdf92885010823495d1cc5ebe7\",\n                \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"current\": {\n                    \"FZCode\": \"3\",\n                    \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"associatedEcomCompany\": \"\",\n                    \"brokerBusinessCode\": \"AE-1000042\",\n                    \"cancellationReason\": \"\",\n                    \"cargoOwnership\": \"1\",\n                    \"currency\": \"AED\",\n                    \"deliveryProviderBusinessCode\": \"AE-1000042\",\n                    \"documentName\": \"invoice_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"exitConfirmationDetail\": null,\n                    \"exitConfirmations\": null,\n                    \"exporterCode\": \"AE-9239786\",\n                    \"freightAmount\": 0,\n                    \"freightCurrency\": \"\",\n                    \"hasMultiShipping\": false,\n                    \"incoTerm\": \"CIF\",\n                    \"insuranceAmount\": 0,\n                    \"insuranceCurrency\": \"\",\n                    \"invoiceDate\": \"2021-06-23\",\n                    \"invoiceNumber\": {{InvoiceId}},\n                    \"invoiceStatus\": \"FINALIZED\",\n                    \"invoiceTrackingKey\": [\n                        \"776bc0f0-ef98-11eb-aff5-f5aaef552e72\"\n                    ],\n                    \"invoiceTrackingLogs\": null,\n                    \"invoiceType\": \"1\",\n                    \"isExited\": false,\n                    \"isUndelivered\": false,\n                    \"kvp\": null,\n                    \"lineItems\": null,\n                    \"lineItemsKeys\": [\n                        \"AE-9239786_ORD-T-45936_INV-1-45936_1\"\n                    ],\n                    \"logisticsSPBusinessCode\": \"AE-1000042\",\n                    \"mode\": \"F\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"otherShipToAddress\": {\n                        \"POBox\": \"\",\n                        \"addressLine1\": \"\",\n                        \"addressLine2\": \"\",\n                        \"addressType\": \"\",\n                        \"city\": \"\",\n                        \"country\": \"\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"paymentInstrumentType\": \"1\",\n                    \"returnDetail\": {\n                        \"returnJustification\": \"\",\n                        \"returnReason\": \"\",\n                        \"returnRequestNo\": \"\"\n                    },\n                    \"returnDetails\": null,\n                    \"returns\": null,\n                    \"returnsList\": null,\n                    \"shippingParameters\": [\n                        {\n                            \"claimTrackingHistory\": null,\n                            \"claimTrackingKey\": \"\",\n                            \"declarationDetail\": null,\n                            \"declarationTrackingKey\": \"\",\n                            \"declarationTrackingKeyHistory\": null,\n                            \"deliveryStatus\": {\n                                \"ReturnToFZorCW\": \"\",\n                                \"deliverToPersonName\": \"\",\n                                \"deliveryDate\": \"\",\n                                \"deliveryStatus\": \"\",\n                                \"deliveryType\": \"\",\n                                \"documents\": null,\n                                \"kvp\": null,\n                                \"signature\": {\n                                    \"PODFilePath\": \"\",\n                                    \"PODHash\": \"\"\n                                },\n                                \"transportDocNo\": \"\",\n                                \"type\": \"\"\n                            },\n                            \"documentTracking\": null,\n                            \"isSystemGenerated\": true,\n                            \"lineItems\": null,\n                            \"preference\": null,\n                            \"preferencesKey\": \"\",\n                            \"preferencesKeyHistory\": null,\n                            \"shippingParameterID\": \"\",\n                            \"transport\": null,\n                            \"transportInfoKey\": \"\",\n                            \"transportInfoKeyHistory\": null\n                        }\n                    ],\n                    \"totalNoOfInvoicePages\": 4,\n                    \"totalValue\": 1000,\n                    \"warehouseCode\": \"\"\n                },\n                \"documentName\": \"invoice_data\",\n                \"history\": []\n            }\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/event/createMockContractEvent",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["event", "createMockContractEvent"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "27.ConfirmReturnDelivery (R38)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = responseBody.split(' ').pop();",
+              "",
+              "pm.test('response data contains vcID', () => {",
+              "    pm.expect(jsonData).to.be.an('string');",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"vcId\", `\"${jsonData}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRlcjIiLCJzdWIiOiI5MWFhY2I4Yi1iNDNjLTRkOWQtOThiYS1kNzk2NmNlZGZkNDIiLCJpc3N1ZXIiOiJESExUcmFuc0NvbSIsImlhdCI6MTYyNzkxMTczMSwiZXhwIjoxNjI3OTE1MzMxfQ.-7XLqzcNy5r4lADMc-I7y9BsdUBJIdio67DYdI0Rt-c",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"vc-id-1\",\n  \"msgType\": \"submitOrder\",\n  \"data\": {\n    \"orderNumber\": {{OrderNumber}},\n    \"ecomBusinessCode\": {{EcomCode}},\n    \"invoiceNumber\": {{InvoiceId}},\n    \"lineItems\": [\n      {\n        \"lineNo\": 11,\n        \"hscode\": \"9004.10.00\",\n        \"skuProductCode\": \"sku1020\",\n        \"receviedQuantity\": 1,\n        \"isExtra\": \"N\",\n        \"quantityUOM\": \"KG\",\n        \"goodsCondition\": \"N\"\n      },\n      {\n        \"lineNo\": 12,\n        \"hscode\": \"9004.10.00\",\n        \"skuProductCode\": \"sku1020\",\n        \"receviedQuantity\": 1,\n        \"isExtra\": \"N\",\n        \"quantityUOM\": \"KG\",\n        \"goodsCondition\": \"N\"\n      }\n    ],\n    \"returnRequestNo\": {{returnRequestNo}},\n    \"transportProviderCode\": \"123131\",\n    \"gatePasses\": [\n      {\n        \"gatePassNumber\": \"GP2182\",\n        \"gatePassDirection\": \"I\",\n        \"ActualMovingInDate\": \"15/1/2020\"\n      }\n    ],\n    \"dateOfReceivingBackGoods\": \"15/1/2020\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostDataTransformer}}:6060/confirmReturnDelivery",
+          "host": ["{{hostDataTransformer}}"],
+          "port": "6060",
+          "path": ["confirmReturnDelivery"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "28.Post processed notification confirm return (R44)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\t\"id\": {{vcId}},\n\t\t\"type\": \"PROCESSED\",\n\t\t\"data\": {}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockBless}}:5050/postNotificationToKafka",
+          "host": ["{{hostMockBless}}"],
+          "port": "5050",
+          "path": ["postNotificationToKafka"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "29.GetLastTxId (ConfirmReturn)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var lastTxId = pm.environment.get(\"lastTxId\")",
+              "var txId = responseBody;",
+              "",
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('response has a txId', () => {",
+              "  pm.expect(txId).not.to.eql('none');",
+              "  pm.expect(txId).to.be.an('string');",
+              "});",
+              "",
+              "pm.test('txId has changed', () => {",
+              "    pm.expect(`\"${txId}\"`).not.to.eql(lastTxId);",
+              "});",
+              "",
+              "postman.setEnvironmentVariable(\"lastTxId\", `\"${txId}\"`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/lastTx",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["lastTx"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "30.ContractEvent-ChainEvent-ConfirmReturn",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [""],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txId\": {{lastTxId}},\n    \"eventName\": \"chainCodeEvent\",\n    \"block\": \"1\",\n    \"function\": \"order\",\n    \"eventNameForContractItself\": \"confirmReturnDelivery\",\n    \"payloads\": [\n          {\n            \"key\": {{HLOrderId}},\n            \"collection\": \"order_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936\",\n                \"Key\": \"AE-9239786_ORD-T-45936\",\n                \"current\": {\n                    \"Key\": \"AE-9239786_ORD-T-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"billTo\": \"ISMA NOOR\",\n                    \"billToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"consigneeAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"isma.noor@avanzainnovations.com\",\n                        \"phone\": \"+944413344901\"\n                    },\n                    \"consigneeCode\": \"\",\n                    \"consigneeName\": \"Nabeel\",\n                    \"documentName\": \"orders_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"eCommBusinessName\": \"fz company\",\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"errorBusiness\": null,\n                    \"errorCount\": 0,\n                    \"exporterCodeArr\": [\n                        \"AE-9239786\"\n                    ],\n                    \"hasMultiShipping\": \"\",\n                    \"invoiceSummary\": null,\n                    \"invoices\": [\n                        {{InvoiceId}}\n                    ],\n                    \"isFaulty\": false,\n                    \"isMarketPlace\": false,\n                    \"kvp\": [\n                        {\n                            \"action\": \"ORDER\",\n                            \"apiName\": \"submitOrder\",\n                            \"attributeName\": \"kvpname\",\n                            \"attributeSerialNo\": 1,\n                            \"attributeValue\": \"kvpValue\",\n                            \"mode\": \"F\",\n                            \"timestamp\": 1627472368428\n                        }\n                    ],\n                    \"logisticsSPBusinessCodeArr\": [\n                        \"AE-1000042\"\n                    ],\n                    \"mode\": \"F\",\n                    \"orderDate\": \"14/11/2020 12:10:19\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"orderStatus\": \"FINALIZED\",\n                    \"referenceID\": \"f9dd563a-ae88-4487-86a0-9e8756191649\",\n                    \"shipTo\": \"ISMA NOOR\",\n                    \"shipToAddress\": {\n                        \"POBox\": \"54000\",\n                        \"addressLine1\": \"10th Floor, Plaza IBM\",\n                        \"addressLine2\": \"No. 1005, First Avenue\",\n                        \"addressType\": \"\",\n                        \"city\": \"54000\",\n                        \"country\": \"PK\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    }\n                },\n                \"documentName\": \"order_data\",\n                \"history\": []\n            }\n        },\n        {\n            \"key\": {{HLInvoiceId}},\n            \"collection\": \"invoice_data\",\n            \"payload\": {\n                \"_id\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"_rev\": \"1-46726bfdf92885010823495d1cc5ebe7\",\n                \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                \"current\": {\n                    \"FZCode\": \"3\",\n                    \"Key\": \"AE-9239786_ORD-T-45936_INV-1-45936\",\n                    \"actionDate\": \"14/11/2020 12:10:19\",\n                    \"actionTimeStamp\": 1605355819000,\n                    \"associatedEcomCompany\": \"\",\n                    \"brokerBusinessCode\": \"AE-1000042\",\n                    \"cancellationReason\": \"\",\n                    \"cargoOwnership\": \"1\",\n                    \"currency\": \"AED\",\n                    \"deliveryProviderBusinessCode\": \"AE-1000042\",\n                    \"documentName\": \"invoice_data\",\n                    \"documents\": [\n                        {\n                            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                            \"name\": \"44.pdf\",\n                            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\"\n                        }\n                    ],\n                    \"ecomBusinessCode\": \"AE-9239786\",\n                    \"exitConfirmationDetail\": null,\n                    \"exitConfirmations\": null,\n                    \"exporterCode\": \"AE-9239786\",\n                    \"freightAmount\": 0,\n                    \"freightCurrency\": \"\",\n                    \"hasMultiShipping\": false,\n                    \"incoTerm\": \"CIF\",\n                    \"insuranceAmount\": 0,\n                    \"insuranceCurrency\": \"\",\n                    \"invoiceDate\": \"2021-06-23\",\n                    \"invoiceNumber\": {{InvoiceId}},\n                    \"invoiceStatus\": \"FINALIZED\",\n                    \"invoiceTrackingKey\": [\n                        \"776bc0f0-ef98-11eb-aff5-f5aaef552e72\"\n                    ],\n                    \"invoiceTrackingLogs\": null,\n                    \"invoiceType\": \"1\",\n                    \"isExited\": false,\n                    \"isUndelivered\": false,\n                    \"kvp\": null,\n                    \"lineItems\": null,\n                    \"lineItemsKeys\": [\n                        \"AE-9239786_ORD-T-45936_INV-1-45936_1\"\n                    ],\n                    \"logisticsSPBusinessCode\": \"AE-1000042\",\n                    \"mode\": \"F\",\n                    \"orderNo\": {{OrderNumber}},\n                    \"otherShipToAddress\": {\n                        \"POBox\": \"\",\n                        \"addressLine1\": \"\",\n                        \"addressLine2\": \"\",\n                        \"addressType\": \"\",\n                        \"city\": \"\",\n                        \"country\": \"\",\n                        \"email\": \"\",\n                        \"phone\": \"\"\n                    },\n                    \"paymentInstrumentType\": \"1\",\n                    \"returnDetail\": {\n                        \"returnJustification\": \"\",\n                        \"returnReason\": \"\",\n                        \"returnRequestNo\": \"\"\n                    },\n                    \"returnDetails\": null,\n                    \"returns\": null,\n                    \"returnsList\": null,\n                    \"shippingParameters\": [\n                        {\n                            \"claimTrackingHistory\": null,\n                            \"claimTrackingKey\": \"\",\n                            \"declarationDetail\": null,\n                            \"declarationTrackingKey\": \"\",\n                            \"declarationTrackingKeyHistory\": null,\n                            \"deliveryStatus\": {\n                                \"ReturnToFZorCW\": \"\",\n                                \"deliverToPersonName\": \"\",\n                                \"deliveryDate\": \"\",\n                                \"deliveryStatus\": \"\",\n                                \"deliveryType\": \"\",\n                                \"documents\": null,\n                                \"kvp\": null,\n                                \"signature\": {\n                                    \"PODFilePath\": \"\",\n                                    \"PODHash\": \"\"\n                                },\n                                \"transportDocNo\": \"\",\n                                \"type\": \"\"\n                            },\n                            \"documentTracking\": null,\n                            \"isSystemGenerated\": true,\n                            \"lineItems\": null,\n                            \"preference\": null,\n                            \"preferencesKey\": \"\",\n                            \"preferencesKeyHistory\": null,\n                            \"shippingParameterID\": \"\",\n                            \"transport\": null,\n                            \"transportInfoKey\": \"\",\n                            \"transportInfoKeyHistory\": null\n                        }\n                    ],\n                    \"totalNoOfInvoicePages\": 4,\n                    \"totalValue\": 1000,\n                    \"warehouseCode\": \"\"\n                },\n                \"documentName\": \"invoice_data\",\n                \"history\": []\n            }\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{hostMockHyperledger}}:4050/event/createMockContractEvent",
+          "host": ["{{hostMockHyperledger}}"],
+          "port": "4050",
+          "path": ["event", "createMockContractEvent"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "31.Datagen healthcheck",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var resp = JSON.parse(responseBody)",
+              "",
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Healthcheck status is ok', () => {",
+              "  pm.expect(resp.status).to.eql('ok');",
+              "  pm.expect(resp.status).to.be.an('string');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{hostDatagen}}:2020/health",
+          "host": ["{{hostDatagen}}"],
+          "port": "2020",
+          "path": ["health"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "32.Transcomm backend healthcheck",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var resp = JSON.parse(responseBody)",
+              "",
+              "pm.test(\"Status code is 200\", () => {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Healthcheck status is ok', () => {",
+              "  pm.expect(resp.status).to.eql('ok');",
+              "  pm.expect(resp.status).to.be.an('string');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{hostTranscomBackend}}:3030/health",
+          "host": ["{{hostTranscomBackend}}"],
+          "port": "3030",
+          "path": ["health"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

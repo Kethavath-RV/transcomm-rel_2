@@ -1,0 +1,69 @@
+.dhl-radiodiv {
+  display: inline-block;
+  position: relative;
+  user-select: none;
+}
+
+.dhl-radiodiv > label {
+  align-items: center;
+  display: flex;
+  font-family: Delivery, Verdana, sans-serif;
+  font-size: 0.9375rem;
+  height: 26px;
+  padding-left: 26px;
+}
+
+.dhl-radiodiv > label > input {
+  left: -9999px;
+  position: absolute;
+}
+
+.dhl-radiodiv > label > div > div {
+  background-color: var(--black);
+  border-radius: 50%;
+  height: 100%;
+  transition: transform 250ms, opacity 250ms;
+  width: 100%;
+}
+
+.dhl-radiodiv > label > input:focus + div {
+  border-color: rgb(25, 25, 25);
+  border-width: 2px;
+}
+
+.dhl-radiodiv > label > input:hover + div {
+  border-color: rgb(25, 25, 25);
+}
+
+.dhl-radiodiv > label > input:not(:checked) + div > div {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.dhl-radiodiv > label > input:checked + div > div {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.dhl-radiodiv > label > div {
+  align-items: center;
+  border: solid 1px var(--grey-dark);
+  border-radius: 50%;
+  box-sizing: border-box;
+  color: var(--black);
+  display: flex;
+  height: 26px;
+  justify-content: center;
+  left: 0;
+  padding: 8px;
+  pointer-events: none;
+  position: absolute;
+  transition: border-color 250ms;
+  width: 26px;
+}
+
+.dhl-radiodiv > label > span {
+  display: inline-flex;
+  margin-left: 0.875rem;
+  position: relative;
+}

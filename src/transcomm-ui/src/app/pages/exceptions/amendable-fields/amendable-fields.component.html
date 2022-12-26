@@ -1,0 +1,195 @@
+<form [formGroup]="amendmentForm">
+  <div class="wrapper pb-1">
+    <h2 class="secondary-headline">Declaration Amendment</h2>
+    <div *ngIf="rejectedDeclarations.length > 0" class="exception-wrapper">
+      <div class="flex align-center p-1">
+        <img
+          class="exclamationsvg mr-1"
+          src="/assets/icons/exception_rgb_red.svg"
+          alt="rejection icon"
+        />
+        <span class="emphasis red-text">Rejected</span>
+        <div class="exception-detail-wrapper">
+          <div *ngFor="let declaration of rejectedDeclarations">
+            <div class="flex pl-1" *ngFor="let error of declaration.errors">
+              <span class="emphasis mr-05">Error Code: </span
+              ><span class="mr-1">{{ error.errorCode }}</span>
+              <span class="emphasis mr-05"> Error Description: </span
+              ><span>{{ error.errorDescription }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-loader *ngIf="isLoading"></app-loader>
+    <div *ngIf="!isLoading">
+      <div class="flex mb-1">
+        <div class="inputdiv mr-2">
+          <select
+            [class.readOnly]="amendmentForm.disabled"
+            class="dhl-input"
+            formControlName="incoTermCode"
+            id="incoTermCode"
+          >
+            <option
+              *ngFor="let incoTermCode of incoTermCodes"
+              value="{{ incoTermCode }}"
+              class="dhl-input dhl-input-small"
+            >
+              {{ incoTermCode }}
+            </option>
+          </select>
+          <label class="dhl-label" for="incoTermCode"> INCO Terms Code </label>
+        </div>
+        <div class="inputdiv mr-2">
+          <input
+            type="number"
+            formControlName="numOfInvoicePages"
+            name="totalNoOfInvoicePages"
+            class="dhl-input"
+            step="1"
+            min="0"
+            placeholder="{{ invoice.totalNoOfInvoicePages }}"
+            [class.readOnly]="amendmentForm.disabled"
+            id="totalNoOfInvoicePages"
+          />
+          <label class="dhl-label" for="totalNoOfInvoicePages">
+            Total No. of Invoice Pages
+          </label>
+        </div>
+        <div class="inputdiv mr-2">
+          <input
+            type="date"
+            formControlName="date"
+            name="invoiceDate"
+            class="dhl-input"
+            [class.readOnly]="amendmentForm.disabled"
+          />
+          <label
+            class="dhl-label"
+            [class.read-only-label]="amendmentForm.disabled"
+          >
+            Invoice Date</label
+          >
+        </div>
+      </div>
+      <div class="flex">
+        <div class="inputWidth mr-2">
+          <span class="block mute">Invoice Type</span>
+          <span class="block"> {{ invoice.invoiceType }}</span>
+        </div>
+        <div class="inputWidth mr-2">
+          <span class="block mute">Invoice Value + Currency</span>
+          <span class="block"
+            >{{ invoice.totalValue }} {{ invoice.currency }}</span
+          >
+        </div>
+        <div class="inputWidth mr-2">
+          <span class="block mute">Payment Instrument Type</span>
+          <span class="block">{{ invoice.paymentInstrumentType }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="order-line-wrapper">
+    <h3 class="emphasis">Order Line</h3>
+    <app-loader *ngIf="isLoading"></app-loader>
+    <div class="order-lines-grid pb-1">
+      <div class="row-item" *ngFor="let col of orderLineColumns">
+        <span class="emphasis order-line-header block">
+          {{ col.name }}
+        </span>
+      </div>
+      <ng-container formArrayName="orderLines">
+        <ng-container *ngFor="let row of orderLines.controls; let i = index">
+          <ng-container [formGroupName]="i">
+            <div class="row-item" *ngFor="let col of orderLineColumns">
+              <ng-container [ngSwitch]="col.type">
+                <input
+                  type="number"
+                  *ngSwitchCase="'num_inpt'"
+                  [formControlName]="col.controlName"
+                  class="dhl-input dhl-input-small"
+                  [class.readOnly]="amendmentForm.disabled"
+                />
+                <input
+                  type="text"
+                  *ngSwitchCase="'str_inpt'"
+                  [formControlName]="col.controlName"
+                  class="dhl-input dhl-input-small"
+                  [class.readOnly]="amendmentForm.disabled"
+                />
+                <select
+                  *ngSwitchCase="'select'"
+                  class="dhl-input dhl-input-small"
+                  [class.readOnly]="amendmentForm.disabled"
+                  id="goodsCondition{{ i }}"
+                  [formControlName]="col.controlName"
+                >
+                  <ng-container [ngSwitch]="col.selectorOption">
+                    <ng-container *ngSwitchCase="'goods_condition'">
+                      <option
+                        *ngFor="let condition of goodsConditionOptions"
+                        value="{{ condition }}"
+                        class="dhl-input dhl-input-small"
+                      >
+                        {{ condition }}
+                      </option>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'quantity_unit'">
+                      <option
+                        *ngFor="let condition of quantities"
+                        value="{{ condition }}"
+                        class="dhl-input dhl-input-small"
+                      >
+                        {{ condition }}
+                      </option>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'weight_unit'">
+                      <option
+                        *ngFor="let condition of quantities"
+                        value="{{ condition }}"
+                        class="dhl-input dhl-input-small"
+                      >
+                        {{ condition }}
+                      </option>
+                    </ng-container>
+                  </ng-container>
+                  <option
+                    *ngFor="let condition of goodsConditionOptions"
+                    value="{{ condition }}"
+                    class="dhl-input dhl-input-small"
+                  >
+                    {{ condition }}
+                  </option>
+                </select>
+
+                <span class="block" *ngSwitchCase="'index'">{{
+                  row.value['lineNumber']
+                }}</span>
+              </ng-container>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div *ngIf="!isLoading" class="submit-wrapper mt-2 mb-1 pb-1">
+    <button
+      [disabled]="amendmentForm.invalid || amendmentForm.disabled"
+      [class.disabled]="amendmentForm.invalid || amendmentForm.disabled"
+      (click)="onSubmit()"
+      class="btn btn-primary mr-1"
+    >
+      Submit
+    </button>
+    <button
+      [disabled]="amendmentForm.invalid || amendmentForm.disabled"
+      [class.disabled]="amendmentForm.invalid || amendmentForm.disabled"
+      class="btn btn-secondary"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+  </div>
+</form>

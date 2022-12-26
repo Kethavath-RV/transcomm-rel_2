@@ -1,0 +1,57 @@
+{
+	"info": {
+		"_postman_id": "e2d82083-e167-4396-80d5-8975cd1c0b6a",
+		"name": "Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"password\": \"12345678AB!\",\n  \"firstName\": \"simon2\",\n  \"lastName\": \"martyr2\",\n  \"email\": \"simon2.martyr2@finaps.nl\",\n  \"role\": \"editor\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3030/api/users/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3030/users/current",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"users",
+						"current"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

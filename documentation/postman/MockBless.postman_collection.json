@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "8edd6150-e738-4343-95f3-0778cd92ec60",
+		"name": "MockBless",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post pickup file to kafka",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"vc-id-pickup-1\",\n    \"msgType\": \"pickupfile\",\n    \"data\": [\n        {\n            \"eventCode\": \"PU\",\n            \"eventRemark\": \"event\",\n            \"ecomBusinessCode\": {{EcomCode}},\n            \"weight\": \"0.800\",\n            \"volumeWeight\": \"1.200\",\n            \"weightQualifier\": \"KGM\",\n            \"shipperReference\": {{OrderNumber}},\n            \"hawb\": {{hawb}},\n            \"ETADateTime\": \"2021-08-24 23:59:00\",\n            \"eventDate\":\"2021-09-29 17:05:33\",\n            \"eventGMT\":\"+04:00\",\n            \"destination\": \"RUH\",\n            \"origin\": \"DXB\",\n            \"numberOfPackages\": \"100\",\n            \"shipmentDeclaredValue\": \"\",\n            \"shipmentCurrency\": \"\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5050/postPickupFileToKafka",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5050",
+					"path": [
+						"postPickupFileToKafka"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post delivered file to kafka",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"vc-id-pickup-1\",\n    \"msgType\": \"pickupfile\",\n    \"data\": [\n        {\n            \"eventCode\": \"OK\",\n            \"eventRemark\": \"event\",\n            \"ecomBusinessCode\": {{EcomCode}},\n            \"weight\": \"0.800\",\n            \"volumeWeight\": \"1.200\",\n            \"weightQualifier\": \"KGM\",\n            \"shipperReference\": {{OrderNumber}},\n            \"hawb\": {{hawb}},\n            \"ETADateTime\": \"2021-08-24 23:59:00\",\n            \"eventDate\":\"2021-09-29 17:05:33\",\n            \"eventGMT\":\"+04:00\",\n            \"destination\": \"RUH\",\n            \"origin\": \"DXB\",\n            \"numberOfPackages\": \"100\",\n            \"shipmentDeclaredValue\": \"\",\n            \"shipmentCurrency\": \"\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5050/postPickupFileToKafka",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5050",
+					"path": [
+						"postPickupFileToKafka"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post processed notification to kafka",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"id\": \"vc-id-1553\",\n\t\t\"type\": \"PROCESSED\",\n\t\t\"data\": {}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5050/postNotificationToKafka",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5050",
+					"path": [
+						"postNotificationToKafka"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Master Movement to kafka",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"vc-id-1\",\n    \"msgType\": \"masterMovement\",\n    \"data\": [{\n        \"payload\": {\n            \"items\": [\n                {\n                    \"MovementDepartureDate\": \"2021/05/03\",\n                    \"MovementDepartureTime\": \"06:16:14\",\n                    \"MovementGMT\": \"+04:00\",\n                    \"WeightUnit\": \"kg\"\n                },\n                {\n                    \"MawbNumber\": {{mawb}},\n                    \"HandlingUnit\": [\n                        {\n                            \"HandlingUnitNumber\": \"H964928145\",\n                            \"HandlingUnitType\": \"\",\n                            \"HandlingUnitRegNumber\": \"AAX4903DHL\",\n                            \"HandlingUnitParent\": \"H643447895\",\n                            \"Hawb\": [\n                                {\n                                    \"AirwayBillNumber\": {{hawb}}\n                                }\n                            ]\n                        },\n                        {\n                            \"HandlingUnitNumber\": \"H964928226\",\n                            \"HandlingUnitType\": \"\",\n                            \"HandlingUnitRegNumber\": \"AAX5630DHL\",\n                            \"HandlingUnitParent\": \"H643447711\",\n                            \"Hawb\": {\n                                \"AirwayBillNumber\": \"2511188466\"\n                            }\n                        }\n                    ]\n                }\n            ]\n        }\n    }]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5050/postMasterMovementFileToKafka",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5050",
+					"path": [
+						"postMasterMovementFileToKafka"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Detail Movement to kafka",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"vc-id-1\",\n    \"msgType\": \"detailMovement\",\n    \"data\": [\n        {\n            \"AirwayBillNumber\": {{hawb}},\n            \"ShipmentOrigin\": \"DXB\",\n            \"ShipmentOriginCountry\": \"AE\",\n            \"ShipmentDestination\": \"ZYP\",\n            \"ShipmentWeight\": \"0.5\",\n            \"ShipmentActualWeight\": \"0.1\",\n            \"ShipmentDeclaredVolumeWeight\": \"0.36\",\n            \"ShipmentTotalVolumeMetricWeight\": \"0.0\",\n            \"Incoterm\": \"DAP\",\n            \"TotalPiecesInShipment\": \"1\",\n            \"Item\": {\n                \"UnitOfMeasure\": \"BOX\"\n            },\n            \"ShipperRef\": [\n                {\n                    \"ShipmentRef\": \"1405050032\",\n                    \"Qualifier\": \"UCI\"\n                },\n                {\n                    \"ShipmentRef\": \"1405050032AE20210502075244076\",\n                    \"Qualifier\": \"UCB\"\n                }\n            ],\n            \"MawbNumber\": {{mawb}},\n            \"HandlingUnitNumber\": \"H964928145\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:5050/postDetailMovementFileToKafka",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5050",
+					"path": [
+						"postDetailMovementFileToKafka"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

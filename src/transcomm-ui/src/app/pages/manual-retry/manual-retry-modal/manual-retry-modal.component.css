@@ -1,0 +1,33 @@
+/* .card {
+  position: absolute;
+  top: 10%;
+  width: 385px;
+  left: 40%;
+  z-index: 1;
+  padding: 2.3125rem;
+} */
+
+.modalTextAreaWrap {
+  border: 1px solid var(--grey-medium-dark);
+  padding-top: 2rem;
+  transition: border-color 250ms;
+  border-radius: var(--border-radius);
+}
+
+.modalTextAreaWrap:focus-within {
+  border-width: 2px;
+  border-color: var(--black);
+}
+
+.modalTextArea {
+  padding-top: 0;
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
+}

@@ -1,0 +1,27 @@
+<div class="p-2 pt-0 main">
+  <div class="flex flex-row">
+    <h4 class="emphasis red-text">Order ID: {{ orderID }}</h4>
+    <h4 class="emphasis pl-2">Invoice No.: {{ invoiceID }}</h4>
+  </div>
+  <app-address-cards
+    *ngIf="isDataAvailable"
+    [orderDetails]="orderDetails"
+  ></app-address-cards>
+  <app-event-chain
+    *ngIf="eventChain"
+    [eventChain]="eventChain"
+    (showErrorBundleEvent)="onShowErrorBundleEvent($event)"
+  ></app-event-chain>
+  <h4 class="emphasis mt-0 mb-2">Order & Invoice Information</h4>
+  <app-navtabs
+    *ngIf="isDataAvailable"
+    [orderDetails]="orderDetails"
+  ></app-navtabs>
+  <app-loader *ngIf="!isDataAvailable"></app-loader>
+</div>
+<app-exception-sidebar
+  *ngIf="errorsInSidebar"
+  class="sidebar"
+  [errorsInSidebar]="errorsInSidebar"
+  (closeExceptionSidebar)="onCloseExceptionSidebar()"
+></app-exception-sidebar>

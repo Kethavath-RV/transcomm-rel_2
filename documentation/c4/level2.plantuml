@@ -1,0 +1,46 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+LAYOUT_WITH_LEGEND()
+
+
+
+Person(ecom, "E-commerce User")
+Person(dhlEmployee, "DHL Employee")
+System_Boundary(dutydrawback, "Duty Drawback"){
+  Container(transformer, "Transformer", "Typescript NodeJS v12.x")
+  Container(transcombackend, "TransComm Backend", "Typescript NestJS v8.x")
+  Container(datagen, "DataGen", "Typescript NestJS v8.x")
+  Container(transcomui, "Transcomm UI", "Typescript Angular v12.x")
+  SystemQueue(redis, "Datagen Queue", "Redis")
+  SystemDb(viewdatabase, "View Database", "MariaDB")
+  SystemDb(eventstore, "Events Database", "EventStoreDb")
+  SystemDb(datagenDb, "Datagen Database", "EventStoreDb")
+
+
+}
+  System_Ext(dataproviders, "upstream data providers")
+  System_Ext(hyperledger, "HyperLedger NodeJS adapter")
+  System_Ext(bless, "BLESS platform")
+
+Rel_D(ecom, transformer, "uses", "JSON/HTTP")
+Rel_D(transformer, bless, "uses", "JSON/HTTP")
+
+Rel_D(dhlEmployee, transcomui, "uses")
+Rel_D(transcomui, transcombackend, "uses")
+
+Rel(transcombackend, viewdatabase, "uses")
+Rel(transcombackend, eventstore, "uses")
+Rel(transcombackend, datagen, "uses", "JSON/HTTP")
+
+Rel(datagen, datagenDb, "uses")
+Rel(datagen, redis, "uses")
+BiRel(datagen, hyperledger, "uses", "JSON/HTTP")
+Rel(datagen, bless, "uses", "Kafka")
+
+BiRel(bless, transcombackend, "uses", "Kafka")
+Rel(dataproviders, transcombackend, "uses", "Kafka")
+
+Lay_L(datagen, hyperledger)
+
+
+@enduml

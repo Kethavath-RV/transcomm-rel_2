@@ -1,0 +1,103 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: UnitTests
+    displayName: Unit Tests
+    continueOnError: false
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '14.x'
+        displayName: 'Install Node.js'
+
+      - script: yarn install
+        displayName: Yarn Install
+        workingDirectory: src
+
+      - script: yarn install
+        displayName: Yarn Install Transcomm-UI
+        workingDirectory: src/transcomm-ui
+
+      - script: yarn workspaces run test
+        displayName: Yarn Test
+        workingDirectory: src
+
+      - task: reportgenerator@4
+        inputs:
+          reports: '$(System.DefaultWorkingDirectory)/src/datagen/coverage/cobertura-coverage.xml;$(System.DefaultWorkingDirectory)/src/transcomm-backend/coverage/cobertura-coverage.xml;$(System.DefaultWorkingDirectory)/src/data-transformer/coverage/cobertura-coverage.xml'
+          targetdir: '$(System.DefaultWorkingDirectory)/coveragereport'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: '**/junit.xml'
+          mergeTestResults: true
+          testRunTitle: 'Jest Unit Tests'
+          failTaskOnFailedTests: true
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: $(System.DefaultWorkingDirectory)/coveragereport/**/Cobertura.xml
+
+  - job: SonarQubeReview
+    displayName: Sonar Qube Review Code
+    continueOnError: true
+    dependsOn: UnitTests
+    steps:
+      - task: SonarCloudPrepare@1
+        inputs:
+          SonarCloud: 'SonarCloud'
+          organization: 'finaps-dhl'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: 'FinapsDHL_Duty-drawback'
+          cliProjectName: 'Duty drawback'
+          cliSources: src
+
+      - task: SonarCloudAnalyze@1
+
+      - task: SonarCloudPublish@1
+
+  - job: NewmanTests
+    displayName: Newman e2e Tests
+    continueOnError: false
+    dependsOn: SonarQubeReview
+    steps:
+      - script: pip3 install docker-compose
+        displayName: Install docker-compose
+
+      - script: docker compose -f docker-compose.override.migration-backend.yml --env-file .env.newman up --build --abort-on-container-exit && docker-compose down --remove-orphans
+        workingDirectory: src
+        displayName: Run transcomm-backend migration
+
+      - script: docker compose -f docker-compose.override.migration-datagen.yml --env-file .env.newman up --build --abort-on-container-exit && docker-compose down --remove-orphans
+        workingDirectory: src
+        displayName: Run datagen migration
+
+      - script: mv mock-hashicorp-secrets.newman.json mock-hashicorp-secrets.json
+        workingDirectory: src
+        displayName: Generate mock secrets
+
+      - script: docker compose -f docker-compose.override.hashicorp-vault-seeding.yml --env-file .env.newman up --build -d
+        workingDirectory: src
+        displayName: Run HashiCorp Vault seeding
+
+      - script: docker compose rm -s -v -f mock_hashicorp_vault_seeding
+        workingDirectory: src
+        displayName: Down HashiCorp Vault seeding service
+
+      - script: docker compose -f docker-compose.yml -f docker-compose.override.newman.yml --env-file .env.newman up --build --abort-on-container-exit --exit-code-from newman-tests && docker-compose down --remove-orphans
+        workingDirectory: src
+        displayName: Run Newman tests
+
+      - task: PublishTestResults@2
+        displayName: Publish test results
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**-results.xml'
+          testRunTitle: 'Publishing test results'
+          searchFolder: '$(System.DefaultWorkingDirectory)/src/test/postman/results'
+          failTaskOnFailedTests: true

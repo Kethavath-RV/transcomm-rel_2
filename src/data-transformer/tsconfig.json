@@ -1,0 +1,19 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["es2020"],
+    "typeRoots": ["../node_modules/@types", "./node_modules/@types"],
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "rootDir": "./src",
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "strict": true,
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true
+  },
+  "references": [{ "path": "../core" }],
+  "include": [".", "./src/routes/swagger.json"]
+}

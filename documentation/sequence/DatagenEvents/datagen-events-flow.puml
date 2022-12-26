@@ -1,0 +1,21 @@
+@startuml Hyperledge Event Sequence
+title Hyperledge Event Sequence
+participant HyperLedgerAdapter
+participant DataGen
+participant Redis
+participant BLESS
+
+autonumber
+HyperLedgerAdapter -> DataGen : Publish event contract event
+DataGen -> Redis : Add event to queue
+Redis -> DataGen : Process event
+Group If collection key not found Or TxId not found
+DataGen -> Redis: Error and requeue until limit hit.
+end
+DataGen -> Redis: Add Collection and Key to query to query queue.
+Redis -> DataGen: Process query
+DataGen -> HyperLedgerAdapter: Query Data (Collection + Key)
+DataGen -> BLESS: Publish query result.
+
+
+@enduml

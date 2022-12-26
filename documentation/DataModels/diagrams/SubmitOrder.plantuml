@@ -1,0 +1,134 @@
+@startuml
+
+
+interface Document {
+    +hash: string
+    +path: string
+    +name: string
+}
+interface Address {
+    +addressLine1: string
+    +addressLine2: string
+    +POBox: string
+    +city: string
+    +country: Country
+}
+interface ConsigneeAddress extends Address {
+    +phone: string
+    +email: string
+}
+interface Order {
+    +orderNumber: string
+    +orderDate?: string
+    +actionDate: string
+    +ecomBusinessCode?: string
+    +mode: ModeType
+    +consigneeName?: string
+    +consigneeAddress?: ConsigneeAddress
+    +billTo: string
+    +billToAddress: Address
+    +shipTo?: string
+    +shipToAddress?: Address
+    +documents: Document[]
+    +invoices: Invoice[]
+}
+interface Invoice {
+    +invoiceNumber: string
+    +invoiceDate: string
+    +mode: ModeType
+    +cancellationReason: string
+    +totalNoOfInvoicePages: number
+    +invoiceType: InvoiceType
+    +paymentInstrumentType: PaymentInstrumentType
+    +currency: Currencies
+    +totalValue: number
+    +incoTerm: IncoTermCode
+    +freightAmount?: number
+    +freightCurrency?: Currencies
+    +insuranceAmount?: number
+    +insuranceCurrency?: Currencies
+    +exporterCode: string
+    +fzCode: FreeZoneCode
+    +warehouseCode: string
+    +cargoOwnership: string
+    +associatedEcomCompany: string
+    +brokerBusinessCode: string
+    +logisticsSPBusinessCode: string
+    +documents: Document[]
+    +returnDetails: ReturnDetail
+    +invoiceParameters: InvoiceParameter[]
+    +lineItems: LineItem[]
+}
+interface LineItem {
+    +shippingParameterId: string
+    +lineNo: number
+    +mode: ModeType
+    +quantityReturned: number
+    +quantity: number
+    +quantityUOM: UnitOfMeasurement
+    +netWeight: number
+    +netWeightUOM: UnitOfMeasurement
+    +description: string
+    +hscode: string
+    +countryOfOrigin: Country
+    +discount: Discount
+    +valueOfGoods: number
+    +originalValueOfItem: number
+    +isFreeOfCost: YesNo
+    +goodsCondition: GoodsCondition
+    +returnDays: number
+    +supplementaryQuantity?: number
+    +supplementaryQuantityUOM?: UnitOfMeasurement
+    +prevDeclarationReference: string
+    +permits: Permit[]
+    +sku: Sku
+    +exemptions: Exemption[]
+    +documents: Document[]
+    +vehicle: Vehicle
+}
+interface ReturnDetail {
+    +returnRequestNo: string
+    +prevTransportDocNo: string
+    +returnReason: ReturnReason
+    +prevDeclarationReference: string
+    +declarationPurposeDetails: string
+}
+interface InvoiceParameter {
+    +shippingParameterId: string
+    +shipTo: string
+    +shipToAddress: Address
+    +deliveryDate: string
+}
+interface Exemption {
+    +exemptionType: ExemptionType
+    +exemptionRefNo: string
+}
+interface Discount {
+    +value?: number
+    +percentage?: number
+}
+interface Permit {
+    +referenceNo: string
+    +issuingAuthorityCode: PermitIssuingAuthorityCode
+    +notRequiredFlag: YesNo
+}
+interface Sku {
+    +productCode: string
+    +quantityUOM: string
+}
+interface Vehicle {
+    +chassisNumber: string
+    +brand: VehicleBrand
+    +model: string
+    +engineNumber: string
+    +capacity: number
+    +passengerCapacity: number
+    +carriageCapacity: number
+    +yearOfBuilt: string
+    +color: string
+    +condition: VehicleCondition
+    +vehicleType: VehicleType
+    +drive: VehicleDrive
+    +specificationStandard: string
+}
+@enduml

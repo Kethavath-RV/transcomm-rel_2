@@ -1,0 +1,50 @@
+/* :root {
+  --brand-primary: #d40511;
+  --brand-secondary: #FFE57F;
+  --brand-success: #78BD22;
+  --brand-warning: #FFCC00;
+  --brand-danger: #D40511;
+  --brand-info: #000;
+  --border-radius: 4px;
+
+
+  --black: rgba(0, 0, 0, 0.9);
+  --grey-light: #f1f1f1;
+*/
+
+/* discuss if this is the way to go for handling hover colours etc
+  only con is that colours specified in dhl style guide may not be able to
+  be recreated exactly - suggested use fallbacks */
+/*
+  --brightness-factor: 1.2; 
+  --darkness-factor: 0.8;
+}
+*/
+
+:root {
+  --red: #d40511;
+  --red-hover: #f91320;
+  --yellow: #ffcc00;
+  --yellow-light: #ffe57f;
+  --yellow-lightest: #fff0b2;
+  --black: rgba(0, 0, 0, 0.9);
+
+  --border-radius: 4px;
+
+  --success: #76bd22;
+  --success-dark: #007c39;
+
+  --grey-lightest: #f1f1f1;
+  --grey-light: #eee;
+  --grey-medium-light: #ccc;
+  --grey-medium-dark: #aaa;
+  --grey-dark: #8c8c8c;
+  --grey-darker: #666;
+
+  --1fr: 5rem;
+  --2fr: calc(2 * var(--1fr));
+  --3fr: calc(3 * var(--1fr));
+  --4fr: calc(4 * var(--1fr));
+  --5fr: calc(5 * var(--1fr));
+  --6fr: calc(6 * var(--1fr));
+}

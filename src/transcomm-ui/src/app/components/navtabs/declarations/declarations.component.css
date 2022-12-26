@@ -1,0 +1,15 @@
+.mb-03 {
+  margin-bottom: 0.3rem;
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--grey-medium-dark);
+}
+
+span {
+  min-width: 90px;
+}
+.none-found {
+  display: flex;
+  place-content: center;
+}

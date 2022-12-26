@@ -1,0 +1,47 @@
+<div class="details-modal">
+  <div class="card">
+    <div class="emphasis mb-05">Claim</div>
+    <div class="flex space-between">
+      <div class="w-50">
+        <div class="mb-05">
+          <span class="block mute">Ecom Business Code</span>
+          <span class="block"> {{ claim.ecomBusinessCode }}</span>
+        </div>
+        <div class="mb-05">
+          <span class="block mute">Order No.</span>
+          <span class="block"> {{ claim.orderNumber }}</span>
+        </div>
+        <div class="mb-05">
+          <span class="block mute">Invoice No.</span>
+          <span class="block"> {{ claim.invoiceNumber }}</span>
+        </div>
+        <div class="mb-05">
+          <span class="block mute">Request Date</span>
+          <span class="block"> {{ claim.requestDate | date: 'medium' }}</span>
+        </div>
+        <div class="mb-05">
+          <span class="block mute">Current Stage</span>
+          <span class="block"> {{ claim.currentStage }}</span>
+        </div>
+      </div>
+      <div class="w-50">
+        <div class="mb-05">
+          <span class="block mute">Claim Status</span>
+          <span class="block"> {{ claim.claimStatus }}</span>
+        </div>
+        <div class="mb-05">
+          <span class="block mute">Declaration No.</span>
+          <span class="block"> {{ claim.declarationNumber }}</span>
+        </div>
+        <div class="mb-05">
+          <span class="block mute">NR Claim No.</span>
+          <span class="block"> {{ claim.claimNumber }}</span>
+        </div>
+        <div class="mb-05">
+          <span class="block mute">Claim Type</span>
+          <span class="block"> {{ claim.claimType }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

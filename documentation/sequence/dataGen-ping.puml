@@ -1,0 +1,8 @@
+@startuml dataGen 
+DataGenModule -> HyperLedgerAdapter: Call /event/subscribe/count
+group count==0 :
+    DataGenModule -> DataGenDataBase: Get last persisted block number per subscription
+    DataGenModule -> HyperLedgerAdapter: Subscribe to submitOrder, updateTransportInfor, initiateDeclaration, updateExitConfirmation block events from last block number
+    DataGenModule -> HyperLedgerAdapter: Subscribe to DECLARATION_STATUS_CHANGE and CLAIM_STATUS_CHANGE contract events from last block number
+end
+@enduml

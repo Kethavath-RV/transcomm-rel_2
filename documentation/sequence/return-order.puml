@@ -1,0 +1,82 @@
+@startuml complete return flow
+autonumber
+ECommerce -> DataTransformer: submitOrder api mode=Return
+DataTransformer -> DataTransformer: validate and transform request
+group on success:
+    DataTransformer -> Bless: submit new Order
+else on error:
+    DataTransformer -> ECommerce: return error code
+end
+Bless -> Kafka: foward new order
+Kafka -> TransCommBackend: Subscribe to order kafka topic
+TransCommBackend -> Database: Persist new order data
+TransCommBackend -> HyperLedgerAdapter:POST submitOrder
+HyperLedgerAdapter -> DataGen: POST order_data and invocie_data
+DataGen -> Bless: POST order_data and invocie_data
+Bless -> Kafka: Publish order_data and invocie_data
+Kafka -> TransCommBackend: Subscribe to order_data and invocie_data
+Kafka -> TransCommBackend: Subscribe to pickupFile kafka topic
+TransCommBackend -> Database: Persist pickupFile data
+Kafka -> TransCommBackend: Subscribe to movement/manifest kafka topic
+TransCommBackend -> Database: Persist movement/manifest data
+TransCommBackend -> HyperLedgerAdapter: POST updateTransportInfo per returnRequestNo
+note left: figure out if returnRequestNo is per invoice or per order
+HyperLedgerAdapter -> DataGen: POST order_data, invocie_data, \r documenttracking and \r declaration_json_mapping
+DataGen -> Bless: POST order_data, invocie_data, \r documenttracking and \r declaration_json_mapping
+Bless -> Kafka: Publish order_data, invocie_data, \r documenttracking and \r declaration_json_mapping
+Kafka -> TransCommBackend: Subscribe to order_data, invocie_data, documenttracking and \r declaration_json_mapping
+Kafka -> TransCommBackend: publish checkpoint with eventcode=OK
+TransCommBackend -> Database: Persist checkpoint data
+TransCommBackend -> DataGen: POST deliverOrder
+DataGen -> HyperLedgerAdapter: POST deliverOrder
+HyperLedgerAdapter -> DataGen: POST order_data and invocie_data
+DataGen -> Bless: POST order_data and invocie_data
+Bless -> Kafka: Publish order_data and invocie_data
+Kafka -> TransCommBackend: Subscribe to order_data and invocie_data
+
+ECommerce -> DataTransformer: POST comfirmReturnDelivery
+DataTransformer -> DataTransformer: validate and transform request
+group on success:
+    DataTransformer -> Bless: submit comfirmReturnDelivery
+else on error:
+    DataTransformer -> ECommerce: return error code
+end
+Bless -> Kafka: foward comfirmReturnDelivery
+Kafka -> TransCommBackend: Subscribe to comfirmReturnDelivery kafka topic
+TransCommBackend -> Database: Persist new comfirmReturnDelivery data
+TransCommBackend -> HyperLedgerAdapter:POST comfirmReturnDelivery
+HyperLedgerAdapter -> DataGen: POST order_data and invocie_data
+DataGen -> Bless: POST order_data and invocie_data
+Bless -> Kafka: Publish order_data and invocie_data
+group on errors in order_data update comfirmReturnDelivery:
+    ECommerce -> DataTransformer: POST comfirmReturnDelivery
+    DataTransformer -> DataTransformer: validate and transform request
+    group on success:
+        DataTransformer -> Bless: submit comfirmReturnDelivery
+    else on error:
+        DataTransformer -> ECommerce: return error code
+    end
+    Bless -> Kafka: foward comfirmReturnDelivery
+    Kafka -> TransCommBackend: Subscribe to comfirmReturnDelivery kafka topic
+    TransCommBackend -> Database: Persist new comfirmReturnDelivery data
+    TransCommBackend -> HyperLedgerAdapter:POST comfirmReturnDelivery
+    HyperLedgerAdapter -> DataGen: POST order_data and invocie_data
+    DataGen -> Bless: POST order_data and invocie_data
+    Bless -> Kafka: Publish order_data and invocie_data
+else on errors in order_data update submitOrder mode=Return:
+    ECommerce -> DataTransformer: submitOrder api mode=Return
+DataTransformer -> DataTransformer: validate and transform request
+group on success:
+    DataTransformer -> Bless: submit new Order
+else on error:
+    DataTransformer -> ECommerce: return error code
+end
+    Bless -> Kafka: foward new order
+    Kafka -> TransCommBackend: Subscribe to order kafka topic
+    TransCommBackend -> Database: Persist new order data
+    TransCommBackend -> HyperLedgerAdapter:POST submitOrder
+    HyperLedgerAdapter -> DataGen: POST order_data and invocie_data
+    DataGen -> Bless: POST order_data and invocie_data
+    Bless -> Kafka: Publish order_data and invocie_data
+end
+@enduml

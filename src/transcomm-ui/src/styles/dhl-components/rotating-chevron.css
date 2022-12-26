@@ -1,0 +1,10 @@
+.chevron {
+  width: 1.5rem;
+  height: 100%;
+  transition-property: transform;
+  transition-duration: 0.5s;
+}
+
+input:checked ~ img.chevron {
+  transform: rotate(-180deg);
+}

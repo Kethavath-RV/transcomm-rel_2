@@ -1,0 +1,107 @@
+<div class="introduction_small" *ngFor="let declaration of declarations">
+  <span class="emphasis mb-1 block"
+    >Declaration Type {{ declaration.declarationType }}</span
+  >
+  <div class="flex space-between">
+    <div>
+      <div class="mb-03 flex space-between">
+        <span>Declaration No.</span
+        ><span class="ml-4">{{ declaration.declarationNumber }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Batch Id</span><span class="ml-4">{{ declaration.batchId }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Clearance Status</span
+        ><span class="ml-4">{{ declaration.clearanceStatus }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Version</span><span class="ml-4">{{ declaration.version }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Charge Type</span
+        ><span class="ml-4">{{ declaration.chargeType }}</span>
+      </div>
+    </div>
+    <div>
+      <div class="mb-03 flex space-between">
+        <span>Invoice No.</span
+        ><span class="ml-4">{{ declaration.invoiceNumber }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Shipment Mode</span
+        ><span class="ml-4">{{ declaration.shipmentMode }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Regime Type</span
+        ><span class="ml-4">{{ declaration.regimeType }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Declaration Type</span
+        ><span class="ml-4">{{ declaration.declarationType }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Charge Amount</span
+        ><span class="ml-4">{{ declaration.chargeAmount }}</span>
+      </div>
+    </div>
+    <div>
+      <div class="mb-03 flex space-between">
+        <span>Cosignor/ Exporter Code</span
+        ><span class="ml-4">{{ declaration.exportCodeMirsalTwo }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Broker Code</span
+        ><span class="ml-4">{{ declaration.recipientIdentification }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Sender Identitication</span
+        ><span class="ml-4">{{ declaration.senderIdentification }}</span>
+      </div>
+
+      <div class="mb-03 flex space-between">
+        <span>Bod Id</span><span class="ml-4">{{ declaration.bodId }}</span>
+      </div>
+    </div>
+  </div>
+  <span class="emphasis mb-1 mt-1 block">Claim</span>
+  <div class="flex space-between">
+    <div>
+      <div class="mb-03 flex space-between">
+        <span>Airway Bill No.</span
+        ><span class="ml-4">{{
+          declaration.claim?.transportDocumentNumber ?? ''
+        }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Request Date</span
+        ><span class="ml-4">{{
+          declaration.claim?.requestDate | date: 'medium' ?? ''
+        }}</span>
+      </div>
+    </div>
+    <div>
+      <div class="mb-03 flex space-between">
+        <span>Current Stage</span
+        ><span class="ml-4">{{ declaration.claim?.currentStage ?? '' }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Claim Status</span
+        ><span class="ml-4">{{ declaration.claim?.claimStatus ?? '' }}</span>
+      </div>
+    </div>
+    <div>
+      <div class="mb-03 flex space-between">
+        <span>NR Claim No.</span
+        ><span class="ml-4">{{ declaration.claim?.claimNumber ?? '' }}</span>
+      </div>
+      <div class="mb-03 flex space-between">
+        <span>Claim Type</span
+        ><span class="ml-4">{{ declaration.claim?.claimType ?? '' }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="none-found" *ngIf="!declarations.length">
+  No Decleration was found.
+</div>

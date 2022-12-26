@@ -1,0 +1,28 @@
+FROM node:14 AS node
+
+RUN mkdir -p /app
+WORKDIR /app
+
+COPY tsconfig.base.json .
+COPY tsconfig.packages.json .
+COPY package.json .
+COPY yarn.lock .
+
+COPY ./core/package.json ./core/
+COPY ./core/tsconfig.json ./core/
+COPY ./core/yarn.lock ./core/
+
+COPY ./mock-bless/package.json ./mock-bless/
+COPY ./mock-bless/yarn.lock ./mock-bless/
+COPY ./mock-bless/tsconfig.json ./mock-bless/
+COPY ./mock-bless/nodemon.json ./mock-bless/
+
+RUN yarn install
+
+COPY ./core ./core
+COPY ./mock-bless ./mock-bless
+
+WORKDIR /app/mock-bless
+
+EXPOSE 5050
+CMD ["yarn", "start"]

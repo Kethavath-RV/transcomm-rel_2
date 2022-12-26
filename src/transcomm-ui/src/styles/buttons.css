@@ -1,0 +1,75 @@
+.btn {
+  align-items: center;
+  border-radius: var(--border-radius);
+  color: white;
+  display: inline-flex;
+  font-family: 'DeliveryBold', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 21px;
+  min-height: auto;
+  padding: 10px 19px 10px 19px;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-primary {
+  border: 0;
+  background-color: var(--red);
+  transition: ease-in-out 200ms background-color;
+}
+
+.btn-primary:hover {
+  background-color: var(--red-hover);
+}
+
+.btn-primary:disabled {
+  background-color: var(--grey-medium-light);
+  cursor: auto;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid var(--red);
+  box-sizing: border-box;
+  color: var(--red);
+}
+
+.btn-secondary:hover {
+  color: var(--red-hover);
+  border: 1px solid var(--red-hover);
+}
+
+.btn-secondary:disabled {
+  color: var(--grey-medium-light);
+  border-color: var(--grey-medium-light);
+  cursor: auto;
+}
+
+.btn-off {
+  color: var(--red);
+  background-color: transparent;
+  border: none;
+  font-family: 'DeliveryLight', sans-serif;
+}
+
+.btn-off:disabled {
+  color: var(--grey-medium-light);
+  cursor: auto;
+}
+
+.btn-cross {
+  background-color: transparent;
+  border: solid 2px transparent;
+  box-sizing: border-box;
+  color: var(--red);
+  cursor: pointer;
+  outline: 0;
+  padding: 1.3125rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: color 250ms, border-color 250ms;
+}

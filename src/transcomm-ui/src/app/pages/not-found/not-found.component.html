@@ -1,0 +1,26 @@
+<div class="container text-center">
+  <h1 class="main-headline">Sorry!</h1>
+  <p class="copy">
+    Unfortunately the page you are looking for is unavailable or no longer
+    exists.
+  </p>
+  <h2>Maybe You Were Looking for One of These?</h2>
+  <div class="flex justify-center">
+    <a class="emphasis" routerLink="{{homeLink.route}}">
+      <div class="bg-lightgrey icon-bg">
+        <img src="{{ homeLink.icon }}" alt="" />
+      </div>
+      <span>{{ homeLink.label }}</span>
+    </a>
+    <a
+      class="emphasis"
+      *ngFor="let quicknavlink of quicknavlinks | role"
+      routerLink="{{ quicknavlink.route }}"
+    >
+      <div class="bg-lightgrey icon-bg">
+        <img src="{{ quicknavlink.icon }}" alt="" />
+      </div>
+      <span>{{ quicknavlink.label }}</span>
+    </a>
+  </div>
+</div>

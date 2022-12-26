@@ -1,0 +1,310 @@
+version: '3.4'
+
+services:
+  transcomm_datagen:
+    build:
+      dockerfile: ./docker/datagen/Dockerfile.m1
+      args:
+        DATABASE_URL: ${DATAGEN_DATABASE_URL}
+    ports:
+      - '2020:2020'
+    volumes:
+      - ./datagen/src:/usr/src/datagen/src
+    restart: always
+    environment:
+      QUEUE_HOST: 'redis'
+      QUEUE_PORT: 6379
+      KAFKA_BROKERS: ${KAFKA_BROKERS}
+      KAFKA_GROUP_ID: ${DATAGEN_KAFKA_GROUP_ID}
+      HYPERLEDGER_URL: ${HYPERLEDGER_URL}
+      HYPERLEDGER_CLIENT_ID: ${HYPERLEDGER_CLIENT_ID}
+      HYPERLEDGER_CHANNEL_NAME: ${HYPERLEDGER_CHANNEL_NAME}
+      HYPERLEDGER_CHAINCODE_NAME: ${HYPERLEDGER_CHAINCODE_NAME}
+      HYPERLEDGER_USER_ID: ${HYPERLEDGER_USER_ID}
+      HYPERLEDGER_ORGANIZATION_CODE: ${HYPERLEDGER_ORGANIZATION_CODE}
+      AXIOS_RETRY_COUNT: ${AXIOS_RETRY_COUNT}
+      AUTO_RETRIES: ${AUTO_RETRIES}
+      AUTO_RETRIES_INTERVAL: ${AUTO_RETRIES_INTERVAL}
+      DATAGEN_URL: ${DATAGEN_URL}
+      DATAGEN_PUBLIC_URL: ${DATAGEN_PUBLIC_URL}
+      KAFKA_TOPIC_BLESS_COMMON_APP_OUTPUT: ${KAFKA_TOPIC_BLESS_COMMON_APP_OUTPUT}
+      DATAGEN_KAFKA_SENDER_IDENTITY: ${DATAGEN_KAFKA_SENDER_IDENTITY}
+      DATAGEN_KAFKA_RECEIVERS: ${DATAGEN_KAFKA_RECEIVERS}
+      DATAGEN_APPLICATION_ID: ${DATAGEN_APPLICATION_ID}
+      DATAGEN_KAFKA_EXCEPTION_MESSAGE_TYPE: ${DATAGEN_KAFKA_EXCEPTION_MESSAGE_TYPE}
+      DATAGEN_KAFKA_AUDIENCE: ${DATAGEN_KAFKA_AUDIENCE}
+      DATAGEN_KAFKA_EXCEPTION_RECEIVERS: ${DATAGEN_KAFKA_EXCEPTION_RECEIVERS}
+      SUBMITORDER_ORDER_DATA_MESSAGE_TYPE: ${SUBMITORDER_ORDER_DATA_MESSAGE_TYPE}
+      SUBMITORDER_INVOICE_DATA_MESSAGE_TYPE: ${SUBMITORDER_INVOICE_DATA_MESSAGE_TYPE}
+      UPDATETRANSPORTINFO_ORDER_DATA_MESSAGE_TYPE: ${UPDATETRANSPORTINFO_ORDER_DATA_MESSAGE_TYPE}
+      UPDATETRANSPORTINFO_INVOICE_DATA_MESSAGE_TYPE: ${UPDATETRANSPORTINFO_INVOICE_DATA_MESSAGE_TYPE}
+      UPDATETRANSPORTINFO_DECLARATION_JSON_MAPPING_MESSAGE_TYPE: ${UPDATETRANSPORTINFO_DECLARATION_JSON_MAPPING_MESSAGE_TYPE}
+      UPDATETRANSPORTINFO_DOCUMENTTRACKING_MESSAGE_TYPE: ${UPDATETRANSPORTINFO_DOCUMENTTRACKING_MESSAGE_TYPE}
+      INITIATEDECLARATION_ORDER_DATA_MESSAGE_TYPE: ${INITIATEDECLARATION_ORDER_DATA_MESSAGE_TYPE}
+      INITIATEDECLARATION_DECLARATION_JSON_MAPPING_MESSAGE_TYPE: ${INITIATEDECLARATION_DECLARATION_JSON_MAPPING_MESSAGE_TYPE}
+      INITIATEDECLARATION_DOCUMENTTRACKING_MESSAGE_TYPE: ${INITIATEDECLARATION_DOCUMENTTRACKING_MESSAGE_TYPE}
+      INITIATEDECLARATION_INVOICE_DATA_MESSAGE_TYPE: ${INITIATEDECLARATION_INVOICE_DATA_MESSAGE_TYPE}
+      UPDATEEXITCONFIRMATION_DOCUMENTTRACKING_MESSAGE_TYPE: ${UPDATEEXITCONFIRMATION_DOCUMENTTRACKING_MESSAGE_TYPE}
+      UPDATEEXITCONFIRMATION_CLAIM_REQUEST_MESSAGE_TYPE: ${UPDATEEXITCONFIRMATION_CLAIM_REQUEST_MESSAGE_TYPE}
+      UPDATEEXITCONFIRMATION_INVOICE_DATA_MESSAGE_TYPE: ${UPDATEEXITCONFIRMATION_INVOICE_DATA_MESSAGE_TYPE}
+      DELIVERORDER_INVOICE_DATA_MESSAGE_TYPE: ${DELIVERORDER_INVOICE_DATA_MESSAGE_TYPE}
+      DELIVERORDER_ORDER_DATA_MESSAGE_TYPE: ${DELIVERORDER_ORDER_DATA_MESSAGE_TYPE}
+      CONFIRMRETURNDELIVERY_ORDER_DATA_MESSAGE_TYPE: ${CONFIRMRETURNDELIVERY_ORDER_DATA_MESSAGE_TYPE}
+      CONFIRMRETURNDELIVERY_INVOICE_DATA_MESSAGE_TYPE: ${CONFIRMRETURNDELIVERY_INVOICE_DATA_MESSAGE_TYPE}
+      DECLARATION_STATUS_CHANGE_DOCUMENTTRACKING_MESSAGE_TYPE: ${DECLARATION_STATUS_CHANGE_DOCUMENTTRACKING_MESSAGE_TYPE}
+      CLAIM_STATUS_CHANGE_DOCUMENTTRACKING_MESSAGE_TYPE: ${UPDATEEXITCONFIRMATION_DOCUMENTTRACKING_MESSAGE_TYPE}
+      UPDATEEXITCONFIRMATION_ORDER_DATA_MESSAGE_TYPE: ${UPDATEEXITCONFIRMATION_ORDER_DATA_MESSAGE_TYPE}
+      LOGGING_LEVEL: ${LOGGING_LEVEL}
+      HL_QUEUE_RETRY_ATTEMPTS: ${HL_QUEUE_RETRY_ATTEMPTS}
+      HL_QUEUE_RETRY_DELAY: ${HL_QUEUE_RETRY_DELAY}
+      STARTING_BLOCK: ${STARTING_BLOCK}
+      HASHICORP_VAULT_URL: ${HASHICORP_VAULT_URL}
+      HASHICORP_SECRET_ADDRESS: ${HASHICORP_SECRET_ADDRESS}
+      HASHICORP_DHL_CODE_LOOKUP: ${HASHICORP_DHL_CODE_LOOKUP}
+      HASHICORP_SHARED_KEY_LOOKUP: ${HASHICORP_SHARED_KEY_LOOKUP}
+      HASHICORP_USERNAME: ${HASHICORP_USERNAME}
+      HASHICORP_PASSWORD: ${HASHICORP_PASSWORD}
+      HASHICORP_ROOT_PATH: ${HASHICORP_ROOT_PATH}
+    depends_on:
+      - kafka
+      - redis
+      - transcomm_datagen_migration
+      - mock_hashicorp_vault
+      - mock_hashicorp_vault_seeding
+  transcomm_datagen_migration:
+    build:
+      context: ./
+      dockerfile: ./docker/datagen/database-migration/Dockerfile.m1
+      args:
+        DATABASE_URL: ${DATAGEN_DATABASE_URL}
+    depends_on:
+      - db_mariadb
+  transcomm_data_transformer:
+    build:
+      dockerfile: ./docker/data-transformer/Dockerfile.development
+    ports:
+      - '6060:6060'
+    volumes:
+      - ./data-transformer/src:/usr/src/data-transformer/src
+    environment:
+      SERVER_PORT: 6060
+      BLESS_URL: ${BLESS_URL}
+      BLESS_ROUTE: ${BLESS_ROUTE}
+      BLESS_AUTH: ${BLESS_AUTH}
+      BLESS_KID: ${BLESS_KID}
+      BLESS_NEW_ORDER_MESSAGE_TYPE: ${BLESS_NEW_ORDER_MESSAGE_TYPE}
+      BLESS_ISSUER: ${BLESS_ISSUER}
+      BLESS_APPLICATION: ${BLESS_APPLICATION}
+      SUBJECT_PRIMARY: ${SUBJECT_PRIMARY}
+    restart: always
+  transcomm_backend_migration:
+    build:
+      context: ./
+      dockerfile: ./docker/transcomm-backend/database-migration/Dockerfile.m1
+      args:
+        DATABASE_URL: ${TRANSCOMM_BACKEND_DATABASE_URL}
+    depends_on:
+      - db_mariadb
+  transcomm_backend:
+    build:
+      dockerfile: ./docker/transcomm-backend/Dockerfile.m1
+      args:
+        DATABASE_URL: ${TRANSCOMM_BACKEND_DATABASE_URL}
+    ports:
+      - '3030:3030'
+    volumes:
+      - ./transcomm-backend/src:/usr/src/transcomm-backend/src
+    restart: always
+    environment:
+      KAFKA_TOPIC_CUSTOMS: ${KAFKA_TOPIC_CUSTOMS}
+      KAFKA_TOPIC_PICKUPS_MOVEMENTS: ${KAFKA_TOPIC_PICKUPS_MOVEMENTS}
+      KAFKA_TOPIC_BLESS_COMMON_APP_OUTPUT: ${KAFKA_TOPIC_BLESS_COMMON_APP_OUTPUT}
+      KAFKA_BROKERS: ${KAFKA_BROKERS}
+      KAFKA_GROUP_ID: ${TRANSCOMM_BACKEND_KAFKA_GROUP_ID}
+      DATAGEN_URL: ${DATAGEN_URL}
+      BLESS_NEW_ORDER_MESSAGE_TYPE: ${BLESS_NEW_ORDER_MESSAGE_TYPE}
+      BLESS_CONFIRM_RETURN_DELIVERY_MESSAGE_TYPE: ${BLESS_CONFIRM_RETURN_DELIVERY_MESSAGE_TYPE}
+      BLESS_HYPERLEDGER_MESSAGE_TYPES: ${BLESS_HYPERLEDGER_MESSAGE_TYPES}
+      BLESS_NEW_PICKUP_MESSAGE_TYPE: ${BLESS_NEW_PICKUP_MESSAGE_TYPE}
+      BLESS_NEW_MASTER_MOVEMENT_MESSAGE_TYPE: ${BLESS_NEW_MASTER_MOVEMENT_MESSAGE_TYPE}
+      BLESS_NEW_DETAIl_MOVEMENT_MESSAGE_TYPE: ${BLESS_NEW_DETAIl_MOVEMENT_MESSAGE_TYPE}
+      BLESS_DECLARATION_REQUEST_EXPORT_MESSAGE_TYPE: ${BLESS_DECLARATION_REQUEST_EXPORT_MESSAGE_TYPE}
+      BLESS_DECLARATION_REQUEST_IMPORT_MESSAGE_TYPE: ${BLESS_DECLARATION_REQUEST_IMPORT_MESSAGE_TYPE}
+      BLESS_DECLARATION_RESPONSE_EXPORT_MESSAGE_TYPE: ${BLESS_DECLARATION_RESPONSE_EXPORT_MESSAGE_TYPE}
+      BLESS_DECLARATION_RESPONSE_IMPORT_MESSAGE_TYPE: ${BLESS_DECLARATION_RESPONSE_IMPORT_MESSAGE_TYPE}
+      EVENTSTORE_CONNECTION_STRING: 'esdb://db_eventstore:2113?tls=false'
+      AUTO_RETRIES_INTERVAL: ${AUTO_RETRIES_INTERVAL}
+      AUTO_RETRIES: ${AUTO_RETRIES}
+      SUPERADMIN_EMAIL: ${SUPERADMIN_EMAIL}
+      SUPERADMIN_HASHED_PASSWORD: ${SUPERADMIN_HASHED_PASSWORD}
+      LOGGING_LEVEL: ${LOGGING_LEVEL}
+      BUSINESS_EXCEPTION_MSG_TYPE: ${BUSINESS_EXCEPTION_MSG_TYPE}
+      DATAGEN_KAFKA_SENDER_IDENTITY: ${DATAGEN_KAFKA_SENDER_IDENTITY}
+      DATAGEN_KAFKA_RECEIVERS: ${DATAGEN_KAFKA_RECEIVERS}
+      DATAGEN_KAFKA_EXCEPTION_MESSAGE_TYPE: ${DATAGEN_KAFKA_EXCEPTION_MESSAGE_TYPE}
+      DATAGEN_KAFKA_EXCEPTION_RECEIVERS: ${DATAGEN_KAFKA_EXCEPTION_RECEIVERS}
+      DATAGEN_APPLICATION_ID: ${DATAGEN_APPLICATION_ID}
+      DATAGEN_KAFKA_AUDIENCE: ${DATAGEN_KAFKA_AUDIENCE}
+      DATAGEN_ACTIVE: ${DATAGEN_ACTIVE}
+    depends_on:
+      - kafka
+      - transcomm_backend_migration
+      - db_eventstore
+  transcomm_ui:
+    build:
+      dockerfile: ./docker/transcomm-ui/Dockerfile.development
+    ports:
+      - '4200:4200'
+    volumes:
+      - ./transcomm-ui/src:/app/transcomm-ui/src
+    environment:
+      NODE_ENV: production
+      SERVER_PORT: 4200
+    restart: always
+  mock_bless:
+    build:
+      dockerfile: ./docker/mock-bless/Dockerfile.development
+      context: .
+    ports:
+      - '5050:5050'
+    volumes:
+      - ./mock-bless/src:/usr/src/mock-bless/src
+    restart: always
+    environment:
+      KAFKA_TOPIC_CUSTOMS: ${KAFKA_TOPIC_CUSTOMS}
+      KAFKA_TOPIC_PICKUPS_MOVEMENTS: ${KAFKA_TOPIC_PICKUPS_MOVEMENTS}
+      KAFKA_TOPIC_BLESS_COMMON_APP_OUTPUT: ${KAFKA_TOPIC_BLESS_COMMON_APP_OUTPUT}
+      KAFKA_BROKERS: ${KAFKA_BROKERS}
+      KAFKA_GROUP_ID: ${MOCK_BLESS_KAFKA_GROUP_ID}
+      BUSINESS_EXCEPTION_MSG_TYPE: ${BUSINESS_EXCEPTION_MSG_TYPE}
+      BLESS_DECLARATION_REQUEST_EXPORT_MESSAGE_TYPE: ${BLESS_DECLARATION_REQUEST_EXPORT_MESSAGE_TYPE}
+      BLESS_DECLARATION_REQUEST_IMPORT_MESSAGE_TYPE: ${BLESS_DECLARATION_REQUEST_IMPORT_MESSAGE_TYPE}
+      BLESS_NEW_PICKUP_MESSAGE_TYPE: ${BLESS_NEW_PICKUP_MESSAGE_TYPE}
+      BLESS_NEW_MASTER_MOVEMENT_MESSAGE_TYPE: ${BLESS_NEW_MASTER_MOVEMENT_MESSAGE_TYPE}
+      BLESS_NEW_DETAIl_MOVEMENT_MESSAGE_TYPE: ${BLESS_NEW_DETAIl_MOVEMENT_MESSAGE_TYPE}
+    depends_on:
+      - kafka
+  mock_hyperledger:
+    build:
+      dockerfile: ./docker/mock-hyperledger/Dockerfile
+      context: .
+    depends_on:
+      - kafka
+    ports:
+      - '4050:4050'
+    volumes:
+      - ./mock-hyperledger/src:/usr/src/mock-hyperledger/src
+    environment:
+      NODE_ENV: production
+      SERVER_PORT: 4050
+    restart: always
+  kafka:
+    image: schrbr/kafka:2.13-2.6.0
+    hostname: kafka1
+    restart: always
+    depends_on:
+      - zookeeper
+    ports:
+      - target: 9094
+        published: 9094
+        protocol: tcp
+        mode: host
+    environment:
+      KAFKA_CREATE_TOPICS: 'DHL-EXP-TRANSCOM-TOPIC:1:1:compact,BlessAckTopic:1:1:compact,TOPIC-IM-TRANSCOMM-DXB:1:1:compact'
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://localhost:9094
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_BROKER_ID: 1
+    volumes:
+      - type: volume
+        source: kafka-volume
+        target: /kafka
+  mock_hashicorp_vault:
+    image: vault:latest
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=${HASHICORP_DEV_ROOT_TOKEN}
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - '8200:8200'
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider localhost:8200/v1/sys/health || exit 1
+      interval: 15s
+      retries: 20
+      start_period: 30s
+      timeout: 10s
+  mock_hashicorp_vault_seeding:
+    build:
+      context: ./
+      dockerfile: ./docker/hashicorp-vault-seed/Dockerfile
+    environment:
+      - HASHICORP_DHL_CODE_LOOKUP=${HASHICORP_DHL_CODE_LOOKUP}
+      - HASHICORP_SHARED_KEY_LOOKUP=${HASHICORP_SHARED_KEY_LOOKUP}
+      - HASHICORP_SECRET_ADDRESS=${HASHICORP_SECRET_ADDRESS}
+      - HASHICORP_DEV_ROOT_TOKEN=${HASHICORP_DEV_ROOT_TOKEN}
+      - HASHICORP_VAULT_URL=${HASHICORP_VAULT_URL}
+      - HASHICORP_USERNAME=${HASHICORP_USERNAME}
+      - HASHICORP_PASSWORD=${HASHICORP_PASSWORD}
+      - HASHICORP_ROOT_PATH=${HASHICORP_ROOT_PATH}
+    depends_on:
+      mock_hashicorp_vault:
+        condition: service_healthy
+  zookeeper:
+    image: wurstmeister/zookeeper
+    restart: always
+    ports:
+      - '2181:2181'
+    volumes:
+      - type: volume
+        source: zookeeper-volume-conf
+        target: /opt/zookeeper-3.4.13/conf
+      - type: volume
+        source: zookeeper-volume-data
+        target: /opt/zookeeper-3.4.13/data
+  redis:
+    ports:
+      - 6379:6379
+  db_mariadb:
+    image: mariadb:${MARIADB_VERSION:-latest}
+    restart: 'always'
+    ports:
+      - '3306:3306'
+    volumes:
+      - type: volume
+        source: mariadb-volume-data
+        target: /var/lib/mysql/
+    environment:
+      MYSQL_ROOT_PASSWORD: 'Pas5word'
+      MYSQL_DATABASE: 'testdb'
+      MYSQL_USER: 'mila'
+      MYSQL_PASSWORD: 'Pas5word'
+  db_eventstore:
+    environment:
+      - EVENTSTORE_CLUSTER_SIZE=1
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+      - EVENTSTORE_EXT_TCP_PORT=1113
+      - EVENTSTORE_INSECURE=true
+      - EVENTSTORE_ENABLE_EXTERNAL_TCP=true
+      - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
+    ports:
+      - '1113:1113'
+      - '2113:2113'
+    volumes:
+      - type: volume
+        source: eventstore-volume-data
+        target: /var/lib/eventstore
+      - type: volume
+        source: eventstore-volume-logs
+        target: /var/log/eventstore
+
+volumes:
+  kafka-volume:
+  zookeeper-volume-conf:
+  zookeeper-volume-data:
+  mariadb-volume-data:
+  eventstore-volume-data:
+  eventstore-volume-logs:

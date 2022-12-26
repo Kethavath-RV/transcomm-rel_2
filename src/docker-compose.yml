@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  transcomm_datagen:
+    image: ${REGISTRY:-dhl_dutydrawback}/transcomm_datagen:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: ./
+      dockerfile: ./docker/datagen/Dockerfile
+  transcomm_backend:
+    image: ${REGISTRY:-dhl_dutydrawback}/transcomm_backend:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: ./
+      dockerfile: ./docker/transcomm-backend/Dockerfile
+  transcomm_ui:
+    image: ${REGISTRY:-dhl_dutydrawback}/transcomm_ui:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: ./
+      dockerfile: ./docker/transcomm-ui/Dockerfile
+  db_eventstore:
+    image: eventstore/eventstore:21.6.0-buster-slim
+  redis:
+    image: redis:alpine

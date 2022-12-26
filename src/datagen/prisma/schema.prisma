@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  // output          = "../src/generated/prisma/client"
+  previewFeatures = ["selectRelationCount", "referentialActions"]
+}
+
+model HyperledgerEvent {
+  id            String      @id @default(uuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  status        EventStatus
+  key           String
+  collection    String
+  blockNumber   Int
+  orderNumber   String
+  invoiceNumber String?
+  ecomCode      String
+  eventName     String
+  txId          String
+}
+
+model EventKeyOrderLookup {
+  key           String
+  collection    String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  orderNumber   String
+  invoiceNumber String?
+  ecomCode      String
+
+  @@id([key, collection])
+}
+
+model TxnLookup {
+  txnId         String   @id
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  orderNumber   String
+  invoiceNumber String?
+  eventType     String
+  ecomCode      String
+}
+
+enum EventStatus {
+  OPEN
+  PROCESSING
+  COMPLETED
+  IGNORE
+}

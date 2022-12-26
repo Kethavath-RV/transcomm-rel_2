@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "ae24fd5f-e3c2-4481-8de6-2d211639b18a",
+		"name": "DataGen",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "InvokeSubmitOrder",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"orderNo\": \"string\",\r\n      \"orderDateUTCstring\": \"string\",\r\n      \"actionDateUTCstring\": \"string\",\r\n      \"ecomBusinessCode\": \"string\",\r\n      \"mode\": \"string\",\r\n      \"billTo\": \"string\",\r\n      \"shipTo\": \"string\",\r\n      \"consigneeAddress\": {\r\n        \"addressLine1\": \"string\",\r\n        \"addressLine2\": \"string\",\r\n        \"POBox\": \"string\",\r\n        \"city\": \"string\",\r\n        \"email\": \"string\",\r\n        \"country\": \"Bahrain\",\r\n        \"phone\": \"ell\"\r\n      },\r\n      \"billToAddress\": {\r\n        \"addressLine1\": \"string\",\r\n        \"addressLine2\": \"string\",\r\n        \"POBox\": \"string\",\r\n        \"city\": \"string\",\r\n        \"country\": \"Bahrain\"\r\n      },\r\n      \"shipToAddress\": {\r\n        \"addressLine1\": \"string\",\r\n        \"addressLine2\": \"string\",\r\n        \"POBox\": \"string\",\r\n        \"city\": \"string\",\r\n        \"country\": \"Bahrain\"\r\n      },\r\n      \"documents\": [],\r\n      \"invoices\": [],\r\n      \"otherShipTo\": [],\r\n      \"someGuid\": \"string\",\r\n      \"consigneeName\": \"string\",\r\n      \"consigneeCode\": \"string\",\r\n      \"orgCode\": \"string\",\r\n      \"someString\": \"string\",\r\n      \"order\": {\r\n        \"orderNumber\": \"\",\r\n        \"actionDate\": \"\",\r\n        \"billTo\": \"hi\",\r\n        \"billToAddress\": {\r\n          \"addressLine1\": \"string\",\r\n          \"addressLine2\": \"string\",\r\n          \"POBox\": \"string\",\r\n          \"city\": \"string\",\r\n          \"country\": \"Bahrain\"\r\n        },\r\n        \"documents\": [],\r\n        \"invoices\": [],\r\n        \"mode\": \"Basic\"\r\n      }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/invoke/submitOrder",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"invoke",
+						"submitOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostHLEvent",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n    \"key\": \"AE-9239786_ORD-T-45936\",\r\n    \"collection\": \"invoice_data\",\r\n    \"block\": 1\r\n}]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/hl-events",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"hl-events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostHLEvent Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"payload\": [{\r\n        \"key\": \"72cdbcec-9d0f-435d-9902-de126df8e2a8\",\r\n        \"collection\": \"documenttracking\"\r\n    }],\r\n    \"block\": 1,\r\n    \"txId\": \"081eae9d-b4e9-4862-855f-bc4f9510d9f3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/hl-events",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"hl-events"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

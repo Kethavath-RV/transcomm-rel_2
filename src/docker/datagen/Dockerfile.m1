@@ -1,0 +1,43 @@
+FROM node:14 AS node
+
+FROM node AS development
+
+ARG DATABASE_URL
+ENV DATABASE_URL $DATABASE_URL
+ENV NODE_ENV=development
+
+RUN apt-get update
+RUN apt-get install -y openssl
+
+WORKDIR /usr/src
+
+COPY package.json .
+COPY yarn.lock .
+
+COPY ./core/package.json ./core/
+COPY ./core/yarn.lock ./core/
+
+COPY ./datagen/package.json ./datagen/
+COPY ./datagen/yarn.lock ./datagen/
+
+RUN yarn install
+
+COPY ./core ./core
+COPY ./datagen ./datagen
+
+COPY tsconfig.base.json .
+COPY tsconfig.packages.json .
+
+WORKDIR /usr/src/datagen
+
+RUN yarn install
+
+RUN yarn run prisma generate
+
+RUN yarn run tsc -b -f
+
+RUN yarn run build
+
+EXPOSE 2020
+
+CMD ["yarn","run","start:dev", "--preserveWatchOutput"]

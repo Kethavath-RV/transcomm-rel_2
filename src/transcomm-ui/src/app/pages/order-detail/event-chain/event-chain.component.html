@@ -1,0 +1,47 @@
+<div class="wrapper mb-1">
+  <h4 class="emphasis mt-0 mb-2">Event Chain</h4>
+  <div class="chain mt-1 ml-2">
+    <ng-container *ngFor="let event of eventChain; let i = index">
+      <div
+        *ngIf="
+          !event.eventType.includes('Exception') &&
+          !event.eventType.includes('Error')
+        "
+        class="chain-item normal"
+      >
+        <div class="info-group">
+          <p class="event-type">{{ event.eventType }}</p>
+          <p class="event-date">
+            {{ event.eventTime | date: 'medium' }}
+          </p>
+        </div>
+      </div>
+      <div
+        (click)="openSidebar(i)"
+        *ngIf="event.eventType.includes('Exception')"
+        class="chain-item pointer error"
+      >
+        <div class="info-group">
+          <p class="event-type">
+            {{ event.exceptions.length }} Exception{{
+              event.exceptions.length > 1 ? 's' : ''
+            }}
+          </p>
+          <p class="event-date">{{ event.eventTime | date: 'medium' }}</p>
+        </div>
+      </div>
+      <div
+        (click)="openSidebar(i)"
+        *ngIf="event.eventType.includes('Error')"
+        class="chain-item pointer error include-counter"
+      >
+        <div class="info-group">
+          <p class="event-type"></p>
+          <p class="event-date">
+            {{ event.eventTime | date: 'medium' }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="order-lines-grid">
+  <div class="row-item" *ngFor="let col of headers">
+    <span class="emphasis order-line-header block">
+      {{ col.displayName }}
+    </span>
+  </div>
+  <ng-container *ngFor="let orderLine of orderLines">
+    <div class="row-item" *ngFor="let col of headers">
+      <ng-container [ngSwitch]="col.type">
+        <span class="block" *ngSwitchCase="'single'">{{ orderLine[col.selector[0]]}}</span>
+        <span class="block" *ngSwitchDefault>{{orderLine[col.selector[0]]}} {{orderLine[col.selector[1]]}}</span>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>

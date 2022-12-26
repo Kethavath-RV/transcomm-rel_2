@@ -1,0 +1,42 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: YarnTest
+    displayName: Yarn Install & Test
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '14.x'
+        displayName: 'Install Node.js'
+
+      - script: yarn install
+        displayName: Yarn Install
+        workingDirectory: src
+
+      - script: yarn install
+        displayName: Yarn Install Transcomm-UI
+        workingDirectory: src/transcomm-ui
+
+      - script: yarn workspaces run test
+        displayName: Yarn Test
+        workingDirectory: src
+
+      - task: reportgenerator@4
+        inputs:
+          reports: '$(System.DefaultWorkingDirectory)/src/datagen/coverage/cobertura-coverage.xml;$(System.DefaultWorkingDirectory)/src/transcomm-backend/coverage/cobertura-coverage.xml;$(System.DefaultWorkingDirectory)/src/data-transformer/coverage/cobertura-coverage.xml'
+          targetdir: '$(System.DefaultWorkingDirectory)/coveragereport'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: '**/junit.xml'
+          mergeTestResults: true
+          testRunTitle: 'Jest Unit Tests'
+          failTaskOnFailedTests: true
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: $(System.DefaultWorkingDirectory)/coveragereport/**/Cobertura.xml

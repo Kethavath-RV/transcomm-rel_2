@@ -1,0 +1,28 @@
+<ng-container *ngIf="!isLoading">
+  <ag-grid-angular
+    style="width: 100%; flex: 1 1 auto"
+    class="ag-theme-alpine"
+    domLayout="autoHeight"
+    [rowData]="rowData"
+    [gridOptions]="gridOptions"
+    [columnDefs]="columnDefs"
+    [frameworkComponents]="frameworkComponents"
+    (gridReady)="onGridReady($event)"
+    (sortChanged)="onSortChanged()"
+    (filterChanged)="onFilterChanged()"
+    (rowDataChanged)="onRowDataChanged()"
+    (rowDoubleClicked)="onRowDoubleClicked($event)"
+  >
+  </ag-grid-angular>
+  <app-row-counter
+    [activePage]="aggridService.activePage"
+    [numberPerPage]="aggridService.numberPerPage"
+    [numberOfRows]="aggridService.numberOfRows"
+  >
+  </app-row-counter>
+  <app-pagination
+    [activePage]="aggridService.activePage"
+    [numberOfPages]="aggridService.numberOfPages"
+    (onNewPageSet)="newPageHandler($event)"
+  ></app-pagination>
+</ng-container>

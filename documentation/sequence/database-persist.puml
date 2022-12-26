@@ -1,0 +1,11 @@
+@startuml on database persist
+autonumber
+TransCommBackend -> Database: Persist new order data
+group on success:
+    Database -> TransCommBackend: Data persisted
+    TransCommBackend -> Bless: Post Data persisted
+else on error:
+    Database -> TransCommBackend: Data not persisted
+    TransCommBackend -> Bless: Post data not persisted
+end
+@enduml

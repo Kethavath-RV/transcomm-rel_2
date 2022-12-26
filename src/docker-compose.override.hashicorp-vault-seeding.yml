@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  mock_hashicorp_vault:
+    image: vault:latest
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=${HASHICORP_DEV_ROOT_TOKEN}
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - '8200:8200'
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider localhost:8200/v1/sys/health || exit 1
+      interval: 15s
+      retries: 20
+      start_period: 30s
+      timeout: 10s
+  mock_hashicorp_vault_seeding:
+    build:
+      context: ./
+      dockerfile: ./docker/hashicorp-vault-seed/Dockerfile
+    environment:
+      - HASHICORP_DHL_CODE_LOOKUP=${HASHICORP_DHL_CODE_LOOKUP}
+      - HASHICORP_SHARED_KEY_LOOKUP=${HASHICORP_SHARED_KEY_LOOKUP}
+      - HASHICORP_SECRET_ADDRESS=${HASHICORP_SECRET_ADDRESS}
+      - HASHICORP_DEV_ROOT_TOKEN=${HASHICORP_DEV_ROOT_TOKEN}
+      - HASHICORP_VAULT_URL=${HASHICORP_VAULT_URL}
+      - HASHICORP_USERNAME=${HASHICORP_USERNAME}
+      - HASHICORP_PASSWORD=${HASHICORP_PASSWORD}
+      - HASHICORP_ROOT_PATH=${HASHICORP_ROOT_PATH}
+    depends_on:
+      mock_hashicorp_vault:
+        condition: service_healthy

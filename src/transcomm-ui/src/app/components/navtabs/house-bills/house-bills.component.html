@@ -1,0 +1,15 @@
+<div class="bills-grid" *ngIf="houseBills.length">
+  <div class="row-item" *ngFor="let col of columns">
+    <span class="emphasis block">
+      {{ col.displayName }}
+    </span>
+  </div>
+  <ng-container *ngFor="let bill of houseBills">
+    <div class="row-item" *ngFor="let col of columns">
+      <span class="block">{{ bill[col.selector] }}</span>
+    </div>
+  </ng-container>
+</div>
+<div class="none-found" *ngIf="!houseBills.length">
+  No House bill was found.
+</div>

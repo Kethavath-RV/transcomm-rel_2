@@ -1,0 +1,16 @@
+<app-modal-template>
+  <h4 class="main-headline my-1">Delete User</h4>
+  <p>This user will no longer have access to the application.</p>
+  <div class="flex justify-end">
+    <button
+      type="button"
+      (click)="closeModal('backToEdit')"
+      class="btn btn-off mr-1"
+    >
+      Cancel
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="deleteUser()">
+      Delete
+    </button>
+  </div>
+</app-modal-template>

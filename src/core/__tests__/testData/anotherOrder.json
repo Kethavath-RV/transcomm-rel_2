@@ -1,0 +1,73 @@
+{
+  "orderNumber": "ORD19201",
+  "orderDate": "14/01/2020 10:10:00",
+  "actionDate": "2021-08-28T17:59:27.453Z",
+  "ecomBusinessCode": "",
+  "mode": "B",
+  "billTo": "ISMA NOOR",
+  "billToAddress": {
+    "addressLine1": "10th Floor, Plaza IBM",
+    "addressLine2": "No. 1005, First Avenue",
+    "POBox": "54000",
+    "city": "54000",
+    "country": "PK"
+  },
+  "shipTo": "ISMA NOOR",
+  "shipToAddress": {
+    "addressLine1": "10th Floor, Plaza IBM",
+    "addressLine2": "No. 1005, First Avenue",
+    "POBox": "54000",
+    "city": "54000",
+    "country": "PK"
+  },
+  "documents": {
+    "hash": "2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5",
+    "path": "/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf",
+    "name": "44.pdf"
+  },
+  "invoices": [
+    {
+      "mode": "B",
+      "exporterCode": "12902",
+      "FZCode": "",
+      "warehouseCode": "",
+      "cargoOwnership": "1",
+      "associatedEcomCompany": "",
+      "brokerBusinessCode": "",
+      "logisticsSPBusinessCode": "",
+      "returnDetail": {},
+      "invoiceParameters": [
+        {
+          "lineItems": [
+            {
+              "mode": "B",
+              "quantityReturned": 0,
+              "goodsCondition": "N",
+              "description": "Tom Ford Black Faye Oval Sunglasses",
+              "quantity": 2.0,
+              "quantityUOM": "kg",
+              "netWeight": 2.0,
+              "netWeightUOM": "kg",
+              "returnDays": 7,
+              "supplementaryQuantity": null,
+              "supplementaryQuantityUOM": null,
+              "valueOfGoods": 196,
+              "countryOfOrigin": "IT",
+              "discount": {
+                "value": null,
+                "percentage": 2
+              },
+              "originalValueOfItem": 200,
+              "isFreeOfCost": "N",
+              "documents": {
+                "hash": "2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5",
+                "path": "/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf",
+                "name": "44.pdf"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

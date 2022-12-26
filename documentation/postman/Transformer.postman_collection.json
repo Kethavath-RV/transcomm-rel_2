@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "916ed1a7-c1e0-422d-adb5-a7f382992747",
+		"name": "Transformer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SubmitOrder",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRlcjIiLCJzdWIiOiI5MWFhY2I4Yi1iNDNjLTRkOWQtOThiYS1kNzk2NmNlZGZkNDIiLCJpc3N1ZXIiOiJESExUcmFuc0NvbSIsImlhdCI6MTYyNzkxMTczMSwiZXhwIjoxNjI3OTE1MzMxfQ.-7XLqzcNy5r4lADMc-I7y9BsdUBJIdio67DYdI0Rt-c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"vc-id-1\",\n    \"msgType\": \"submitOrder\",\n    \"data\": {\n        \"orderNumber\": {{OrderNumber}},\n        \"orderDate\": \"2021-08-28T17:59:27Z\",\n        \"actionDate\": \"2021-08-28T17:59:27Z\",\n        \"ecomBusinessCode\": {{EcomCode}},\n        \"mode\": \"F\",\n        \"consigneeName\": \"ISMA NOOR\",\n        \"consigneeAddress\": {\n            \"addressLine1\": \"10th Floor, Plaza IBM\",\n            \"addressLine2\": \"No. 1005, First Avenue\",\n            \"POBox\": \"54000\",\n            \"city\": \"54000\",\n            \"country\": \"IN\",\n            \"phone\": \"+944413344901\",\n            \"email\": \"isma.noor@avanzainnovations.com\"\n        },\n        \"billTo\": \"ISMA NOOR\",\n        \"billToAddress\": {\n            \"addressLine1\": \"10th Floor, Plaza IBM\",\n            \"addressLine2\": \"No. 1005, First Avenue\",\n            \"POBox\": \"54000\",\n            \"city\": \"54000\",\n            \"country\": \"PK\"\n        },\n        \"shipTo\": \"ISMA NOOR\",\n        \"shipToAddress\": {\n            \"addressLine1\": \"10th Floor, Plaza IBM\",\n            \"addressLine2\": \"No. 1005, First Avenue\",\n            \"POBox\": \"54000\",\n            \"city\": \"54000\",\n            \"country\": \"PK\"\n        },\n        \"invoices\": [\n            {\n            \"mode\": \"F\",\n            \"invoiceNumber\": \"inv-1\",\n            \"invoiceDate\": \"2021-08-28T17:59:27Z\",\n            \"invoiceType\": 2,\n            \"incoTerm\": \"CIF\",\n            \"totalNoOfInvoicePages\": 1,\n            \"paymentInstrumentType\": 10,\n            \"currency\": \"AED\",\n            \"totalValue\": 2050,\n            \"exporterCode\": \"12902\",\n            \"FZCode\": \"1\",\n            \"warehouseCode\": \"\",\n            \"cargoOwnership\": \"1\",\n            \"associatedEcomCompany\": \"\",\n            \"brokerBusinessCode\": \"TESTDHL\",\n            \"deliveryProviderBusinessCode\": \"testDPBC\",\n            \"logisticsSPBusinessCode\": \"DHL\",\n            \"documents\": [{\n                \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\",\n                \"name\": \"44.pdf\"\n            }],\n            \"lineItems\": [\n                {\n                \"mode\": \"F\",\n                \"lineNo\": 11,\n                \"hscode\": \"1022900\",\n                \"goodsCondition\": \"N\",\n                \"returnDays\": 1,\n                \"description\": \"Tom Ford Black Faye Oval Sunglasses\",\n                \"quantity\": 2,\n                \"quantityUOM\": \"kg\",\n                \"netWeight\": 2,\n                \"netWeightUOM\": \"kg\",\n                \"dutyPaid\": \"N\",\n                \"supplementaryQuantity\": null,\n                \"supplementaryQuantityUOM\": null,\n                \"valueOfGoods\": 196,\n                \"countryOfOrigin\": \"IR\",\n                \"prevDeclarationReference\": null,\n                \"exemptions\": [],\n                \"sku\": {\n                    \"productCode\": \"1902CC\",\n                    \"quantityUOM\": \"KG\"\n                },\n                \"discount\": {\n                    \"value\": null,\n                    \"percentage\": 2\n                },\n                \"permits\": [],\n                \"originalValueOfItem\": 200,\n                \"isFreeOfCost\": \"N\"\n                }\n            ]\n            }\n        ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6060/submitOrder",
+					"host": [
+						"localhost"
+					],
+					"port": "6060",
+					"path": [
+						"submitOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrder",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRlcjIiLCJzdWIiOiI5MWFhY2I4Yi1iNDNjLTRkOWQtOThiYS1kNzk2NmNlZGZkNDIiLCJpc3N1ZXIiOiJESExUcmFuc0NvbSIsImlhdCI6MTYyNzkxMTczMSwiZXhwIjoxNjI3OTE1MzMxfQ.-7XLqzcNy5r4lADMc-I7y9BsdUBJIdio67DYdI0Rt-c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"vc-id-1\",\n    \"msgType\": \"updateOrder\",\n    \"data\": {\n        \"orderNumber\": {{OrderNumber}},\n        \"actionDate\": \"2021-08-28T17:59:27.453Z\",\n        \"ecomBusinessCode\": {{EcomCode}},\n        \"mode\": \"U\",\n        \"consigneeName\": \"ISMA NOOR\",\n        \"consigneeAddress\": {\n            \"addressLine1\": \"10th Floor, Plaza IBM\",\n            \"addressLine2\": \"No. 1005, First Avenue\",\n            \"POBox\": \"54000\",\n            \"city\": \"54000\",\n            \"country\": \"IN\",\n            \"phone\": \"+944413344901\",\n            \"email\": \"isma.noor@avanzainnovations.com\"\n        },\n        \"billTo\": \"New Bill To\",\n        \"billToAddress\": {\n            \"addressLine1\": \"11th Floor, Plaza IBM\",\n            \"addressLine2\": \"No. 1005, First Avenue\",\n            \"POBox\": \"54000\",\n            \"city\": \"54000\",\n            \"country\": \"PK\"\n        },\n        \"shipTo\": \"ISMA NOOR\",\n        \"shipToAddress\": {\n            \"addressLine1\": \"10th Floor, Plaza IBM\",\n            \"addressLine2\": \"No. 1005, First Avenue\",\n            \"POBox\": \"54000\",\n            \"city\": \"54000\",\n            \"country\": \"PK\"\n        },\n        \"invoices\": [\n            {\n            \"mode\": \"U\",\n            \"invoiceNumber\": \"12902\",\n            \"invoiceDate\": \"2021-08-28T17:59:27.453Z\",\n            \"invoiceType\": 2,\n            \"incoTerm\": \"CIF\",\n            \"totalNoOfInvoicePages\": 1,\n            \"paymentInstrumentType\": 10,\n            \"currency\": \"AED\",\n            \"totalValue\": 2050,\n            \"exporterCode\": \"12902\",\n            \"FZCode\": \"1\",\n            \"warehouseCode\": \"\",\n            \"cargoOwnership\": \"1\",\n            \"associatedEcomCompany\": \"\",\n            \"brokerBusinessCode\": \"DHL\",\n            \"logisticsSPBusinessCode\": \"\",\n            \"documents\": [{\n                \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\",\n                \"name\": \"44.pdf\"\n            }],\n            \"lineItems\": [\n                {\n                \"mode\": \"U\",\n                \"lineNo\": 11,\n                \"hscode\": \"1022900\",\n                \"goodsCondition\": \"N\",\n                \"returnDays\": 1,\n                \"description\": \"Tom Ford Black Faye Oval Sunglasses\",\n                \"quantity\": 2,\n                \"quantityUOM\": \"kg\",\n                \"netWeight\": 2,\n                \"netWeightUOM\": \"kg\",\n                \"dutyPaid\": \"N\",\n                \"supplementaryQuantity\": null,\n                \"supplementaryQuantityUOM\": null,\n                \"valueOfGoods\": 196,\n                \"countryOfOrigin\": \"IR\",\n                \"prevDeclarationReference\": null,\n                \"exemptions\": [],\n                \"sku\": {\n                    \"productCode\": \"1902CC\",\n                    \"quantityUOM\": \"KG\"\n                },\n                \"discount\": {\n                    \"value\": null,\n                    \"percentage\": 2\n                },\n                \"permits\": [],\n                \"originalValueOfItem\": 200,\n                \"isFreeOfCost\": \"N\"\n                }\n            ]\n            }\n        ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6060/submitOrder",
+					"host": [
+						"localhost"
+					],
+					"port": "6060",
+					"path": [
+						"submitOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ConfirmReturnDelivery",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRlcjIiLCJzdWIiOiI5MWFhY2I4Yi1iNDNjLTRkOWQtOThiYS1kNzk2NmNlZGZkNDIiLCJpc3N1ZXIiOiJESExUcmFuc0NvbSIsImlhdCI6MTYyNzkxMTczMSwiZXhwIjoxNjI3OTE1MzMxfQ.-7XLqzcNy5r4lADMc-I7y9BsdUBJIdio67DYdI0Rt-c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"vc-id-1\",\n  \"msgType\": \"submitOrder\",\n  \"data\": {\n    \"orderNumber\": \"DEMO-ORDER-1002\",\n    \"ecomBusinessCode\": \"12345\",\n    \"invoiceNumber\": \"INV-2-5100152TDF\",\n    \"lineItems\": [\n      {\n        \"lineNo\": 1292,\n        \"hscode\": \"3702.9800\",\n        \"skuProductCode\": \"sku1020\",\n        \"receviedQuantity\": 1.0,\n        \"isExtra\": \"N\",\n        \"hsCode\": \"22.00.1\",\n        \"quantityUOM\": \"KG\",\n       \"goodsCondition\": \"N\"\n      }\n    ],\n    \"transportDocNo\": \"HAWB38393\",\n    \"returnRequestNo\": \"\",\n    \"gatePasses\": [\n      {\n        \"gatePassNumber\": \"GP2182\",\n        \"gatePassDirection\": \"I\",\n        \"ActualMovingInDate\": \"15/1/2020\"\n      }\n    ],\n    \"dateOfReceivingBackGoods\": \"15/1/2020\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6060/confirmReturnDelivery",
+					"host": [
+						"localhost"
+					],
+					"port": "6060",
+					"path": [
+						"confirmReturnDelivery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ReturnOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRlcjIiLCJzdWIiOiI5MWFhY2I4Yi1iNDNjLTRkOWQtOThiYS1kNzk2NmNlZGZkNDIiLCJpc3N1ZXIiOiJESExUcmFuc0NvbSIsImlhdCI6MTYyNzkxMTczMSwiZXhwIjoxNjI3OTE1MzMxfQ.-7XLqzcNy5r4lADMc-I7y9BsdUBJIdio67DYdI0Rt-c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"vc-id-1\",\n    \"msgType\": \"submitOrder\",\n    \"data\": {\n        \"orderNumber\": \"ORDER-S-70\",\n        \"actionDate\": \"2021-08-28T17:59:27.453Z\",\n        \"ecomBusinessCode\": \"1100\",\n        \"mode\": \"R\",\n        \"invoices\": [\n            {\n                \"mode\": \"R\",\n                \"invoiceNumber\": \"12902\",\n                \"exporterCode\": \"AMZ_EXP_22\",\n                \"returnDetails\": {\n                    \"returnRequestNo\": \"RET22002\",\n                    \"returnReason\": \"2\",\n                    \"returnTransportDocNo\": \"TD191022\",\n                    \"returnJustification\": \"Items for playground, theatre, exhibition and like events\"\n                },\n                \"lineItems\": [\n                    {\n                        \"mode\": \"R\",\n                        \"lineNo\": 11,\n                        \"hscode\": \"9004.10.00\",\n                                      \"exemptions\": [\n                            {\n                                \"exemptionType\": 1030,\n                                \"exemptionRefNo\": \"1261202\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6060/submitOrder",
+					"host": [
+						"localhost"
+					],
+					"port": "6060",
+					"path": [
+						"submitOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CancelOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRlcjIiLCJzdWIiOiI5MWFhY2I4Yi1iNDNjLTRkOWQtOThiYS1kNzk2NmNlZGZkNDIiLCJpc3N1ZXIiOiJESExUcmFuc0NvbSIsImlhdCI6MTYyNzkxMTczMSwiZXhwIjoxNjI3OTE1MzMxfQ.-7XLqzcNy5r4lADMc-I7y9BsdUBJIdio67DYdI0Rt-c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"vc-id-1\",\n    \"msgType\": \"submitOrder\",\n    \"data\": {\n        \"orderNumber\": \"ORDER-S-67\",\n        \"actionDate\": \"2021-08-28T17:59:27.453Z\",\n        \"ecomBusinessCode\": \"1100\",\n        \"mode\": \"C\",\n        \"invoices\": [\n            {\n                \"invoiceNumber\": \"12902\",\n                \"cancellationReason\": \"Test\"\n            }\n        ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6060/submitOrder",
+					"host": [
+						"localhost"
+					],
+					"port": "6060",
+					"path": [
+						"submitOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SubmitOrderWillFail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"ecomBusinessCode\": \"12345\", \n    \"orderNumber\": \"ORD-T-2\",\n    \"orderDate\": \"2021-06-28T17:59:27.453Z\",\n    \"actionDate\": \"2021-06-28T17:59:27.453Z\",\n    \"mode\": \"F\",\n    \"billTo\": \"ISMA NOOR\",\n    \"billToAddress\": {\n      \"addressLine1\": \"10th Floor, Plaza IBM\",\n      \"addressLine2\": \"No. 1005, First Avenue\",\n      \"POBox\": \"54000\",\n      \"city\": \"54000\",\n      \"country\": \"Catdq\"\n    },\n    \"consigneeAddress\": {\n      \"addressLine1\": \"10th Floor, Plaza IBM\",\n      \"addressLine2\": \"No. 1005, First Avenue\",\n      \"POBox\": \"54000\",\n      \"city\": \"54000\",\n      \"country\": \"PK\",\n      \"phone\": \"+944413344901\",\n      \"email\": \"isma.noor@avanzainnovations.com\"\n    },\n    \"consigneeName\": \"Nabeel\",\n    \"consigneeCode\": \"192012\",\n    \"shipTo\": \"ISMA NOOR\",\n    \"shipToAddress\": {\n      \"addressLine1\": \"10th Floor, Plaza IBM\",\n      \"addressLine2\": \"No. 1005, First Avenue\",\n      \"POBox\": \"54000\",\n      \"city\": \"54000\",\n      \"country\": \"PK\"\n    },\n    \"documents\": [\n      {\n        \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n        \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\",\n        \"name\": \"44.pdf\"\n      }\n    ],\n    \"invoices\": [\n      {\n        \"mode\": \"F\",\n        \"invoiceNumber\": \"INV-2-5100152TDF\",\n        \"cancellationReason\": \"\",\n        \"totalNoOfInvoicePages\": 4,\n        \"invoiceType\": 1,\n        \"paymentInstrumentType\": 10,\n        \"currency\": \"AED\",\n                \"FZCode\": 12,\n        \"totalValue\": 202,\n        \"incoTerm\": \"CIF\",\n        \"freightAmount\": null,\n        \"freightCurrency\": null,\n        \"insuranceAmount\": null,\n        \"insuranceCurrency\": null,\n        \"exporterCode\": \"LC\",\n        \"cargoOwnership\": \"Self Ownership\",\n        \"associatedEcomCompany\": \"\",\n        \"brokerBusinessCode\": \"DHL\",\n        \"logisticsSPBusinessCode\": \"DHL\",\n        \"documents\": [\n          {\n            \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n            \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\",\n            \"name\": \"44.pdf\"\n          }\n        ],\n        \"lineItems\": [\n          {\n            \"mode\": \"F\",\n            \"hscode\": \"9004.10.00\",\n            \"lineNo\": 1,\n            \"goodsCondition\": \"N\",\n            \"description\": \"Tom Ford Black Faye Oval Sunglasses\",\n            \"quantity\": 2,\n            \"quantityUOM\": \"kg\",\n            \"netWeight\": 2,\n            \"netWeightUOM\": \"kg\",\n            \"returnDays\": 7,\n            \"supplementaryQuantity\": null,\n            \"supplementaryQuantityUOM\": null,\n            \"valueOfGoods\": 196,\n            \"countryOfOrigin\": \"AE\",\n            \"discount\": {\n                            \"percentage\": 0\n                        },\n            \"originalValueOfItem\": 200,\n            \"isFreeOfCost\": \"N\",\n            \"documents\": [\n              {\n                \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\",\n                \"name\": \"44.pdf\"\n              }\n            ]\n          },\n          {\n            \"mode\": \"F\",\n            \"hscode\": \"9004.10.00\",\n            \"lineNo\": 2,\n            \"goodsCondition\": \"N\",\n            \"description\": \"ROYAL watch\",\n            \"quantity\": 2,\n            \"quantityUOM\": \"kg\",\n            \"netWeight\": 2,\n            \"netWeightUOM\": \"kg\",\n            \"returnDays\": 7,\n            \"supplementaryQuantity\": null,\n            \"supplementaryQuantityUOM\": null,\n            \"valueOfGoods\": 196,\n            \"countryOfOrigin\": \"AE\",\n            \"discount\": {\n                            \"percentage\": 0\n                        },\n            \"originalValueOfItem\": 200,\n            \"isFreeOfCost\": \"N\",\n            \"documents\": [\n              {\n                \"hash\": \"2bce0b22d7e078f261cbc8b6a0aa37c05ec81a9ffb37ff33f72568ef7263902c917df5a14c5\",\n                \"path\": \"/uat/uploadPublic/2020-6-28/2bce0b22d7e078f264c4df25db56c91b2104e03f72568ef7263902c917df5a14c5.pdf\",\n                \"name\": \"44.pdf\"\n              }\n            ]\n          }\n        ]\n      }\n    ]\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:6060/submitOrder",
+					"host": [
+						"localhost"
+					],
+					"port": "6060",
+					"path": [
+						"submitOrder"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,34 @@
+@startuml hyperledger event processing
+autonumber
+group on dataGen startup:
+    DataGenModule -> HyperLedgerAdapter: call client/authenticate
+    DataGenModule -> DataGenDataBase: Get last completed block number per subscription
+    DataGenModule -> HyperLedgerAdapter: Subscribe to submitOrder, updateTransportInfor, \rinitiateDeclaration, updateExitConfirmation block events from last block number
+    DataGenModule -> HyperLedgerAdapter: Subscribe to DECLARATION_STATUS_CHANGE and CLAIM_STATUS_CHANGE contract events
+end
+TransCommBackend -> DataGenModule: invoke smartConract method
+group no valid JWT token:
+    DataGenModule -> HyperLedgerAdapter: call client/authenticate
+end
+DataGenModule -> HyperLedgerAdapter: call /transaction/submit and return key
+note right: TODO from this step make clear what correlation details are stored and used subsequently
+HyperLedgerAdapter -> DataGenModule: Send queryDetails for event within the subscription range to callback URL
+DataGenModule -> DataGenModule: filter  queryDetails on collection = invoice_data || invoice_tracking || \rdeclaration_json_mapping || documenttracking || claim_request and key matches
+loop Until all events have status completed
+    DataGenModule -> HyperLedgerAdapter: Use queryDetails with status open to get detailed event information
+    DataGenModule -> Bless: Send event details with VC ID
+    Bless -> Bless: Pre process process event details
+    Bless -> DataGenModule: Aknowledge pre-processing
+    DataGenModule -> DataGenDataBase: Store block number of last completed event
+end
+Bless -> TransCommBackend: Subscribe to eventDetails Kafka topic
+TransCommBackend -> TransComDatabase: Persist eventDetails
+group On success:
+    TransComDatabase -> TransCommBackend: Data persisted
+    TransCommBackend -> Bless: Post to Kafka: Data persisted
+else On error:
+    TransComDatabase -> TransCommBackend: Data not persisted
+    TransCommBackend -> Bless: Post to Kafka: Data not persisted
+end
+Bless -> TransCommBackend: Notification: "PROCESSED"
+@enduml

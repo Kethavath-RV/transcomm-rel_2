@@ -1,0 +1,86 @@
+{
+  "orderNumber": "test1",
+  "ecomBusinessCode": "AMZ",
+  "status": "Done",
+  "addresses": [
+    {
+      "addressLine1": "String",
+      "addressLine2": "String",
+      "POBox": "String",
+      "city": "String",
+      "country": "String",
+      "type": "SHIP"
+    }
+  ],
+  "eventChain": [
+    {
+      "eventType": "created",
+      "eventTime": "2021-06-28T17:59:27.453Z"
+    }
+  ],
+  "orderLine": [
+    {
+      "lineNumber": "String",
+      "hsCode": "String",
+      "description": "String",
+      "countryOfOrigin": "String",
+      "quantity": 4,
+      "unitPrice": "String",
+      "discount": 30,
+      "total": 30
+    }
+  ],
+  "houseBills": [
+    {
+      "airwayBillNumber": "String",
+      "numberOfPackages": "0",
+      "weightAndQualifier": "String",
+      "volumeAndQualifier": "String",
+      "declaredValue": "String"
+    }
+  ],
+  "movements": [
+    {
+      "type": "String",
+      "mawb": "String",
+      "hawb": "String",
+      "transport": "String",
+      "flightNumber": "String",
+      "portOfLoad": "String",
+      "pointOfExit": "String",
+      "departureDate": "String",
+      "broker": "String",
+      "agent": "String",
+      "cargoHandler": "String"
+    }
+  ],
+  "declarations": [
+    {
+      "declarationNumber": "String",
+      "batchId": "String",
+      "clearanceStatus": "String",
+      "version": "String",
+      "invoiceNumber": "String",
+      "shipmentMode": "String",
+      "regimeType": "String",
+      "declarationType": "String",
+      "exportCodeMirsalTwo": "String",
+      "recipientIdentification": "String",
+      "senderIdentification": "String",
+      "numberOfPages": 4
+    }
+  ],
+  "delivered": [
+    {
+      "transportDocumentNumber": "String",
+      "type": "String",
+      "deliveryDate": "2021-06-28T17:59:27.453Z",
+      "deliveryStatus": "String",
+      "signature": "String",
+      "deliverTo": "String",
+      "deliveryType": "String",
+      "returnTo": "String",
+      "documents": "String"
+    }
+  ]
+}

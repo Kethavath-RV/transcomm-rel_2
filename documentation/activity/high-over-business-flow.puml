@@ -1,0 +1,119 @@
+@startuml  high over flow
+skinparam BackgroundColor white
+skinparam shadowing false
+skinparam ArrowColor #696969
+skinparam NoteBorderColor transparent
+
+skinparam ActivityBorderColor transparent
+skinparam ActivityBackgroundColor #D3D3D3
+
+skinparam ActivityDiamondBorderColor transparent
+skinparam ActivityDiamondBackgroundColor #D3D3D3
+
+
+|dc| Dubai customs
+|dd| Duty drawback system
+|ec| eCommerce
+|k| kafka
+|e| Editor role
+
+|ec|
+start
+:call submitOrder;
+|dd|
+:store and display;
+|k|
+    :pickup file;
+|dd|
+:store and display;
+:call submitOrder;
+|dc|
+:validate submitOrder;
+while (erros in data?) is (yes)
+    #red:return order_data with errorCode;
+|dd|
+    #red:store and display;
+    #red:notify 
+    eCommerce;
+|ec|
+    #red:submitOrder mode=u;
+|dd|
+    #red:store and display;
+    #red:submitOrder mode=u;
+endwhile (no) 
+|dc|
+:return order_data without errorCode;
+|k|
+:movement file;
+|dd|
+:store and display;
+:call updateTransportInfo
+autoDeclaration=true;
+|dc|
+:validate request;
+while (erros in data?) is (yes)
+    #red:return order_data with errorCode;
+|dd|
+    #red:store and display;
+    #red:notify 
+    who?;
+|k|
+    #red:movement file;
+|dd|
+    #red:store and display;
+    #red:call updateTransportInfo
+autoDeclaration=true;
+endwhile (no) 
+|dc|
+:return collection data among which documenttracking;
+while (documenttracking status declined or failed) is (yes)
+|dd|
+    #red:create exception;
+|e|
+    #red:view exception and arrange 
+    correct actions by diffrent parties;
+|k|
+    if (wrong movement) then (yes)
+        #red:new movement file;
+        #red:store and display;
+    endif
+    if (wrong pickup) then (yes)
+        #red:new pickup file;
+        #red:store and display;
+    endif
+|ec|
+    if (wrong submit) then (yes)
+        #red:new smitOrder mode=U;
+        #red:store and display;
+    endif
+|e|
+    if (manual amendmend) then (yes)
+        #red:amend fields;
+    endif
+    #red:submit and store amendments;
+|dd|
+    #red:remove exception from overview;
+    #red:call submitOrder mode=U;
+    #red:call updateTransportInfo mode=U 
+    and autoDeclaration=N;
+    #red:call initiateDeclaration;
+endwhile (no) 
+|dc|
+:return order_data AND documenttracking without error codes;
+|dd|
+:store and display;
+|k|
+if (claims) then (yes)
+    :checkpoint file where status=DF and 
+    destination != (AUH | DXB | SHJ);
+    #red:store and display;
+endif
+:checkpoint file ...;
+|k|
+:checkpoint file ...;
+
+|dd|
+:deliver order;
+
+stop
+@enduml

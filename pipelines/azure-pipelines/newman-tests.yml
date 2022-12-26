@@ -1,0 +1,44 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: NewmanTests
+    displayName: Run Newman Tests
+    steps:
+      - script: pip3 install docker-compose
+        displayName: Install docker-compose
+
+      - script: docker compose -f docker-compose.override.migration-backend.yml --env-file .env.newman up --build --abort-on-container-exit && docker-compose down --remove-orphans
+        workingDirectory: src
+        displayName: Run transcomm-backend migration
+
+      - script: docker compose -f docker-compose.override.migration-datagen.yml --env-file .env.newman up --build --abort-on-container-exit && docker-compose down --remove-orphans
+        workingDirectory: src
+        displayName: Run datagen migration
+
+      - script: mv mock-hashicorp-secrets.newman.json mock-hashicorp-secrets.json
+        workingDirectory: src
+        displayName: Generate mock secrets
+
+      - script: docker compose -f docker-compose.override.hashicorp-vault-seeding.yml --env-file .env.newman up --build -d
+        workingDirectory: src
+        displayName: Run HashiCorp Vault seeding
+
+      - script: docker compose rm -s -v -f mock_hashicorp_vault_seeding
+        workingDirectory: src
+        displayName: Down HashiCorp Vault seeding service
+
+      - script: docker compose -f docker-compose.yml -f docker-compose.override.newman.yml --env-file .env.newman up --build --abort-on-container-exit --exit-code-from newman-tests && docker-compose down --remove-orphans
+        workingDirectory: src
+        displayName: Run Newman tests
+
+      - task: PublishTestResults@2
+        displayName: Publish test results
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**-results.xml'
+          testRunTitle: 'Publishing test results'
+          searchFolder: '$(System.DefaultWorkingDirectory)/src/test/postman/results'
+          failTaskOnFailedTests: true

@@ -1,0 +1,30 @@
+FROM node:14-alpine AS node
+
+FROM node AS development
+
+ENV NODE_ENV=development
+
+WORKDIR /usr/src
+
+COPY package.json .
+COPY yarn.lock .
+
+COPY ./core/package.json ./core/
+COPY ./core/yarn.lock ./core/
+
+COPY ./data-transformer/package.json ./data-transformer/
+COPY ./data-transformer/yarn.lock ./data-transformer/
+
+RUN yarn install
+
+COPY ./core ./core
+COPY ./data-transformer ./data-transformer
+
+COPY tsconfig.base.json .
+COPY tsconfig.packages.json .
+
+WORKDIR /usr/src/data-transformer
+
+RUN yarn run tsc -b -f
+
+CMD ["yarn", "start:watch"]

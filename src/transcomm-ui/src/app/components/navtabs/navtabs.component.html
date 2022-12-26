@@ -1,0 +1,32 @@
+<div class="container mb-8">
+  <ul class="tabs">
+    <li
+      *ngFor="let tab of tabs; let i = index"
+      class="tab"
+      [class.selected]="activeTab === i"
+      (click)="setActive(i)"
+    >
+    <span class="tab-item">{{ tab }}</span>
+    </li>
+  </ul>
+  <ng-container [ngSwitch]="activeTab">
+    <app-order-lines
+      *ngSwitchCase="0"
+      [orderLines]="orderLines"
+    ></app-order-lines>
+    <app-house-bills
+      *ngSwitchCase="1"
+      [houseBills]="houseBills"
+    ></app-house-bills>
+    <app-movements *ngSwitchCase="2" [movements]="movements"></app-movements>
+    <app-declarations
+      *ngSwitchCase="3"
+      [declarations]="declarations"
+    ></app-declarations>
+    <app-delivered *ngSwitchCase="4" [delivered]="delivered"></app-delivered>
+    <app-return-receipts
+      *ngSwitchCase="5"
+      [returnReceipts]="returnReceipts"
+    ></app-return-receipts>
+  </ng-container>
+</div>

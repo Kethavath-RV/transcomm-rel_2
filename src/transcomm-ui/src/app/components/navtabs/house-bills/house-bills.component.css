@@ -1,0 +1,16 @@
+.bills-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: max-content;
+  gap: 0.25rem;
+}
+
+.bills-grid > .row-item {
+  place-self: stretch;
+  border-bottom: 1px solid var(--grey-medium-light);
+  padding: 0.5rem;
+}
+.none-found {
+  display: flex;
+  place-content: center;
+}

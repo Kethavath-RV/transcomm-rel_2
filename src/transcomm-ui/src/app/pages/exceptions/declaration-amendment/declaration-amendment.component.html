@@ -1,0 +1,29 @@
+<div class="wrapper m-2">
+  <div class="flex space-between">
+    <div class="flex">
+      <h3 class="emphasis red-text mt-0">Order ID: {{ isLoading ? '...' : orderID }}</h3>
+      <h3 class="emphasis ml-2 mt-0">Invoice No.: {{ isLoading ? '...' : invoiceID }}</h3>
+    </div>
+    <div class="mt-0">
+      <app-locker
+        *ngIf="invoice"
+        (lockEmitter)="onLock(!invoice.locked)"
+        [row]="true"
+        [invoice]="invoice"
+        [user]="userProfile.email"
+        [disabled]="isLockDisabled"
+      ></app-locker>
+    </div>
+  </div>
+  <app-amendable-fields
+    *ngIf="!isLoading"
+    [disabled]="fieldsAreDisabled"
+    [orderDetails]="orderDetails"
+  ></app-amendable-fields>
+  <h3 class="emphasis">Order & Invoice Information</h3>
+  <app-loader *ngIf="isLoading"></app-loader>
+  <app-navtabs
+    *ngIf="orderDetails && !isLoading"
+    [orderDetails]="orderDetails"
+  ></app-navtabs>
+</div>

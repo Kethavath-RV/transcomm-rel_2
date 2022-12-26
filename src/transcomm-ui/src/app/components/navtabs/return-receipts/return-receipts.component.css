@@ -1,0 +1,18 @@
+.receipt-wrapper {
+  border-top: 1px solid var(--black);
+  padding: 1rem 0;
+}
+
+.receipt-wrapper:last-of-type {
+  border-bottom: none;
+}
+
+.generic-data-wrapper {
+  border-bottom: 1px solid var(--grey-medium-light);
+  padding-bottom: 1rem;
+}
+
+.none-found {
+  place-content: center;
+  display: flex;
+}

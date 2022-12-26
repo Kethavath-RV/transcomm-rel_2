@@ -1,0 +1,20 @@
+<div class="m-2">
+  <div class="flex space-between">
+    <button
+      appDebounceClick
+      (debounceClick)="clearFilters()"
+      class="btn btn-secondary mb-1"
+    >
+      Clear Filters
+    </button>
+    <button (click)="openModal('add')" class="btn btn-primary mb-1">
+      Add new user
+    </button>
+  </div>
+  <app-aggrid
+    [paginatedData$]="paginatedData$"
+    [columnDefs]="columnDefs"
+    (onRowDoubleClickedEvent)="onRowDoubleClicked($event)"
+  >
+  </app-aggrid>
+</div>

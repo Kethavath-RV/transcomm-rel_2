@@ -1,0 +1,5 @@
+apps:
+  - name: transcomm-api-server
+    script: ./dist/main.js
+    exec_mode: cluster
+    instances: max
